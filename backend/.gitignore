@@ -7,3 +7,10 @@ jspm_packages
 
 # Webpack directories
 .webpack
+
+#dist directories
+dist
+
+#etc
+yarn.lock
+yarn-error.log

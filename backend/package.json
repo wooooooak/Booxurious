@@ -4,9 +4,16 @@
   "description": "Serverless webpack example using Typescript",
   "main": "handler.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "tsc && cross-env APP_ENV=local node dist/src/server"
   },
   "dependencies": {
+    "@types/aws-serverless-express": "^3.0.1",
+    "@types/express": "^4.16.0",
+    "aws-serverless-express": "^3.2.0",
+    "cross-env": "^5.2.0",
+    "express": "^4.16.3",
+    "serverless-http": "^1.6.0",
     "source-map-support": "^0.5.0"
   },
   "devDependencies": {
@@ -17,7 +24,6 @@
     "typescript": "^2.8.1",
     "webpack": "^4.5.0"
   },
-  "author":
-    "The serverless webpack authors (https://github.com/elastic-coders/serverless-webpack)",
+  "author": "The serverless webpack authors (https://github.com/elastic-coders/serverless-webpack)",
   "license": "MIT"
 }

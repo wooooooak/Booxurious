@@ -12,9 +12,12 @@ provider:
   stage: dev
 
 functions:
-  hello:
-    handler: handler.hello
+  api:
+    handler: src/server.handler
     events:
       - http:
-          method: get
-          path: /hello
+          path: / # this matches the base path
+          method: ANY
+      - http:
+          path: /{any+} # this matches any path, the token 'any' doesn't mean anything special
+          method: ANY

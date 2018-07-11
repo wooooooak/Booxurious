@@ -1,16 +1,29 @@
 import * as express from 'express';
+import * as cors from 'cors';
+import * as bodyParser from 'body-parser';
+import router from './router';
+import { sequelize } from './instances/sequelize';
 
 export class Server {
-  public app: express.Application;
+  private app: express.Application;
 
   constructor() {
     this.app = express();
+    this.middleware();
+    this.setRoute();
+  }
 
-    this.app.get('/', (req: express.Request, res: express.Response) => {
-      res.send('hello world');
-    });
-    this.app.get('/test', (req: express.Request, res: express.Response) => {
-      res.send('hello test!!!!test!!!!');
-    });
+  private middleware(): void {
+    this.app.use(bodyParser.json());
+    this.app.use(bodyParser.urlencoded({ extended: true }));
+    this.app.use(cors());
+  }
+
+  private setRoute(): void {
+    this.app.use('/', router);
+  }
+
+  get getApp(): express.Application {
+    return this.app;
   }
 }

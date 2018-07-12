@@ -1,5 +1,6 @@
 import * as Sequelize from 'sequelize';
 import config, { IDbConfig } from '../../config';
+
 const {
   database_name,
   username,
@@ -19,5 +20,3 @@ export const sequelize: Sequelize.Sequelize = new Sequelize(
     port: port
   }
 );
-
-// sequelize.sync();

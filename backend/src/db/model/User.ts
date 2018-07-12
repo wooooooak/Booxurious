@@ -1,5 +1,6 @@
 import * as Sequelize from 'sequelize';
 import { sequelize } from '..';
+import UserProfile from './UserProfile';
 
 export interface UserAddModel {
   email: string;
@@ -17,7 +18,7 @@ export interface UserViewModel {
   email: string;
 }
 
-export const User: Sequelize.Model<UserModel, UserAddModel> = sequelize.define<
+const User: Sequelize.Model<UserModel, UserAddModel> = sequelize.define<
   UserModel,
   UserAddModel
 >(
@@ -38,3 +39,9 @@ export const User: Sequelize.Model<UserModel, UserAddModel> = sequelize.define<
     timestamps: true
   }
 );
+
+User.associate = function () {
+  User.hasOne(UserProfile, { foreignKey: 'fk_user_id', onDelete: 'CASCADE' });
+};
+
+export default User;

@@ -1,4 +1,4 @@
-import { User, UserModel, UserAddModel } from '../../db/model/User';
+import User, { UserModel, UserAddModel } from '../../db/model/User';
 import { Post, PostModel, PostAddModel } from '../../db/model/post';
 
 export const test = async (req, res) => {

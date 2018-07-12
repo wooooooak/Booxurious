@@ -24,7 +24,7 @@ export interface UserViewModel {
   provider: string;
 }
 
-export const SocialAccount: Sequelize.Model<
+const SocialAccount: Sequelize.Model<
   SocialAccountModel,
   SocialAccountAddModel
 > = sequelize.define<SocialAccountModel, SocialAccountAddModel>(
@@ -35,7 +35,7 @@ export const SocialAccount: Sequelize.Model<
       autoIncrement: true,
       primaryKey: true
     },
-    user_id: Sequelize.INTEGER,
+    // user_id: Sequelize.INTEGER, (foreignkey)
     social_id: {
       type: Sequelize.STRING,
       unique: true
@@ -47,3 +47,5 @@ export const SocialAccount: Sequelize.Model<
     timestamps: false
   }
 );
+
+export default SocialAccount;

@@ -1,5 +1,5 @@
 import * as Sequelize from 'sequelize';
-import { sequelize } from '..';
+import { sequelize } from '../index';
 
 export interface UserProfileAddModel {
   user_id: number;
@@ -20,7 +20,7 @@ export interface UserViewModel {
   email: string;
 }
 
-export const UserProfile: Sequelize.Model<
+const UserProfile: Sequelize.Model<
   UserProfileModel,
   UserProfileAddModel
 > = sequelize.define<UserProfileModel, UserProfileAddModel>(
@@ -31,7 +31,7 @@ export const UserProfile: Sequelize.Model<
       autoIncrement: true,
       primaryKey: true
     },
-    user_id: Sequelize.INTEGER,
+    // user_id: Sequelize.INTEGER,(foreignkey)
     display_name: {
       type: Sequelize.STRING,
       unique: true
@@ -43,3 +43,5 @@ export const UserProfile: Sequelize.Model<
     timestamps: true
   }
 );
+
+export default UserProfile;

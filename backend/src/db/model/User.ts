@@ -1,16 +1,15 @@
 import * as Sequelize from 'sequelize';
-import { sequelize } from '../instances/sequelize';
+import { sequelize } from '..';
 
 export interface UserAddModel {
   email: string;
-  password: string;
+  password_hash: string;
 }
 
 export interface UserModel extends Sequelize.Model<UserModel, UserAddModel> {
   id: number;
   email: string;
-  password: string;
-  created_at: Sequelize.DataTypeDateOnly;
+  password_hash: string;
 }
 
 export interface UserViewModel {
@@ -29,11 +28,13 @@ export const User: Sequelize.Model<UserModel, UserAddModel> = sequelize.define<
       autoIncrement: true,
       primaryKey: true
     },
-    email: Sequelize.STRING,
-    password: Sequelize.STRING,
-    create_at: Sequelize.DATEONLY
+    email: {
+      type: Sequelize.STRING,
+      unique: true
+    },
+    password_hash: Sequelize.STRING
   },
   {
-    timestamps: false
+    timestamps: true
   }
 );

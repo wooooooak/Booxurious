@@ -6,6 +6,7 @@
     "trailing-comma": false,
     "ter-arrow-parens": false,
     "variable-name": false,
-    "ter-func-call-spacing": false
+    "ter-func-call-spacing": false,
+    "object-literal-shorthand": false
   }
 }

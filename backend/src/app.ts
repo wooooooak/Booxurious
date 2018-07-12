@@ -2,7 +2,6 @@ import * as express from 'express';
 import * as cors from 'cors';
 import * as bodyParser from 'body-parser';
 import router from './router';
-import { sequelize } from './instances/sequelize';
 
 export class Server {
   private app: express.Application;

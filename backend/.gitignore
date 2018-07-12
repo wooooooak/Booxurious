@@ -14,3 +14,6 @@ dist
 #etc
 yarn.lock
 yarn-error.log
+
+#secret-config
+config.ts

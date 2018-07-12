@@ -4,13 +4,17 @@ import UserProfile from './UserProfile';
 
 export interface UserAddModel {
   email: string;
-  password_hash: string;
+  username: string;
+  password: string;
+  confirmPassword: string;
 }
 
 export interface UserModel extends Sequelize.Model<UserModel, UserAddModel> {
   id: number;
   email: string;
-  password_hash: string;
+  username: string;
+  password: string;
+  confirmPassword: string;
 }
 
 export interface UserViewModel {
@@ -29,11 +33,13 @@ const User: Sequelize.Model<UserModel, UserAddModel> = sequelize.define<
       autoIncrement: true,
       primaryKey: true
     },
+    username: Sequelize.STRING,
     email: {
       type: Sequelize.STRING,
       unique: true
     },
-    password_hash: Sequelize.STRING
+    password: Sequelize.STRING,
+    confirmPassword: Sequelize.STRING
   },
   {
     timestamps: true

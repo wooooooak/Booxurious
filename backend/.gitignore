@@ -17,3 +17,4 @@ yarn-error.log
 
 #secret-config
 config.ts
+.env

@@ -31,7 +31,7 @@ const UserProfile: Sequelize.Model<
       autoIncrement: true,
       primaryKey: true
     },
-    // user_id: Sequelize.INTEGER,(foreignkey)
+    // user_id: Sequelize.UUID,(foreignkey)
     display_name: {
       type: Sequelize.STRING,
       unique: true

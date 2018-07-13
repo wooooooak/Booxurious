@@ -35,7 +35,7 @@ const SocialAccount: Sequelize.Model<
       autoIncrement: true,
       primaryKey: true
     },
-    // user_id: Sequelize.INTEGER, (foreignkey)
+    // user_id: Sequelize.UUID, (foreignkey)
     social_id: {
       type: Sequelize.STRING,
       unique: true

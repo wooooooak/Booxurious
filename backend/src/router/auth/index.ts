@@ -6,5 +6,6 @@ const auth: express.Router = express.Router();
 const authCtrl: AuthCtrl = new AuthCtrl();
 
 auth.post('/register/local', authRules['forLocalRegister'], authCtrl.createLocalAccount);
+auth.post('/login/local', authCtrl.loginLocalAccount);
 
 export default auth;

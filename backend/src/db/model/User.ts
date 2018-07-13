@@ -1,24 +1,22 @@
 import * as Sequelize from 'sequelize';
 import { sequelize } from '..';
-import UserProfile from './UserProfile';
+import { genSaltSync, hashSync, compareSync } from 'bcrypt';
 
 export interface UserAddModel {
   email: string;
   username: string;
   password: string;
-  confirmPassword: string;
 }
 
 export interface UserModel extends Sequelize.Model<UserModel, UserAddModel> {
-  id: number;
+  id: string;
   email: string;
   username: string;
   password: string;
-  confirmPassword: string;
 }
 
 export interface UserViewModel {
-  id: number;
+  id: string;
   email: string;
 }
 
@@ -29,8 +27,8 @@ const User: Sequelize.Model<UserModel, UserAddModel> = sequelize.define<
   'user',
   {
     id: {
-      type: Sequelize.INTEGER,
-      autoIncrement: true,
+      type: Sequelize.UUID,
+      defaultValue: Sequelize.UUIDV1,
       primaryKey: true
     },
     username: Sequelize.STRING,
@@ -38,16 +36,18 @@ const User: Sequelize.Model<UserModel, UserAddModel> = sequelize.define<
       type: Sequelize.STRING,
       unique: true
     },
-    password: Sequelize.STRING,
-    confirmPassword: Sequelize.STRING
+    password: Sequelize.STRING
   },
   {
     timestamps: true
   }
 );
 
-User.associate = function () {
-  User.hasOne(UserProfile, { foreignKey: 'fk_user_id', onDelete: 'CASCADE' });
+export const hash = (password: string): string => {
+  const saltRounds = 10;
+  const salt = genSaltSync(saltRounds);
+  const hash = hashSync(password, salt);
+  return hash;
 };
 
 export default User;

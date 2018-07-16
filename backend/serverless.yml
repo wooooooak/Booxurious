@@ -11,6 +11,11 @@ provider:
   region: ap-northeast-2
   stage: dev
 
+custom:
+  webpackIncludeModules:
+    forceInclude:
+      - pg
+
 functions:
   api:
     handler: src/server.handler

@@ -1,6 +1,6 @@
 import * as Sequelize from 'sequelize';
 import { sequelize } from '..';
-import { genSaltSync, hashSync, compareSync } from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 
 export interface UserAddModel {
   email: string;
@@ -45,8 +45,8 @@ const User: Sequelize.Model<UserModel, UserAddModel> = sequelize.define<
 
 export const hash = (password: string): string => {
   const saltRounds = 10;
-  const salt = genSaltSync(saltRounds);
-  const hash = hashSync(password, salt);
+  const salt = bcrypt.genSaltSync(saltRounds);
+  const hash = bcrypt.hashSync(password, salt);
   return hash;
 };
 

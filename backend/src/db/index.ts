@@ -8,7 +8,8 @@ const {
   dialect,
   host,
   port
-}: IDbConfig = config.db_config;
+}: IDbConfig = config.db_config_aws;
+console.log(host);
 
 export const sequelize: Sequelize.Sequelize = new Sequelize(
   database_name,

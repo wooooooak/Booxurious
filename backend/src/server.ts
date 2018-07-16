@@ -16,5 +16,4 @@ if (process.env.APP_ENV === 'local') {
 
 const server = awsServerlessExpress.createServer(app);
 
-exports.handler = (event, context) =>
-  awsServerlessExpress.proxy(server, event, context);
+exports.handler = (event, context) => awsServerlessExpress.proxy(server, event, context);

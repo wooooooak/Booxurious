@@ -1,14 +1,20 @@
 import * as React from 'react';
-import * as rebass from 'rebass';
+import { BrowserRouter, Route } from 'react-router-dom';
+import { injectGlobal } from 'styled-components';
+
+injectGlobal`
+  body {
+    marign: 0;
+    background-color: black;
+  }
+`;
 
 class App extends React.Component {
   public render () {
     return (
-      <rebass.Provider>
-        <rebass.Card backgroundColor="black">
-          <rebass.Subhead p={2}>Hello</rebass.Subhead>
-        </rebass.Card>
-      </rebass.Provider>
+      <BrowserRouter>
+        <Route />
+      </BrowserRouter>
     );
   }
 }

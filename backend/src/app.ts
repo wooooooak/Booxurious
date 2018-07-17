@@ -1,6 +1,7 @@
 import * as express from 'express';
 import * as cors from 'cors';
 import * as bodyParser from 'body-parser';
+import * as path from 'path';
 import router from './router';
 import { sequelize } from './db';
 import { sync } from './db/sync';
@@ -14,7 +15,8 @@ export class Server {
     dotenv.config();
     this.app = express();
     this.app.get('/test', (req: express.Request, res: express.Response) => {
-      res.json({ aa: 'aa' });
+      // res.sendFile(path.join(__dirname, '/build/index.html'));
+      res.json({ a: __dirname });
     });
     this.middleware();
     this.setRoute();

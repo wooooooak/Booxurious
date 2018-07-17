@@ -56,12 +56,6 @@
   dependencies:
     csstype "^2.2.0"
 
-"@types/rebass@^0.2.22":
-  version "0.2.22"
-  resolved "https://registry.yarnpkg.com/@types/rebass/-/rebass-0.2.22.tgz#ee3f295369bd7bbece2b2595d1558266083e1520"
-  dependencies:
-    "@types/react" "*"
-
 abab@^1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/abab/-/abab-1.0.4.tgz#5faad9c2c07f60dd76770f71cf025b62a63cfd4e"
@@ -1420,10 +1414,6 @@ chownr@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/chownr/-/chownr-1.0.1.tgz#e2a75042a9551908bebd25b8523d5f9769d79181"
 
-chroma-js@^1.3.6:
-  version "1.3.7"
-  resolved "https://registry.yarnpkg.com/chroma-js/-/chroma-js-1.3.7.tgz#38db1b46c99b002b77aa5e6b6744589388f28425"
-
 ci-info@^1.0.0:
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/ci-info/-/ci-info-1.1.3.tgz#710193264bb05c77b8c90d02f5aaf22216a667b2"
@@ -1455,14 +1445,6 @@ clean-css@4.1.x:
   resolved "https://registry.yarnpkg.com/clean-css/-/clean-css-4.1.11.tgz#2ecdf145aba38f54740f26cefd0ff3e03e125d6a"
   dependencies:
     source-map "0.5.x"
-
-clean-tag@^1.0.4:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/clean-tag/-/clean-tag-1.1.0.tgz#83d0d3650d84805f7edeeda15a23d773069bf242"
-  dependencies:
-    html-tags "^2.0.0"
-    react ">=16.0.0"
-    styled-system ">=2.0.0 || >=3.0.0"
 
 cli-boxes@^1.0.0:
   version "1.0.0"
@@ -3003,13 +2985,6 @@ graceful-fs@^4.1.11, graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.1.9:
   version "4.1.11"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.1.11.tgz#0e8bdfe4d1ddb8854d64e04ea7c00e2a026e5658"
 
-grid-styled@^4.2.0:
-  version "4.3.2"
-  resolved "https://registry.yarnpkg.com/grid-styled/-/grid-styled-4.3.2.tgz#dadde33eb1a5db3a6032885b174cfa6cd28fb9c7"
-  dependencies:
-    clean-tag "^1.0.4"
-    system-components ">=2.2.3"
-
 growly@^1.3.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/growly/-/growly-1.3.0.tgz#f10748cbe76af964b7c96c93c6bcc28af120c081"
@@ -3191,10 +3166,6 @@ html-minifier@^3.2.3:
     param-case "2.1.x"
     relateurl "0.2.x"
     uglify-js "3.4.x"
-
-html-tags@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/html-tags/-/html-tags-2.0.0.tgz#10b30a386085f43cede353cc8fa7cb0deeea668b"
 
 html-webpack-plugin@2.29.0:
   version "2.29.0"
@@ -5522,7 +5493,7 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
-prop-types@^15.5.4, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2:
+prop-types@^15.5.4, prop-types@^15.6.0, prop-types@^15.6.1:
   version "15.6.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.2.tgz#05d5ca77b4453e985d60fc7ff8c859094a497102"
   dependencies:
@@ -5772,7 +5743,7 @@ react-scripts-ts@2.16.0:
   optionalDependencies:
     fsevents "^1.1.3"
 
-react@>=16.0.0, react@^16.4.1:
+react@^16.4.1:
   version "16.4.1"
   resolved "https://registry.yarnpkg.com/react/-/react-16.4.1.tgz#de51ba5764b5dbcd1f9079037b862bd26b82fe32"
   dependencies:
@@ -5846,16 +5817,6 @@ realpath-native@^1.0.0:
   resolved "https://registry.yarnpkg.com/realpath-native/-/realpath-native-1.0.1.tgz#07f40a0cce8f8261e2e8b7ebebf5c95965d7b633"
   dependencies:
     util.promisify "^1.0.0"
-
-rebass@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/rebass/-/rebass-2.1.0.tgz#d154bc9236fc0c6b468c914074afb72e0a5cfdd3"
-  dependencies:
-    chroma-js "^1.3.6"
-    grid-styled "^4.2.0"
-    prop-types "^15.6.0"
-    styled-system "^2.3.1"
-    system-components "^2.2.1"
 
 recursive-readdir@2.2.1:
   version "2.2.1"
@@ -6658,18 +6619,6 @@ styled-components@^3.3.3:
     stylis-rule-sheet "^0.0.10"
     supports-color "^3.2.3"
 
-"styled-system@>=2.0.0 || >=3.0.0", styled-system@^3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/styled-system/-/styled-system-3.0.1.tgz#fde623de598882a8b2272811b88b73f4b9179d8a"
-  dependencies:
-    prop-types "^15.6.2"
-
-styled-system@^2.3.1:
-  version "2.3.6"
-  resolved "https://registry.yarnpkg.com/styled-system/-/styled-system-2.3.6.tgz#a38c1ffa04a5c35adec46473984e463c48b16f7c"
-  dependencies:
-    prop-types "^15.6.0"
-
 stylis-rule-sheet@^0.0.10:
   version "0.0.10"
   resolved "https://registry.yarnpkg.com/stylis-rule-sheet/-/stylis-rule-sheet-0.0.10.tgz#44e64a2b076643f4b52e5ff71efc04d8c3c4a430"
@@ -6751,19 +6700,6 @@ sw-toolbox@^3.4.0:
 symbol-tree@^3.2.2:
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/symbol-tree/-/symbol-tree-3.2.2.tgz#ae27db38f660a7ae2e1c3b7d1bc290819b8519e6"
-
-system-components@>=2.2.3:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/system-components/-/system-components-3.0.0.tgz#073e7c6712012c3c17375bae3ae986cb81866347"
-  dependencies:
-    styled-system "^3.0.1"
-
-system-components@^2.2.1:
-  version "2.2.3"
-  resolved "https://registry.yarnpkg.com/system-components/-/system-components-2.2.3.tgz#3248f7c80affa4b9b61003ecd719a73da4462e59"
-  dependencies:
-    clean-tag "^1.0.4"
-    styled-system "^2.3.1"
 
 tapable@^0.2.7:
   version "0.2.8"

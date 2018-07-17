@@ -2,7 +2,7 @@ import * as express from 'express';
 import { validationResult } from 'express-validator/check';
 import * as bcrypt from 'bcryptjs';
 import { matchedData } from 'express-validator/filter';
-import User, { UserAddModel, UserModel, hash } from '../../db/model/User';
+import User, { UserAddModel, UserModel, UserViewModel, hash } from '../../db/model/User';
 import Jwt from '../../lib/jwt';
 
 class AuthCtrl {
@@ -29,11 +29,15 @@ class AuthCtrl {
     try {
       const token = await Jwt.generate({ foo: 'bar' });
       const { email, password } = req.body;
-      const user: UserModel = await User.findOne({ where: { email: email } });
-      if (!user) {
+      const rawUser: UserModel = await User.findOne({ where: { email: email } });
+      if (!rawUser) {
         return res.json({ message: `${email}에 해당하는 계정이 없습니다 ㅠ` });
       }
-      const result: boolean = bcrypt.compareSync(password, user.password);
+      const user: UserViewModel = {
+        id: rawUser.id,
+        email: rawUser.email
+      };
+      const result: boolean = bcrypt.compareSync(password, rawUser.password);
       if (result) {
         return res.status(200).json({ user, token: token });
       } else {

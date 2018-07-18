@@ -1,5 +1,19 @@
 {
   "compilerOptions": {
+    "plugins": [
+      {
+        "name": "typescript-styled-plugin",
+        "lint": {
+          "vendorPrefix": "error",
+          "zeroUnits": "ignore"
+        },
+        "tags": [
+          "styled",
+          "styledTS",
+          "css"
+        ]
+      }
+    ],
     "baseUrl": ".",
     "outDir": "build/dist",
     "module": "esnext",

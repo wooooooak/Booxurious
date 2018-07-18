@@ -2,18 +2,27 @@ import * as React from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { injectGlobal } from 'styled-components';
 
+import Menu from './component/Menu/Menu';
+import IntroOne from './component/Main/IntroOne';
+
 injectGlobal`
   body {
-    marign: 0;
-    background-color: black;
+    margin: 0;
   }
 `;
 
-class App extends React.Component {
-  public render () {
+interface IProps {}
+
+interface IState {}
+
+class App extends React.Component<IProps, IState> {
+  render () {
     return (
       <BrowserRouter>
-        <Route />
+        <React.Fragment>
+          <Menu />
+          <Route exact={true} to="/" component={IntroOne} />
+        </React.Fragment>
       </BrowserRouter>
     );
   }

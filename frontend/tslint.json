@@ -7,13 +7,13 @@
     ]
   },
   "rules":{
-    "interface-name":false,
     "no-empty-interface":false,
     "ordered-imports":false,
     "object-literal-sort-keys":false,
     "no-unused-expression":false,
     "member-access":false,
     "no-angle-bracket-type-assertion":false,
-    "no-console":false
+    "no-console":false,
+    "jsx-no-lambda" : false
   }
 }

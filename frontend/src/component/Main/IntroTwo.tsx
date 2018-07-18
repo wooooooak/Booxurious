@@ -8,7 +8,7 @@ interface IState {}
 const IntroTwoContrainer = styled.div`
   margin: 0;
   padding: 0;
-  /* background-color: black; */
+  background-color: #011627;
   height: 100vh;
   width: 100vw;
 `;

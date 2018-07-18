@@ -2,7 +2,7 @@ import * as React from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import { injectGlobal } from 'styled-components';
 
-import Menu from './component/Menu/Menu';
+import MenuContainer from './container/MenuContainer';
 import IntroOne from './component/Main/IntroOne';
 
 injectGlobal`
@@ -20,7 +20,7 @@ class App extends React.Component<IProps, IState> {
     return (
       <BrowserRouter>
         <React.Fragment>
-          <Menu />
+          <MenuContainer />
           <Route exact={true} to="/" component={IntroOne} />
         </React.Fragment>
       </BrowserRouter>

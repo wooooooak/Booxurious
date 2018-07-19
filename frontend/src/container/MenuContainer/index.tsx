@@ -5,6 +5,7 @@ import Logo from '../../component/Menu/Logo';
 import MenuBarLayout from '../../component/Menu/MenuBarLayout';
 import SearchForm from '../../component/Menu/Search';
 import SideBar from '../../component/SideBar';
+import OuterToToggleSideBar from '../../component/SideBar/OuterToToggleSideBar';
 
 interface IProps {}
 
@@ -56,6 +57,13 @@ class MenuContainer extends React.Component<IProps, IState> {
     });
   };
 
+  onClickEmptySpace = (): void => {
+    console.log('empty space and ', this.state.showSideBar);
+    this.setState({
+      showSideBar: false
+    });
+  };
+
   render () {
     const { menuLayoutColor, showInputBox, showSideBar } = this.state;
     return (
@@ -78,6 +86,10 @@ class MenuContainer extends React.Component<IProps, IState> {
           <div>asdfaf</div>
           <div>asdfaf</div>
         </SideBar>
+        <OuterToToggleSideBar
+          showSideBar={showSideBar}
+          onClickEmptySpace={this.onClickEmptySpace}
+        />
       </React.Fragment>
     );
   }

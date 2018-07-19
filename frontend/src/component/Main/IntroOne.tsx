@@ -24,6 +24,12 @@ class IntroOne extends React.Component<IProps, IState> {
     return (
       <div>
         <IntroOneContrainer />
+        {/* <button
+          style={{ width: '50px', height: '50px', marginLeft: '50%' }}
+          onClick={() => alert('aa')}
+        >
+          asdfasdfasdfadsf
+        </button> */}
         <IntroTwo />
       </div>
     );

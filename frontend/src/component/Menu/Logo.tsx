@@ -22,7 +22,7 @@ const Text = styled.a`
 const Logo: React.SFC<IProps> = () => (
   <LogoContainer href="/">
     <Text color="#C5E99B">ele</Text>
-    <Text color="white">books</Text>
+    <Text color="black">books</Text>
   </LogoContainer>
 );
 

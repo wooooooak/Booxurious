@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { Search } from 'styled-icons/octicons/Search';
 
@@ -26,10 +27,14 @@ const SearchInput = styled.input`
   }
 `;
 
-const StartText = styled.span`margin: 0 25px;`;
+const StartText = styled(Link)`
+  margin: 0 25px;
+  color: black;
+  text-decoration:none;
+`;
 
 class SearchForm extends React.Component<IProps, IState> {
-  state = {
+  state: IState = {
     value: ''
   };
 
@@ -57,8 +62,8 @@ class SearchForm extends React.Component<IProps, IState> {
           />
         ) : null}
 
-        <Search size="23" onClick={onClickSearchIcon} />
-        <StartText>start</StartText>
+        <Search size="23" onClick={onClickSearchIcon} color="black" />
+        <StartText to="/signup">start</StartText>
       </Contianer>
     );
   }

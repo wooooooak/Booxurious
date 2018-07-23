@@ -29,7 +29,7 @@ const SearchInput = styled.input`
 
 const StartText = styled(Link)`
   margin: 0 25px;
-  color: black;
+  color: white;
   text-decoration:none;
 `;
 
@@ -63,7 +63,7 @@ class SearchForm extends React.Component<IProps, IState> {
         ) : null}
 
         <Search size="23" onClick={onClickSearchIcon} color="black" />
-        <StartText to="/signup">start</StartText>
+        <StartText to="/signIn">start</StartText>
       </Contianer>
     );
   }

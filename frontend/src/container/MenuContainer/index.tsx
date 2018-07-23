@@ -70,7 +70,7 @@ class MenuContainer extends React.Component<IProps, IState> {
       <React.Fragment>
         <MenuBarLayout backgroundColor={menuLayoutColor} showSideBar={showSideBar}>
           <HambergerIcon size="48" onClick={this.onClickHambergerButton} />
-          <Logo />
+          <Logo marginLeft="10px" />
           <SearchForm
             showInputBox={showInputBox}
             onClickSearchIcon={this.onClickSearchIcon}
@@ -82,9 +82,6 @@ class MenuContainer extends React.Component<IProps, IState> {
             color="#534847"
             onClick={this.onClickHambergerButton}
           />
-          <div>asdfaf</div>
-          <div>asdfaf</div>
-          <div>asdfaf</div>
         </SideBar>
         <OuterToToggleSideBar
           showSideBar={showSideBar}

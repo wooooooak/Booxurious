@@ -4,17 +4,17 @@ import styledTS from 'styled-components-ts';
 import { Link } from 'react-router-dom';
 import { FacebookF } from 'styled-icons/fa-brands/FacebookF';
 import { Google } from 'styled-icons/fa-brands/Google';
+import { GoogleLogin } from 'react-google-login';
 
 import Logo from '../Menu/Logo';
 
 interface ISignInProps {
-  onSubmitSignInButton(): void;
-  onChangeEmail(e: React.FormEvent<HTMLInputElement>): void;
-  onChangePassword(e: React.FormEvent<HTMLInputElement>): void;
+  flashFlag?: boolean;
+  onClickSocialLogin(response: any): void;
 }
 
 export const PageLayout = styled.div`
-  background-image: url('https://cdn.pixabay.com/photo/2018/01/30/22/50/forest-3119826_960_720.jpg');
+  /* background-image: url('https://cdn.pixabay.com/photo/2018/01/30/22/50/forest-3119826_960_720.jpg'); */
   background-repeat: no-repeat;
   background-size: cover;
   width: 100vw;
@@ -38,6 +38,8 @@ export const Input = styled.input`
   border-radius: 15px;
   margin-bottom: 10px;
   outline: none;
+  font-size: 1.2rem;
+  color: white;
   border-color: transparent;
 `;
 export const LogoContainer = styled.div`
@@ -73,21 +75,18 @@ const FacebookIcon = FacebookF.extend`
   justify-self: flex-start;
 `;
 
-const SignIn: React.SFC<ISignInProps> = ({
-  onSubmitSignInButton,
-  onChangeEmail,
-  onChangePassword
-}) => (
+const SteyldLink = styled(Link)`
+  color: white;
+`;
+
+const SignIn: React.SFC<ISignInProps> = ({ onClickSocialLogin }) => (
   <PageLayout>
     {/* <SignInBox /> */}
     <Content>
       <LogoContainer>
         <Logo fontSize={'30px'} />
       </LogoContainer>
-      <Input onChange={onChangeEmail} />
-      <Input onChange={onChangePassword} />
-      <SubmitButton onClick={onSubmitSignInButton}>Login!</SubmitButton>
-      <Link to="/signUp"> 회원가입</Link>
+      <SteyldLink to="/signUp">회원가입</SteyldLink>
       <SocialLoginButton backgroundColor="#3b5999">
         <FacebookIcon size={30} />
         <p> facebook login</p>
@@ -96,6 +95,12 @@ const SignIn: React.SFC<ISignInProps> = ({
         <Google size={25} />
         <p> google login</p>
       </SocialLoginButton>
+      <GoogleLogin
+        clientId="824329025824-9qvtl43o44nj9l34pdp31qg0uu903qh6.apps.googleusercontent.com"
+        buttonText="Login"
+        onSuccess={onClickSocialLogin}
+        onFailure={onClickSocialLogin}
+      />
     </Content>
   </PageLayout>
 );

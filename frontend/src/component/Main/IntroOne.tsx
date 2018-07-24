@@ -12,7 +12,7 @@ const IntroOneContrainer = styled.div`
   /* background-image: url('https://cdn.pixabay.com/photo/2016/01/19/14/53/book-1149031_960_720.jpg');
   background-repeat: no-repeat;
   background-size: cover; */
-  background-color: #534847;
+  background-color: white;
   margin: 0;
   padding: 0;
   height: 100vh;

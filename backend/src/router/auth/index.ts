@@ -7,5 +7,6 @@ const authCtrl: AuthCtrl = new AuthCtrl();
 
 auth.post('/register/local', authRules['forLocalRegister'], authCtrl.createLocalAccount);
 auth.post('/login/local', authCtrl.loginLocalAccount);
-auth.get('/test', authCtrl.test);
+// auth.get('/test', authCtrl.test);
+auth.post('/login/social', authCtrl.loginSocailAccount);
 export default auth;

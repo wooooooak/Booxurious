@@ -1,5 +1,8 @@
 import * as React from 'react';
 import * as feather from 'styled-icons/feather';
+import { connect } from 'react-redux';
+import { IStoreState } from '../../store/modules';
+import { IUserState } from '../../store/modules/User';
 
 import Logo from '../../component/Menu/Logo';
 import MenuBarLayout from '../../component/Menu/MenuBarLayout';
@@ -7,13 +10,17 @@ import SearchForm from '../../component/Menu/Search';
 import SideBar from '../../component/SideBar';
 import OuterToToggleSideBar from '../../component/SideBar/OuterToToggleSideBar';
 
-interface IProps {}
+interface IProps {
+  username: string;
+  email: string;
+}
 
 interface IState {
   prevYOffset: number;
   menuLayoutColor: string;
   showInputBox: boolean;
   showSideBar: boolean;
+  user?: IUserState;
 }
 
 const HambergerIcon = feather.Menu.extend`
@@ -27,7 +34,11 @@ class MenuContainer extends React.Component<IProps, IState> {
     prevYOffset: 0,
     menuLayoutColor: 'transparent',
     showInputBox: false,
-    showSideBar: false
+    showSideBar: false,
+    user: {
+      email: '',
+      username: this.props.username ? this.props.username : null
+    }
   };
 
   componentDidMount (): void {
@@ -51,14 +62,12 @@ class MenuContainer extends React.Component<IProps, IState> {
   };
 
   onClickHambergerButton = (): void => {
-    console.log(this.state);
     this.setState({
       showSideBar: !this.state.showSideBar
     });
   };
 
   onClickEmptySpace = (): void => {
-    console.log('empty space and ', this.state.showSideBar);
     this.setState({
       showSideBar: false
     });
@@ -69,11 +78,16 @@ class MenuContainer extends React.Component<IProps, IState> {
     return (
       <React.Fragment>
         <MenuBarLayout backgroundColor={menuLayoutColor} showSideBar={showSideBar}>
-          <HambergerIcon size="48" onClick={this.onClickHambergerButton} />
+          <HambergerIcon
+            size="48"
+            onClick={this.onClickHambergerButton}
+            color="#2EC4B6"
+          />
           <Logo marginLeft="10px" />
           <SearchForm
             showInputBox={showInputBox}
             onClickSearchIcon={this.onClickSearchIcon}
+            username={this.props.username}
           />
         </MenuBarLayout>
         <SideBar showSideBar={showSideBar}>
@@ -92,4 +106,10 @@ class MenuContainer extends React.Component<IProps, IState> {
   }
 }
 
-export default MenuContainer;
+export default connect(
+  ({ User }: IStoreState) => ({
+    email: User.email,
+    username: User.username
+  }),
+  null
+)(MenuContainer);

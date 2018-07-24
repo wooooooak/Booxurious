@@ -2,7 +2,7 @@ import { Server } from './app';
 import * as express from 'express';
 import * as awsServerlessExpress from 'aws-serverless-express';
 
-const port: number = 3000;
+const port: number = 8080;
 const app: express.Application = new Server().getApp;
 
 app.set('port', port);

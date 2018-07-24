@@ -5,6 +5,7 @@ import { Search } from 'styled-icons/octicons/Search';
 
 interface IProps {
   showInputBox: boolean;
+  username: string | null;
   onClickSearchIcon(): void;
 }
 
@@ -29,7 +30,7 @@ const SearchInput = styled.input`
 
 const StartText = styled(Link)`
   margin: 0 25px;
-  color: white;
+  color: #2EC4B6;
   text-decoration:none;
 `;
 
@@ -52,7 +53,7 @@ class SearchForm extends React.Component<IProps, IState> {
   };
 
   render () {
-    const { showInputBox, onClickSearchIcon } = this.props;
+    const { showInputBox, onClickSearchIcon, username } = this.props;
     return (
       <Contianer>
         {showInputBox ? (
@@ -62,8 +63,12 @@ class SearchForm extends React.Component<IProps, IState> {
           />
         ) : null}
 
-        <Search size="23" onClick={onClickSearchIcon} color="black" />
-        <StartText to="/signIn">start</StartText>
+        <Search size="23" onClick={onClickSearchIcon} color="#2EC4B6" />
+        {username ? (
+          <StartText to="/">{username}</StartText>
+        ) : (
+          <StartText to="/signIn">sign in</StartText>
+        )}
       </Contianer>
     );
   }

@@ -21,8 +21,8 @@ const SignUp: React.SFC<ISignUpProps> = ({
       <LogoContainer>
         <Logo fontSize={'30px'} />
       </LogoContainer>
-      <Input onChange={onChangeEmail} />
-      <Input onChange={onChangePassword} />
+      <Input onChange={onChangeEmail} placeholder="display name을 받자" />
+      <Input onChange={onChangePassword} type="password" />
       <SubmitButton onClick={onSubmitSignUp}>submit!</SubmitButton>
     </Content>
   </PageLayout>

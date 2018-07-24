@@ -25,6 +25,22 @@ class AuthCtrl {
     }
   }
 
+  async loginSocailAccount (req: express.Request, res: express.Response): Promise<any> {
+    try {
+      const { email }: UserModel = req.body;
+      console.log(email);
+      const user: UserModel = await User.findOne({ where: { email: email } });
+      console.log(user);
+      if (user) {
+        res.json({ user, code: 1 });
+      } else {
+        res.json({ code: 2 });
+      }
+    } catch (err) {
+      console.log('eeerrrrr' + err);
+    }
+  }
+
   async loginLocalAccount (req: express.Request, res: express.Response): Promise<any> {
     try {
       const token = await Jwt.generate({ foo: 'bar' });

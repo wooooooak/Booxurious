@@ -1,18 +1,21 @@
 import * as React from 'react';
 import * as feather from 'styled-icons/feather';
 import { connect } from 'react-redux';
-import { IStoreState } from '../../store/modules';
-import { IUserState } from '../../store/modules/User';
+import { IStoreState } from '../store/modules';
+import { IUserState } from '../store/modules/User';
+import { actionCreators as userActionCreator } from '../store/modules/User';
 
-import Logo from '../../component/Menu/Logo';
-import MenuBarLayout from '../../component/Menu/MenuBarLayout';
-import SearchForm from '../../component/Menu/Search';
-import SideBar from '../../component/SideBar';
-import OuterToToggleSideBar from '../../component/SideBar/OuterToToggleSideBar';
+import Logo from '../component/Menu/Logo';
+import MenuBarLayout from '../component/Menu/MenuBarLayout';
+import SearchForm from '../component/Menu/Search';
+import SideBar from '../component/SideBar';
+import OuterToToggleSideBar from '../component/SideBar/OuterToToggleSideBar';
+import { bindActionCreators } from '../../node_modules/redux';
 
 interface IProps {
   username: string;
   email: string;
+  userAction: typeof userActionCreator;
 }
 
 interface IState {
@@ -73,6 +76,11 @@ class MenuContainer extends React.Component<IProps, IState> {
     });
   };
 
+  onClickSignIn = (): void => {
+    const { userAction } = this.props;
+    userAction.goToSignInPage({});
+  };
+
   render () {
     const { menuLayoutColor, showInputBox, showSideBar } = this.state;
     return (
@@ -88,6 +96,7 @@ class MenuContainer extends React.Component<IProps, IState> {
             showInputBox={showInputBox}
             onClickSearchIcon={this.onClickSearchIcon}
             username={this.props.username}
+            onClickSignIn={this.onClickSignIn}
           />
         </MenuBarLayout>
         <SideBar showSideBar={showSideBar}>
@@ -111,5 +120,7 @@ export default connect(
     email: User.email,
     username: User.username
   }),
-  null
+  (dispatch) => ({
+    userAction: bindActionCreators(userActionCreator, dispatch)
+  })
 )(MenuContainer);

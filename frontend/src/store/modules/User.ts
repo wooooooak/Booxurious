@@ -4,9 +4,37 @@ import axios from 'axios';
 
 const SOCIAL_LOGIN_SUCCESS = 'user/SocailLogin';
 const SOCIAL_LOGIN_FAIL = 'user/SocialLoginFail';
+const FETCH_USER_DATA_SUCCESS = 'user/FetchUserDataSuccess';
+const FETCH_USER_DATA_FAIL = 'user/FetchUserDataFail';
+const GO_TO_SIGN_IN_PAGE = 'user/goToSignInPage';
+
+const isUserExist = (result: any): boolean => {
+  return result.data.code === 1 ? true : false;
+};
+
+export const fetchUserData = (token: string) => {
+  return (dispatch: any) => {
+    axios({
+      method: 'get',
+      url: `http://localhost:8080/user/token`,
+      headers: { 'Auth-Header': token }
+    })
+      .then((res) => {
+        console.log(res);
+        dispatch(
+          actionCreators.fetchUserDataSuccess({
+            email: res.data.user.email,
+            username: res.data.user.username
+          })
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+};
 
 export const socialLoginAsync = (socialEmail: string) => {
-  console.log('socialLogin');
   return async (dispatch: any) => {
     axios({
       method: 'post',
@@ -15,13 +43,13 @@ export const socialLoginAsync = (socialEmail: string) => {
         'http://localhost:8080/auth/login/social',
       data: {
         // email: socialEmail
-        email: `aasss@aa.com`
+        email: `sdf@aa.com`
       }
     })
       .then((result) => {
         // email이 존재해서 바로 로그인 된다면
-        if (result.data.code === 1) {
-          console.log(result.data);
+        if (isUserExist(result)) {
+          localStorage.token = result.data.token;
           dispatch(
             actionCreators.socialLoginSuccess({
               email: result.data.user.email,
@@ -51,6 +79,10 @@ export const actionCreators = {
   // const localLogin = (payload) =>{type:'user/LocalLogin', payload:payload}
   socialLoginSuccess: createAction<IUserState>(SOCIAL_LOGIN_SUCCESS),
   socialLoginFail: createAction<IUserState>(SOCIAL_LOGIN_FAIL),
+  fetchUserDataSuccess: createAction<IUserState>(FETCH_USER_DATA_SUCCESS),
+  fetchUserDataFail: createAction<IUserState>(FETCH_USER_DATA_FAIL),
+  goToSignInPage: createAction(GO_TO_SIGN_IN_PAGE),
+  fetchUserData,
   socialLoginAsync
 };
 
@@ -78,7 +110,6 @@ const initialState: IUserState = {
 export default handleActions<IUserState, any>(
   {
     [SOCIAL_LOGIN_SUCCESS]: (state, action): IUserState => {
-      console.log(action);
       return {
         email: action.payload.email,
         username: action.payload.username,
@@ -88,11 +119,27 @@ export default handleActions<IUserState, any>(
       };
     },
     [SOCIAL_LOGIN_FAIL]: (state, action): IUserState => {
-      console.log('social fail');
-      console.log(action.payload);
       return {
         email: action.payload.email,
         goToSignUpPage: action.payload.goToSignUpPage
+      };
+    },
+    [FETCH_USER_DATA_SUCCESS]: (state, action): IUserState => {
+      return {
+        ...state,
+        email: action.payload.email,
+        username: action.payload.username
+      };
+    },
+    [FETCH_USER_DATA_FAIL]: (state, action): IUserState => {
+      return {
+        ...state
+      };
+    },
+    [GO_TO_SIGN_IN_PAGE]: (state, action): IUserState => {
+      return {
+        ...state,
+        goToSignUpPage: false
       };
     }
   },

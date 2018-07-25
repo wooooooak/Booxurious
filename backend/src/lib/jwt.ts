@@ -12,7 +12,7 @@ export default class Jwt {
     try {
       const token = await jwt.sign(payload, secretKey, {
         expiresIn: '7d',
-        issuer: 'coderoad',
+        issuer: 'elecoder',
         ...options
       });
       return token;

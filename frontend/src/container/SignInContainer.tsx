@@ -3,10 +3,10 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
-import { IStoreState } from '../../store/modules';
-import { actionCreators as userActionCreator } from '../../store/modules/User';
+import { IStoreState } from '../store/modules';
+import { actionCreators as userActionCreator } from '../store/modules/User';
 
-import SignIn from '../../component/SignIn';
+import SignIn from '../component/SignIn';
 
 interface IProps {
   userAction: typeof userActionCreator;
@@ -18,24 +18,12 @@ interface IProps {
 interface IState {
   email: string | null;
   password: string | null;
-  isLogin: boolean;
-  goToSignUpPage?: boolean;
 }
 
 class SignInContainer extends React.Component<IProps, IState> {
-  static getDerivedStateFromProps (nextProps: IProps, prevState: IState) {
-    if (nextProps.email !== '' && nextProps.goToSignUpPage !== true) {
-      return { ...prevState, isLogin: true };
-    } else {
-      return { ...prevState };
-    }
-  }
-
   state = {
     email: '',
-    password: '',
-    isLogin: false,
-    goToSignUpPage: false
+    password: ''
   };
 
   onClickSocialLogin = (response: any) => {
@@ -44,19 +32,14 @@ class SignInContainer extends React.Component<IProps, IState> {
   };
 
   render () {
-    const { isLogin } = this.state;
     const { goToSignUpPage } = this.props;
-    if (isLogin) {
+    if (typeof localStorage.token === undefined) {
       return <Redirect to="/" />;
     }
     if (goToSignUpPage) {
       return <Redirect to="/signUp" />;
     }
-    return (
-      <div>
-        <SignIn onClickSocialLogin={this.onClickSocialLogin} />
-      </div>
-    );
+    return <SignIn onClickSocialLogin={this.onClickSocialLogin} />;
   }
 }
 

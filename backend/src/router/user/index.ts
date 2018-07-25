@@ -1,8 +1,8 @@
 import * as express from 'express';
-import { test } from './user.ctrl';
+import { fetchUserData } from './user.ctrl';
 
 const router = express.Router();
 
-router.get('/test', test);
+router.get('/token', fetchUserData);
 
 export default router;

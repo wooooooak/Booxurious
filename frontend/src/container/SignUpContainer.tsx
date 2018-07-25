@@ -1,6 +1,10 @@
 import * as React from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { IStoreState } from '../store/modules';
+import { actionCreators as userActionCreator } from '../store/modules/User';
 
-import SignUp from '../../component/SignUp';
+import SignUp from '../component/SignUp';
 interface IProps {}
 
 interface IState {
@@ -30,6 +34,7 @@ class SignUpContainer extends React.Component<IProps, IState> {
   };
 
   render () {
+    console.log(this.props);
     return (
       <div>
         <SignUp
@@ -42,4 +47,11 @@ class SignUpContainer extends React.Component<IProps, IState> {
   }
 }
 
-export default SignUpContainer;
+export default connect(
+  ({ User }: IStoreState) => ({
+    email: User.email
+  }),
+  (dispatch) => ({
+    userAction: bindActionCreators(userActionCreator, dispatch)
+  })
+)(SignUpContainer);

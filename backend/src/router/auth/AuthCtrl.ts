@@ -6,18 +6,18 @@ import User, { UserAddModel, UserModel, UserViewModel, hash } from '../../db/mod
 import Jwt from '../../lib/jwt';
 
 class AuthCtrl {
-  async createLocalAccount (req: express.Request, res: express.Response): Promise<any> {
+  async createAccount (req: express.Request, res: express.Response): Promise<any> {
     try {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         return res.status(422).json({ errors: errors.mapped() });
       }
-      const { username, email, password }: UserModel = matchedData(req) as UserModel;
-      const hashedPassword: string = hash(password);
+      const { username, email }: UserModel = matchedData(req) as UserModel;
+      // const hashedPassword: string = hash(password);
       const user: UserModel = await User.create({
         username,
-        email,
-        password: hashedPassword
+        email
+        // password: hashedPassword
       });
       return res.json(user);
     } catch (error) {
@@ -28,13 +28,13 @@ class AuthCtrl {
   async loginSocailAccount (req: express.Request, res: express.Response): Promise<any> {
     try {
       const { email }: UserModel = req.body;
-      console.log(email);
       const user: UserModel = await User.findOne({ where: { email: email } });
-      console.log(user);
+      let token = '';
       if (user) {
-        res.json({ user, code: 1 });
+        token = await Jwt.generate({ email: email, username: user.username });
+        res.json({ user, code: 1, token: token });
       } else {
-        res.json({ code: 2 });
+        res.json({ email: email, code: 2 });
       }
     } catch (err) {
       console.log('eeerrrrr' + err);

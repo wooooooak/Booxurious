@@ -7,6 +7,7 @@ interface IProps {
   showInputBox: boolean;
   username: string | null;
   onClickSearchIcon(): void;
+  onClickSignIn(): void;
 }
 
 interface IState {
@@ -53,7 +54,7 @@ class SearchForm extends React.Component<IProps, IState> {
   };
 
   render () {
-    const { showInputBox, onClickSearchIcon, username } = this.props;
+    const { showInputBox, onClickSearchIcon, username, onClickSignIn } = this.props;
     return (
       <Contianer>
         {showInputBox ? (
@@ -67,7 +68,9 @@ class SearchForm extends React.Component<IProps, IState> {
         {username ? (
           <StartText to="/">{username}</StartText>
         ) : (
-          <StartText to="/signIn">sign in</StartText>
+          <StartText to="/signIn" onClick={onClickSignIn}>
+            sign in
+          </StartText>
         )}
       </Contianer>
     );

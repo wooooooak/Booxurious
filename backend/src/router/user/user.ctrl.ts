@@ -1,11 +1,9 @@
 import User, { UserModel, UserAddModel } from '../../db/model/User';
-import { Post, PostModel, PostAddModel } from '../../db/model/post';
+import { decodeToken } from '../../lib/jwt';
+// import { Post, PostModel, PostAddModel } from '../../db/model/post';
 
-export const test = async (req, res) => {
-  // const user: UserModel = await User.create({
-  //   email: 'eae',
-  //   password_hash: 'Asdf'
-  // });
-  // const post: PostModel = await Post.create({ author: 'eae', content: 'Asdf' });
-  // return res.json({ user, post });
+export const fetchUserData = async (req, res) => {
+  const token = req.headers['auth-header'];
+  const decodedToken = decodeToken(token);
+  console.log(decodedToken);
 };

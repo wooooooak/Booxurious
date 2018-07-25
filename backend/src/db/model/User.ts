@@ -5,14 +5,14 @@ import * as bcrypt from 'bcryptjs';
 export interface UserAddModel {
   email: string;
   username: string;
-  password: string;
+  password?: string;
 }
 
 export interface UserModel extends Sequelize.Model<UserModel, UserAddModel> {
   id: string;
   email: string;
   username: string;
-  password: string;
+  password?: string;
 }
 
 export interface UserViewModel {

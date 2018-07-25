@@ -5,7 +5,7 @@ import { authRules } from './authRules';
 const auth: express.Router = express.Router();
 const authCtrl: AuthCtrl = new AuthCtrl();
 
-auth.post('/register/local', authRules['forLocalRegister'], authCtrl.createLocalAccount);
+auth.post('/register/local', authRules['forLocalRegister'], authCtrl.createAccount);
 auth.post('/login/local', authCtrl.loginLocalAccount);
 // auth.get('/test', authCtrl.test);
 auth.post('/login/social', authCtrl.loginSocailAccount);

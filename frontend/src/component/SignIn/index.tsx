@@ -15,6 +15,7 @@ interface ISignInProps {
 
 export const PageLayout = styled.div`
   /* background-image: url('https://cdn.pixabay.com/photo/2018/01/30/22/50/forest-3119826_960_720.jpg'); */
+  background-color: #fffff2;
   background-repeat: no-repeat;
   background-size: cover;
   width: 100vw;

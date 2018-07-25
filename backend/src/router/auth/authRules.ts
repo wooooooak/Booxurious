@@ -11,10 +11,10 @@ export const authRules = {
         return user ? false : true;
       })
       .withMessage('duple'),
-    check('password').isLength({ min: 8 }).withMessage('Invalid password'),
-    check('confirmPassword')
-      .custom((confirmPassword, { req }) => req.body.password === confirmPassword)
-      .withMessage('Passwords are different'),
+    // check('password').isLength({ min: 8 }).withMessage('Invalid password'),
+    // check('confirmPassword')
+    //   .custom((confirmPassword, { req }) => req.body.password === confirmPassword)
+    //   .withMessage('Passwords are different'),
     check('username').isLength({ max: 20 }).withMessage('Too long username')
   ],
   forLocalLogin: []

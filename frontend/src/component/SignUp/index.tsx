@@ -3,27 +3,39 @@ import * as React from 'react';
 
 import Logo from '../Menu/Logo';
 
-import { PageLayout, Content, LogoContainer, Input, SubmitButton } from '../SignIn';
+import { PageLayout, Content, LogoContainer, Input, ContentBackground } from '../SignIn';
+import styled from '../../../node_modules/styled-components';
 
 interface ISignUpProps {
   onSubmitSignUp(): void;
-  onChangeEmail(e: React.FormEvent<HTMLInputElement>): void;
-  onChangePassword(e: React.FormEvent<HTMLInputElement>): void;
+  onChangeUserName(e: React.FormEvent<HTMLInputElement>): void;
 }
 
-const SignUp: React.SFC<ISignUpProps> = ({
-  onSubmitSignUp,
-  onChangeEmail,
-  onChangePassword
-}) => (
+const Text = styled.div`
+  color: #58c9b9;
+  margin-bottom: 30px;
+`;
+
+const SubmitButton = styled.button`
+  margin-top: 30px;
+  width: 100px;
+  height: 30px;
+  background-color: #58c9b9;
+  border-style: none;
+  border-radius: 5px;
+  cursor: pointer;
+`;
+
+const SignUp: React.SFC<ISignUpProps> = ({ onSubmitSignUp, onChangeUserName }) => (
   <PageLayout>
+    <ContentBackground />
     <Content>
       <LogoContainer>
         <Logo fontSize={'30px'} />
       </LogoContainer>
-      <Input onChange={onChangeEmail} placeholder="display name을 받자" />
-      <Input onChange={onChangePassword} type="password" />
-      <SubmitButton onClick={onSubmitSignUp}>submit!</SubmitButton>
+      <Text>elebooks 에서 사용할 닉네임을 입력해주세요.</Text>
+      <Input onChange={onChangeUserName} placeholder="display name을 받자" />
+      <SubmitButton onClick={onSubmitSignUp}>끄읕!</SubmitButton>
     </Content>
   </PageLayout>
 );

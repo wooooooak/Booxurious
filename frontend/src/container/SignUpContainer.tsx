@@ -5,42 +5,41 @@ import { IStoreState } from '../store/modules';
 import { actionCreators as userActionCreator } from '../store/modules/User';
 
 import SignUp from '../component/SignUp';
-interface IProps {}
+interface IProps {
+  email: string;
+  userAction: typeof userActionCreator;
+}
 
 interface IState {
-  email: string | null;
-  password: string | null;
+  username: string;
 }
 
 class SignUpContainer extends React.Component<IProps, IState> {
   state = {
-    email: null,
-    password: null
+    username: ''
   };
 
   onSubmitSignUp = () => {
+    const { email } = this.props;
+    console.log(email);
     console.log(this.state);
+    const { userAction } = this.props;
+    userAction.signUp(this.state.username, email);
   };
 
-  onChangeEmail = (e: React.FormEvent<HTMLInputElement>): void => {
+  onChangeUserName = (e: React.FormEvent<HTMLInputElement>): void => {
+    console.log(this.state.username);
     this.setState({
-      email: e.currentTarget.value
-    });
-  };
-  onChangePassword = (e: React.FormEvent<HTMLInputElement>): void => {
-    this.setState({
-      password: e.currentTarget.value
+      username: e.currentTarget.value
     });
   };
 
   render () {
-    console.log(this.props);
     return (
       <div>
         <SignUp
           onSubmitSignUp={this.onSubmitSignUp}
-          onChangeEmail={this.onChangeEmail}
-          onChangePassword={this.onChangePassword}
+          onChangeUserName={this.onChangeUserName}
         />
       </div>
     );

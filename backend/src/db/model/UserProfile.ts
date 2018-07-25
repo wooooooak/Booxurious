@@ -1,5 +1,5 @@
 import * as Sequelize from 'sequelize';
-import { sequelize } from '../index';
+import { sequelize } from '..';
 
 export interface UserProfileAddModel {
   user_id: number;

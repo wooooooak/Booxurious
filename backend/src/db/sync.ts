@@ -1,4 +1,4 @@
-import { sequelize } from './index';
+import { sequelize } from '.';
 
 import User from './model/User';
 import UserProfile from './model/UserProfile';

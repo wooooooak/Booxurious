@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import styledTS from 'styled-components-ts';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import { FacebookF } from 'styled-icons/fa-brands/FacebookF';
 import { Google } from 'styled-icons/fa-brands/Google';
 import { GoogleLogin } from 'react-google-login';
@@ -14,27 +14,47 @@ interface ISignInProps {
 }
 
 export const PageLayout = styled.div`
-  /* background-image: url('https://cdn.pixabay.com/photo/2018/01/30/22/50/forest-3119826_960_720.jpg'); */
-  background-color: #fffff2;
+  background-image: url("https://s3.ap-northeast-2.amazonaws.com/elebooks/img/main.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   width: 100vw;
   height: 100vh;
 `;
 
-export const Content = styled.div`
-  z-index: 2;
-  top: 40%;
-  left: 50%;
+export const ContentBackground = styled.div`
   position: fixed;
+  opacity: 0.9;
+  top: 50%;
+  left: 50%;
+  z-index: 1;
+  transform: translate(-50%, -50%);
+  background-color: #1f2124;
+  border-radius: 20px;
+  height: 400px;
+  width: 400px;
+  padding: 20px 50px;
+`;
+
+export const Content = styled.div`
+  position: fixed;
+  z-index: 2;
+  top: 50%;
+  left: 50%;
+  height: 400px;
+  padding: 50px 50px;
+  border-radius: 10px;
   transform: translate(-50%, -50%);
   display: flex;
   flex-direction: column;
+  align-items: center;
+  background-color: transparent;
+  background-size: auto;
 `;
 
 export const Input = styled.input`
   width: 300px;
   height: 40px;
+  padding-left: 15px;
   background-color: #2c3a47;
   border-radius: 15px;
   margin-bottom: 10px;
@@ -45,13 +65,8 @@ export const Input = styled.input`
 `;
 export const LogoContainer = styled.div`
   text-align: center;
-  margin-bottom: 20px;
-`;
-
-export const SubmitButton = styled.button`
-  width: 100px;
-  height: 30px;
-  background-color: #cad3c8;
+  margin-bottom: 50px;
+  margin-top: 20px;
 `;
 
 interface ISocialLoginButton {
@@ -76,18 +91,26 @@ const FacebookIcon = FacebookF.extend`
   justify-self: flex-start;
 `;
 
-const SteyldLink = styled(Link)`
-  color: white;
+// const SteyldLink = styled(Link)`
+//   color: white;
+// `;
+
+const Text = styled.div`
+  margin-top: 50px;
+  text-align: center;
+  font-size: 1.1rem;
+  color: #fffff3;
 `;
 
 const SignIn: React.SFC<ISignInProps> = ({ onClickSocialLogin }) => (
   <PageLayout>
     {/* <SignInBox /> */}
+    <ContentBackground />
     <Content>
       <LogoContainer>
         <Logo fontSize={'30px'} />
       </LogoContainer>
-      <SteyldLink to="/signUp">회원가입</SteyldLink>
+      {/* <SteyldLink to="/signUp">회원가입</SteyldLink> */}
       <SocialLoginButton backgroundColor="#3b5999">
         <FacebookIcon size={30} />
         <p> facebook login</p>
@@ -102,6 +125,7 @@ const SignIn: React.SFC<ISignInProps> = ({ onClickSocialLogin }) => (
         onSuccess={onClickSocialLogin}
         onFailure={onClickSocialLogin}
       />
+      <Text>기존에 사용하시던 계정으로 쉽게 이용하세요.</Text>
     </Content>
   </PageLayout>
 );

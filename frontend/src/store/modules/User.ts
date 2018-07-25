@@ -7,6 +7,7 @@ const SOCIAL_LOGIN_FAIL = 'user/SocialLoginFail';
 const FETCH_USER_DATA_SUCCESS = 'user/FetchUserDataSuccess';
 const FETCH_USER_DATA_FAIL = 'user/FetchUserDataFail';
 const GO_TO_SIGN_IN_PAGE = 'user/goToSignInPage';
+const SIGN_UP_SUCCESS = 'user/signUpSuccess';
 
 const isUserExist = (result: any): boolean => {
   return result.data.code === 1 ? true : false;
@@ -23,8 +24,8 @@ export const fetchUserData = (token: string) => {
         console.log(res);
         dispatch(
           actionCreators.fetchUserDataSuccess({
-            email: res.data.user.email,
-            username: res.data.user.username
+            email: res.data.email,
+            username: res.data.username
           })
         );
       })
@@ -43,7 +44,7 @@ export const socialLoginAsync = (socialEmail: string) => {
         'http://localhost:8080/auth/login/social',
       data: {
         // email: socialEmail
-        email: `sdf@aa.com`
+        email: `sfffdf@aa.com`
       }
     })
       .then((result) => {
@@ -74,6 +75,31 @@ export const socialLoginAsync = (socialEmail: string) => {
   };
 };
 
+export const signUp = (username: string, email: string) => {
+  return (dispatch: any) => {
+    axios({
+      method: 'post',
+      url: 'http://localhost:8080/auth/register/local',
+      data: {
+        username,
+        email
+      }
+    })
+      .then((res) => {
+        console.log(res);
+        dispatch(
+          actionCreators.signUpSuccess({
+            username,
+            email
+          })
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+};
+
 export const actionCreators = {
   // 원래 작업은,
   // const localLogin = (payload) =>{type:'user/LocalLogin', payload:payload}
@@ -81,9 +107,11 @@ export const actionCreators = {
   socialLoginFail: createAction<IUserState>(SOCIAL_LOGIN_FAIL),
   fetchUserDataSuccess: createAction<IUserState>(FETCH_USER_DATA_SUCCESS),
   fetchUserDataFail: createAction<IUserState>(FETCH_USER_DATA_FAIL),
+  signUpSuccess: createAction<IUserState>(SIGN_UP_SUCCESS),
   goToSignInPage: createAction(GO_TO_SIGN_IN_PAGE),
   fetchUserData,
-  socialLoginAsync
+  socialLoginAsync,
+  signUp
 };
 
 export interface IUserState {
@@ -140,6 +168,13 @@ export default handleActions<IUserState, any>(
       return {
         ...state,
         goToSignUpPage: false
+      };
+    },
+    [SIGN_UP_SUCCESS]: (state, action): IUserState => {
+      return {
+        ...state,
+        username: action.payload.username,
+        email: action.payload.email
       };
     }
   },

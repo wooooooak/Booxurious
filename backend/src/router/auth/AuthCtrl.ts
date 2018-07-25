@@ -19,7 +19,8 @@ class AuthCtrl {
         email
         // password: hashedPassword
       });
-      return res.json(user);
+      const token = await Jwt.generate({ email: email, username: user.username });
+      return res.json({ user, token: token });
     } catch (error) {
       return res.json({ message: error.name });
     }

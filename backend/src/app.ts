@@ -26,6 +26,7 @@ export class Server {
     this.app.use(awsServerlessExpressMiddleware.eventContext());
     this.app.use(bodyParser.json());
     this.app.use(bodyParser.urlencoded({ extended: true }));
+    this.app.use(express.static(path.join(__dirname + 'public')));
     this.app.use(cors());
     sequelize.authenticate().then(() => {
       sync();

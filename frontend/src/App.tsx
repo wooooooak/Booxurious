@@ -33,7 +33,8 @@ interface IState {}
 class App extends React.Component<IProps, IState> {
   constructor (props: IProps) {
     super(props);
-    if (localStorage.token !== null) {
+    if (localStorage.token !== undefined) {
+      console.log(localStorage.token);
       console.log('로컬스토리지에 token값 있음');
       const { userAction } = this.props;
       // 토큰값을 이용해서 서버로부터 유저 정보를 불러오자
@@ -42,7 +43,6 @@ class App extends React.Component<IProps, IState> {
   }
 
   render () {
-    console.log(this.props);
     return (
       <BrowserRouter>
         <React.Fragment>

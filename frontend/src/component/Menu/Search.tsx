@@ -66,7 +66,7 @@ class SearchForm extends React.Component<IProps, IState> {
 
         <Search size="23" onClick={onClickSearchIcon} color="#2EC4B6" />
         {username ? (
-          <StartText to="/">{username}</StartText>
+          <StartText to="/">Hi {username}!</StartText>
         ) : (
           <StartText to="/signIn" onClick={onClickSignIn}>
             sign in

@@ -33,7 +33,7 @@ class SignInContainer extends React.Component<IProps, IState> {
 
   render () {
     const { goToSignUpPage } = this.props;
-    if (typeof localStorage.token === undefined) {
+    if (localStorage.token !== undefined) {
       return <Redirect to="/" />;
     }
     if (goToSignUpPage) {

@@ -40,7 +40,8 @@ class MenuContainer extends React.Component<IProps, IState> {
     showSideBar: false,
     user: {
       email: '',
-      username: this.props.username ? this.props.username : null
+      username: this.props.username ? this.props.username : null,
+      code: null
     }
   };
 
@@ -78,7 +79,7 @@ class MenuContainer extends React.Component<IProps, IState> {
 
   onClickSignIn = (): void => {
     const { userAction } = this.props;
-    userAction.goToSignInPage({});
+    userAction.goToSignInPage();
   };
 
   render () {

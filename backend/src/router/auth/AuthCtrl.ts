@@ -9,10 +9,15 @@ class AuthCtrl {
   async createAccount (req: express.Request, res: express.Response): Promise<any> {
     try {
       const errors = validationResult(req);
+      console.log(errors);
       if (!errors.isEmpty()) {
         return res.status(422).json({ errors: errors.mapped() });
       }
       const { username, email }: UserModel = matchedData(req) as UserModel;
+      const existUser = await User.findOne({ where: { username } });
+      if (existUser) {
+        return res.status(422).json({ message: 'duple username' });
+      }
       // const hashedPassword: string = hash(password);
       const user: UserModel = await User.create({
         username,

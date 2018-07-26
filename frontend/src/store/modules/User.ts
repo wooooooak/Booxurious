@@ -8,6 +8,7 @@ const FETCH_USER_DATA_SUCCESS = 'user/FetchUserDataSuccess';
 const FETCH_USER_DATA_FAIL = 'user/FetchUserDataFail';
 const GO_TO_SIGN_IN_PAGE = 'user/goToSignInPage';
 const SIGN_UP_SUCCESS = 'user/signUpSuccess';
+const SIGN_UP_FAIL = 'user/signUpFail';
 
 const isUserExist = (result: any): boolean => {
   return result.data.code === 1 ? true : false;
@@ -25,12 +26,13 @@ export const fetchUserData = (token: string) => {
         dispatch(
           actionCreators.fetchUserDataSuccess({
             email: res.data.email,
-            username: res.data.username
+            username: res.data.username,
+            code: 200
           })
         );
       })
       .catch((err) => {
-        console.log(err);
+        console.dir(err);
       });
   };
 };
@@ -44,27 +46,29 @@ export const socialLoginAsync = (socialEmail: string) => {
         'http://localhost:8080/auth/login/social',
       data: {
         // email: socialEmail
-        email: `sfffdf@aa.com`
+        email: `beav@aba.com`
       }
     })
-      .then((result) => {
+      .then((res) => {
         // email이 존재해서 바로 로그인 된다면
-        if (isUserExist(result)) {
-          localStorage.token = result.data.token;
+        if (isUserExist(res)) {
+          localStorage.token = res.data.token;
           dispatch(
             actionCreators.socialLoginSuccess({
-              email: result.data.user.email,
-              username: result.data.user.username,
+              email: res.data.user.email,
+              username: res.data.user.username,
               social: {
-                provider: result.data.user.provider
-              }
+                provider: res.data.user.provider
+              },
+              code: 200
             })
           );
         } else {
           dispatch(
             actionCreators.socialLoginFail({
-              email: result.data.email,
-              goToSignUpPage: true
+              email: res.data.email,
+              goToSignUpPage: true,
+              code: 500
             })
           );
         }
@@ -81,21 +85,31 @@ export const signUp = (username: string, email: string) => {
       method: 'post',
       url: 'http://localhost:8080/auth/register/local',
       data: {
-        username,
-        email
+        email,
+        username
       }
     })
       .then((res) => {
         console.log(res);
+        localStorage.token = res.data.token;
         dispatch(
           actionCreators.signUpSuccess({
             username,
-            email
+            email,
+            code: 200
           })
         );
       })
       .catch((err) => {
-        console.log(err);
+        if (err.response.status === 422 || err.status === 422) {
+          console.log(err.response);
+          dispatch(
+            actionCreators.signUpFail({
+              email,
+              code: 422
+            })
+          );
+        }
       });
   };
 };
@@ -108,6 +122,7 @@ export const actionCreators = {
   fetchUserDataSuccess: createAction<IUserState>(FETCH_USER_DATA_SUCCESS),
   fetchUserDataFail: createAction<IUserState>(FETCH_USER_DATA_FAIL),
   signUpSuccess: createAction<IUserState>(SIGN_UP_SUCCESS),
+  signUpFail: createAction<IUserState>(SIGN_UP_FAIL),
   goToSignInPage: createAction(GO_TO_SIGN_IN_PAGE),
   fetchUserData,
   socialLoginAsync,
@@ -122,6 +137,7 @@ export interface IUserState {
   };
   message?: string;
   goToSignUpPage?: boolean;
+  code: number | null;
 }
 
 const initialState: IUserState = {
@@ -131,32 +147,39 @@ const initialState: IUserState = {
     provider: ''
   },
   message: '',
-  goToSignUpPage: false
+  goToSignUpPage: false,
+  code: null
 };
 
 // <A,B> A는 STATE의 타입이고, B는 payload의 타입
 export default handleActions<IUserState, any>(
   {
     [SOCIAL_LOGIN_SUCCESS]: (state, action): IUserState => {
+      const { email, username, code } = action.payload;
       return {
-        email: action.payload.email,
-        username: action.payload.username,
+        email,
+        username,
         social: {
           provider: action.payload.provider
-        }
+        },
+        code
       };
     },
     [SOCIAL_LOGIN_FAIL]: (state, action): IUserState => {
+      const { email, goToSignUpPage, code } = action.payload;
       return {
-        email: action.payload.email,
-        goToSignUpPage: action.payload.goToSignUpPage
+        email,
+        goToSignUpPage,
+        code
       };
     },
     [FETCH_USER_DATA_SUCCESS]: (state, action): IUserState => {
+      const { email, username, code } = action.payload;
       return {
         ...state,
-        email: action.payload.email,
-        username: action.payload.username
+        email,
+        username,
+        code
       };
     },
     [FETCH_USER_DATA_FAIL]: (state, action): IUserState => {
@@ -171,10 +194,21 @@ export default handleActions<IUserState, any>(
       };
     },
     [SIGN_UP_SUCCESS]: (state, action): IUserState => {
+      const { email, username, code } = action.payload;
+      console.log('signup fail', username, code);
       return {
         ...state,
-        username: action.payload.username,
-        email: action.payload.email
+        username,
+        email,
+        code
+      };
+    },
+    [SIGN_UP_FAIL]: (state, action): IUserState => {
+      const { email, code } = action.payload;
+      return {
+        ...state,
+        email,
+        code
       };
     }
   },

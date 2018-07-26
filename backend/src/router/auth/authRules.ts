@@ -10,12 +10,16 @@ export const authRules = {
         const user = await User.findOne({ where: { email: email } });
         return user ? false : true;
       })
-      .withMessage('duple'),
-    // check('password').isLength({ min: 8 }).withMessage('Invalid password'),
-    // check('confirmPassword')
-    //   .custom((confirmPassword, { req }) => req.body.password === confirmPassword)
-    //   .withMessage('Passwords are different'),
+      .withMessage('duple email'),
     check('username').isLength({ max: 20 }).withMessage('Too long username')
+    // check('username')
+    //   .custom(async (username, { req }) => {
+    //     console.log(username);
+    //     const user = await User.findOne({ where: { username } });
+    //     console.log(user);
+    //     return user ? false : true;
+    //   })
+    //   .withMessage('duple username')
   ],
   forLocalLogin: []
 };

@@ -1,12 +1,16 @@
 import * as React from 'react';
 import { bindActionCreators } from 'redux';
+import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { IStoreState } from '../store/modules';
 import { actionCreators as userActionCreator } from '../store/modules/User';
 
 import SignUp from '../component/SignUp';
+
 interface IProps {
   email: string;
+  useranem: string;
+  code: number | null;
   userAction: typeof userActionCreator;
 }
 
@@ -21,20 +25,23 @@ class SignUpContainer extends React.Component<IProps, IState> {
 
   onSubmitSignUp = () => {
     const { email } = this.props;
-    console.log(email);
-    console.log(this.state);
     const { userAction } = this.props;
     userAction.signUp(this.state.username, email);
   };
 
   onChangeUserName = (e: React.FormEvent<HTMLInputElement>): void => {
-    console.log(this.state.username);
     this.setState({
       username: e.currentTarget.value
     });
   };
 
   render () {
+    if (this.props.code === 422) {
+      console.log('username 중복');
+    }
+    if (this.props.code === 200) {
+      return <Redirect to="/" />;
+    }
     return (
       <div>
         <SignUp
@@ -48,7 +55,9 @@ class SignUpContainer extends React.Component<IProps, IState> {
 
 export default connect(
   ({ User }: IStoreState) => ({
-    email: User.email
+    email: User.email,
+    username: User.username,
+    code: User.code
   }),
   (dispatch) => ({
     userAction: bindActionCreators(userActionCreator, dispatch)

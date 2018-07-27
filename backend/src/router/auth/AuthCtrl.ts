@@ -16,7 +16,6 @@ class AuthCtrl {
       const { username, email, socialProvider }: UserModel = matchedData(
         req
       ) as UserModel;
-      console.log('socialProvider = ' + socialProvider);
       const user: UserModel = await User.create({
         username,
         email,
@@ -40,7 +39,7 @@ class AuthCtrl {
       let token = '';
       if (user) {
         token = await Jwt.generate({
-          socialProvider,
+          socialProvider: socialProvider,
           email: email,
           username: user.username
         });

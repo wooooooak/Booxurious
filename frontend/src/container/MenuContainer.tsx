@@ -86,6 +86,8 @@ class MenuContainer extends React.Component<IProps, IState> {
 
   render () {
     const { menuLayoutColor, showInputBox, showSideBar } = this.state;
+    const { socialProvider } = this.props;
+    console.log(socialProvider);
     return (
       <React.Fragment>
         <MenuBarLayout backgroundColor={menuLayoutColor} showSideBar={showSideBar}>
@@ -108,7 +110,7 @@ class MenuContainer extends React.Component<IProps, IState> {
             color="#534847"
             onClick={this.onClickHambergerButton}
           />
-          <LogoutButton socialProvider={'google'} />
+          <LogoutButton socialProvider={socialProvider} />
         </SideBar>
         <OuterToToggleSideBar
           showSideBar={showSideBar}

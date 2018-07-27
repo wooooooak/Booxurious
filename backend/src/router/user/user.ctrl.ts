@@ -5,6 +5,7 @@ import { decodeToken } from '../../lib/jwt';
 export const fetchUserData = async (req, res) => {
   const token = req.headers['auth-header'];
   const decodedToken = await decodeToken(token);
-  const { email, username } = decodedToken;
-  res.json({ email, username });
+  console.log(decodedToken);
+  const { email, username, socialProvider } = decodedToken;
+  res.json({ email, username, socialProvider });
 };

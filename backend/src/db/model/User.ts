@@ -39,7 +39,8 @@ const User: Sequelize.Model<UserModel, UserAddModel> = sequelize.define<
     password: Sequelize.STRING
   },
   {
-    timestamps: true
+    timestamps: true,
+    charset: 'utf8'
   }
 );
 

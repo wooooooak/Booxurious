@@ -44,7 +44,8 @@ const SocialAccount: Sequelize.Model<
     provider: Sequelize.STRING
   },
   {
-    timestamps: false
+    timestamps: false,
+    charset: 'utf8'
   }
 );
 

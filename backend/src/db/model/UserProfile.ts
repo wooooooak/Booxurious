@@ -40,7 +40,8 @@ const UserProfile: Sequelize.Model<
     thumnail: Sequelize.STRING
   },
   {
-    timestamps: true
+    timestamps: true,
+    charset: 'utf8'
   }
 );
 

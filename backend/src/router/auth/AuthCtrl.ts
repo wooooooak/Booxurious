@@ -14,15 +14,9 @@ class AuthCtrl {
         return res.status(422).json({ errors: errors.mapped() });
       }
       const { username, email }: UserModel = matchedData(req) as UserModel;
-      const existUser = await User.findOne({ where: { username } });
-      if (existUser) {
-        return res.status(422).json({ message: 'duple username' });
-      }
-      // const hashedPassword: string = hash(password);
       const user: UserModel = await User.create({
         username,
         email
-        // password: hashedPassword
       });
       const token = await Jwt.generate({ email: email, username: user.username });
       return res.json({ user, token: token });

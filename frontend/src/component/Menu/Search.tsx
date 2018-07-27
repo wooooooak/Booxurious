@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { Search } from 'styled-icons/octicons/Search';
+import { GoogleLogout } from 'react-google-login';
 
 interface IProps {
   showInputBox: boolean;
@@ -53,6 +54,11 @@ class SearchForm extends React.Component<IProps, IState> {
     }
   };
 
+  logout = () => {
+    console.log('logout');
+    localStorage.removeItem('token');
+  };
+
   render () {
     const { showInputBox, onClickSearchIcon, username, onClickSignIn } = this.props;
     return (
@@ -66,7 +72,10 @@ class SearchForm extends React.Component<IProps, IState> {
 
         <Search size="23" onClick={onClickSearchIcon} color="#2EC4B6" />
         {username ? (
-          <StartText to="/">Hi {username}!</StartText>
+          <div>
+            <StartText to="/">Hi {username}!</StartText>
+            <GoogleLogout buttonText="logout" onLogoutSuccess={this.logout} />
+          </div>
         ) : (
           <StartText to="/signIn" onClick={onClickSignIn}>
             sign in

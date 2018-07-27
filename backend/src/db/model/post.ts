@@ -32,6 +32,7 @@ export const Post: Sequelize.Model<PostModel, PostAddModel> = sequelize.define<
     content: Sequelize.TEXT
   },
   {
-    timestamps: true
+    timestamps: true,
+    charset: 'utf8'
   }
 );

@@ -22,7 +22,6 @@ export const fetchUserData = (token: string) => {
       headers: { 'Auth-Header': token }
     })
       .then((res) => {
-        console.log(res);
         dispatch(
           actionCreators.fetchUserDataSuccess({
             email: res.data.email,
@@ -46,7 +45,7 @@ export const socialLoginAsync = (socialEmail: string) => {
         'http://localhost:8080/auth/login/social',
       data: {
         // email: socialEmail
-        email: `beav@aba.com`
+        email: `beabasdv@aba.com`
       }
     })
       .then((res) => {
@@ -90,6 +89,7 @@ export const signUp = (username: string, email: string) => {
       }
     })
       .then((res) => {
+        console.log('res : ');
         console.log(res);
         localStorage.token = res.data.token;
         dispatch(
@@ -102,6 +102,7 @@ export const signUp = (username: string, email: string) => {
       })
       .catch((err) => {
         if (err.response.status === 422 || err.status === 422) {
+          console.log('error occur');
           console.log(err.response);
           dispatch(
             actionCreators.signUpFail({

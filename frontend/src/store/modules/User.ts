@@ -9,6 +9,7 @@ const FETCH_USER_DATA_FAIL = 'user/FetchUserDataFail';
 const GO_TO_SIGN_IN_PAGE = 'user/goToSignInPage';
 const SIGN_UP_SUCCESS = 'user/signUpSuccess';
 const SIGN_UP_FAIL = 'user/signUpFail';
+const LOGOUT = 'user/logout';
 
 const isUserExist = (result: any): boolean => {
   return result.data.code === 1 ? true : false;
@@ -124,6 +125,7 @@ export const actionCreators = {
   fetchUserDataFail: createAction<IUserState>(FETCH_USER_DATA_FAIL),
   signUpSuccess: createAction<IUserState>(SIGN_UP_SUCCESS),
   signUpFail: createAction<IUserState>(SIGN_UP_FAIL),
+  logout: createAction(LOGOUT),
   goToSignInPage: createAction(GO_TO_SIGN_IN_PAGE),
   fetchUserData,
   socialLoginAsync,
@@ -204,6 +206,11 @@ export default handleActions<IUserState, any>(
         ...state,
         email,
         code
+      };
+    },
+    [LOGOUT]: (state, action): IUserState => {
+      return {
+        ...initialState
       };
     }
   },

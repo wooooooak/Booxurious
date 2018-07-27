@@ -84,6 +84,16 @@ class MenuContainer extends React.Component<IProps, IState> {
     userAction.goToSignInPage();
   };
 
+  onClickLogout = () => {
+    console.log('logout');
+    const { userAction } = this.props;
+    localStorage.removeItem('token');
+    userAction.logout();
+    this.setState({
+      showSideBar: false
+    });
+  };
+
   render () {
     const { menuLayoutColor, showInputBox, showSideBar } = this.state;
     const { socialProvider } = this.props;
@@ -110,7 +120,10 @@ class MenuContainer extends React.Component<IProps, IState> {
             color="#534847"
             onClick={this.onClickHambergerButton}
           />
-          <LogoutButton socialProvider={socialProvider} />
+          <LogoutButton
+            socialProvider={socialProvider}
+            onLogoutSuccess={this.onClickLogout}
+          />
         </SideBar>
         <OuterToToggleSideBar
           showSideBar={showSideBar}

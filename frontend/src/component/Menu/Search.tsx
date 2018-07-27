@@ -54,11 +54,6 @@ class SearchForm extends React.Component<IProps, IState> {
     }
   };
 
-  logout = () => {
-    console.log('logout');
-    localStorage.removeItem('token');
-  };
-
   render () {
     const { showInputBox, onClickSearchIcon, username, onClickSignIn } = this.props;
     return (

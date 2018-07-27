@@ -28,7 +28,11 @@ class SignInContainer extends React.Component<IProps, IState> {
 
   onClickSocialLogin = (response: any) => {
     const { userAction } = this.props;
-    userAction.socialLoginAsync(response.profileObj.email);
+    console.log(response);
+    userAction.socialLoginAsync(
+      response.response.profileObj.email,
+      response.socialProvider
+    );
   };
 
   render () {

@@ -5,14 +5,16 @@ import * as bcrypt from 'bcryptjs';
 export interface UserAddModel {
   email: string;
   username: string;
-  password?: string;
+  // password?: string;
+  socialProvider: string;
 }
 
 export interface UserModel extends Sequelize.Model<UserModel, UserAddModel> {
   id: string;
   email: string;
   username: string;
-  password?: string;
+  socialProvider: string;
+  // password?: string;
 }
 
 export interface UserViewModel {
@@ -36,7 +38,8 @@ const User: Sequelize.Model<UserModel, UserAddModel> = sequelize.define<
       type: Sequelize.STRING,
       unique: true
     },
-    password: Sequelize.STRING
+    // password: Sequelize.STRING,
+    socialProvider: Sequelize.STRING
   },
   {
     timestamps: true,

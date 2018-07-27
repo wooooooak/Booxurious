@@ -26,6 +26,7 @@ export const fetchUserData = (token: string) => {
           actionCreators.fetchUserDataSuccess({
             email: res.data.email,
             username: res.data.username,
+            socialProvider: res.data.socialProvider,
             code: 200
           })
         );
@@ -36,7 +37,7 @@ export const fetchUserData = (token: string) => {
   };
 };
 
-export const socialLoginAsync = (socialEmail: string) => {
+export const socialLoginAsync = (socialEmail: string, socialProvider: string) => {
   return async (dispatch: any) => {
     axios({
       method: 'post',
@@ -45,7 +46,8 @@ export const socialLoginAsync = (socialEmail: string) => {
         'http://localhost:8080/auth/login/social',
       data: {
         // email: socialEmail
-        email: `beabasdv@aba.com`
+        email: `beabbffbasdv@abbbba.com`,
+        socialProvider
       }
     })
       .then((res) => {
@@ -54,17 +56,16 @@ export const socialLoginAsync = (socialEmail: string) => {
           localStorage.token = res.data.token;
           dispatch(
             actionCreators.socialLoginSuccess({
-              email: res.data.user.email,
+              email: socialEmail,
               username: res.data.user.username,
-              social: {
-                provider: res.data.user.provider
-              },
+              socialProvider,
               code: 200
             })
           );
         } else {
           dispatch(
             actionCreators.socialLoginFail({
+              socialProvider,
               email: res.data.email,
               goToSignUpPage: true,
               code: 500
@@ -78,14 +79,16 @@ export const socialLoginAsync = (socialEmail: string) => {
   };
 };
 
-export const signUp = (username: string, email: string) => {
+export const signUp = (username: string, email: string, socialProvider: string) => {
+  console.log('socialProvider = ' + socialProvider);
   return (dispatch: any) => {
     axios({
       method: 'post',
       url: 'http://localhost:8080/auth/register/local',
       data: {
         email,
-        username
+        username,
+        socialProvider
       }
     })
       .then((res) => {
@@ -133,9 +136,7 @@ export const actionCreators = {
 export interface IUserState {
   email: string;
   username?: string | null;
-  social?: {
-    provider?: string;
-  };
+  socialProvider?: string;
   message?: string;
   goToSignUpPage?: boolean;
   code: number | null;
@@ -144,10 +145,7 @@ export interface IUserState {
 const initialState: IUserState = {
   email: '',
   username: '',
-  social: {
-    provider: ''
-  },
-  message: '',
+  socialProvider: '',
   goToSignUpPage: false,
   code: null
 };
@@ -156,30 +154,30 @@ const initialState: IUserState = {
 export default handleActions<IUserState, any>(
   {
     [SOCIAL_LOGIN_SUCCESS]: (state, action): IUserState => {
-      const { email, username, code } = action.payload;
+      const { email, username, code, socialProvider } = action.payload;
       return {
         email,
         username,
-        social: {
-          provider: action.payload.provider
-        },
+        socialProvider,
         code
       };
     },
     [SOCIAL_LOGIN_FAIL]: (state, action): IUserState => {
-      const { email, goToSignUpPage, code } = action.payload;
+      const { email, goToSignUpPage, code, socialProvider } = action.payload;
       return {
         email,
+        socialProvider,
         goToSignUpPage,
         code
       };
     },
     [FETCH_USER_DATA_SUCCESS]: (state, action): IUserState => {
-      const { email, username, code } = action.payload;
+      const { email, username, code, socialProvider } = action.payload;
       return {
         ...state,
         email,
         username,
+        socialProvider,
         code
       };
     },
@@ -196,7 +194,6 @@ export default handleActions<IUserState, any>(
     },
     [SIGN_UP_SUCCESS]: (state, action): IUserState => {
       const { email, username, code } = action.payload;
-      console.log('signup fail', username, code);
       return {
         ...state,
         username,

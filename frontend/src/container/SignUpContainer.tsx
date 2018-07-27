@@ -12,6 +12,7 @@ interface IProps {
   useranem: string;
   code: number | null;
   userAction: typeof userActionCreator;
+  socialProvider: string;
 }
 
 interface IState {
@@ -24,9 +25,10 @@ class SignUpContainer extends React.Component<IProps, IState> {
   };
 
   onSubmitSignUp = () => {
-    const { email } = this.props;
+    const { email, socialProvider } = this.props;
+    console.log('socialProvider' + socialProvider);
     const { userAction } = this.props;
-    userAction.signUp(this.state.username, email);
+    userAction.signUp(this.state.username, email, socialProvider);
   };
 
   onChangeUserName = (e: React.FormEvent<HTMLInputElement>): void => {
@@ -57,7 +59,8 @@ export default connect(
   ({ User }: IStoreState) => ({
     email: User.email,
     username: User.username,
-    code: User.code
+    code: User.code,
+    socialProvider: User.socialProvider
   }),
   (dispatch) => ({
     userAction: bindActionCreators(userActionCreator, dispatch)

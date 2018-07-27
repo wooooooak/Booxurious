@@ -4,18 +4,20 @@ import { connect } from 'react-redux';
 import { IStoreState } from '../store/modules';
 import { IUserState } from '../store/modules/User';
 import { actionCreators as userActionCreator } from '../store/modules/User';
+import { bindActionCreators } from '../../node_modules/redux';
 
 import Logo from '../component/Menu/Logo';
 import MenuBarLayout from '../component/Menu/MenuBarLayout';
 import SearchForm from '../component/Menu/Search';
 import SideBar from '../component/SideBar';
 import OuterToToggleSideBar from '../component/SideBar/OuterToToggleSideBar';
-import { bindActionCreators } from '../../node_modules/redux';
+import LogoutButton from '../component/SideBar/LogoutButton';
 
 interface IProps {
   username: string;
   email: string;
   userAction: typeof userActionCreator;
+  socialProvider: string;
 }
 
 interface IState {
@@ -106,6 +108,7 @@ class MenuContainer extends React.Component<IProps, IState> {
             color="#534847"
             onClick={this.onClickHambergerButton}
           />
+          <LogoutButton socialProvider={'google'} />
         </SideBar>
         <OuterToToggleSideBar
           showSideBar={showSideBar}
@@ -119,7 +122,8 @@ class MenuContainer extends React.Component<IProps, IState> {
 export default connect(
   ({ User }: IStoreState) => ({
     email: User.email,
-    username: User.username
+    username: User.username,
+    socialProvider: User.socialProvider
   }),
   (dispatch) => ({
     userAction: bindActionCreators(userActionCreator, dispatch)

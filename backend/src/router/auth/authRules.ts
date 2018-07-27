@@ -19,7 +19,8 @@ export const authRules = {
         console.log(user);
         return user ? false : true;
       })
-      .withMessage('duple username')
+      .withMessage('duple username'),
+    check('socialProvider').isString().withMessage('Invalid provider name').trim()
   ],
   forLocalLogin: []
 };

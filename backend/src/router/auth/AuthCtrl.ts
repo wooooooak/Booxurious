@@ -13,12 +13,20 @@ class AuthCtrl {
       if (!errors.isEmpty()) {
         return res.status(422).json({ errors: errors.mapped() });
       }
-      const { username, email }: UserModel = matchedData(req) as UserModel;
+      const { username, email, socialProvider }: UserModel = matchedData(
+        req
+      ) as UserModel;
+      console.log('socialProvider = ' + socialProvider);
       const user: UserModel = await User.create({
         username,
-        email
+        email,
+        socialProvider
       });
-      const token = await Jwt.generate({ email: email, username: user.username });
+      const token = await Jwt.generate({
+        email,
+        username,
+        socialProvider
+      });
       return res.json({ user, token: token });
     } catch (error) {
       return res.json({ message: error.name });
@@ -27,14 +35,18 @@ class AuthCtrl {
 
   async loginSocailAccount (req: express.Request, res: express.Response): Promise<any> {
     try {
-      const { email }: UserModel = req.body;
+      const { email, socialProvider }: UserModel = req.body;
       const user: UserModel = await User.findOne({ where: { email: email } });
       let token = '';
       if (user) {
-        token = await Jwt.generate({ email: email, username: user.username });
+        token = await Jwt.generate({
+          socialProvider,
+          email: email,
+          username: user.username
+        });
         res.json({ user, code: 1, token: token });
       } else {
-        res.json({ email: email, code: 2 });
+        res.json({ socialProvider, email, code: 2 });
       }
     } catch (err) {
       console.log('eeerrrrr' + err);
@@ -53,12 +65,12 @@ class AuthCtrl {
         id: rawUser.id,
         email: rawUser.email
       };
-      const result: boolean = bcrypt.compareSync(password, rawUser.password);
-      if (result) {
-        return res.status(200).json({ user, token: token });
-      } else {
-        return res.status(200).json({ message: 'password miss match' });
-      }
+      // const result: boolean = bcrypt.compareSync(password, rawUser.password);
+      // if (result) {
+      //   return res.status(200).json({ user, token: token });
+      // } else {
+      //   return res.status(200).json({ message: 'password miss match' });
+      // }
     } catch (error) {
       return res.json(error);
     }

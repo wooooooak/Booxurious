@@ -122,9 +122,16 @@ const SignIn: React.SFC<ISignInProps> = ({ onClickSocialLogin }) => (
       <GoogleLogin
         clientId="824329025824-9qvtl43o44nj9l34pdp31qg0uu903qh6.apps.googleusercontent.com"
         buttonText="Login"
-        onSuccess={onClickSocialLogin}
+        onSuccess={(response) =>
+          onClickSocialLogin({ response, socialProvider: 'google' })}
         onFailure={onClickSocialLogin}
       />
+      {/* <FacebookLogin
+        clientId="824329025824-9qvtl43o44nj9l34pdp31qg0uu903qh6.apps.googleusercontent.com"
+        buttonText="Login"
+        onSuccess={(response) => onClickSocialLogin({ response, provider: 'facebook' })}
+        onFailure={onClickSocialLogin}
+      /> */}
       <Text>기존에 사용하시던 계정으로 쉽게 이용하세요.</Text>
     </Content>
   </PageLayout>

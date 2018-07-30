@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { IStoreState } from './store/modules';
 import { actionCreators as userActionCreator } from './store/modules/User';
 
-import IntroOne from './component/Main/IntroOne';
+import IntroContainer from './container/IntroContainer';
 
 // container
 import MenuContainer from './container/MenuContainer';
@@ -34,7 +34,6 @@ class App extends React.Component<IProps, IState> {
   constructor (props: IProps) {
     super(props);
     if (localStorage.token !== undefined) {
-      console.log(localStorage.token);
       console.log('로컬스토리지에 token값 있음');
       const { userAction } = this.props;
       // 토큰값을 이용해서 서버로부터 유저 정보를 불러오자
@@ -48,7 +47,7 @@ class App extends React.Component<IProps, IState> {
         <React.Fragment>
           <MenuContainer />
           <Switch>
-            <Route exact={true} path="/" component={IntroOne} />
+            <Route exact={true} path="/" component={IntroContainer} />
             <Route exact={true} path="/signIn" component={SignInContianer} />
             <Route exact={true} path="/signUp" component={SignUpContainer} />
           </Switch>

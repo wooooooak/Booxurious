@@ -32,7 +32,7 @@ const SearchInput = styled.input`
 
 const StartText = styled(Link)`
   margin: 0 25px;
-  color: #2EC4B6;
+  color: #011627;
   text-decoration:none;
 `;
 
@@ -64,7 +64,7 @@ class SearchForm extends React.Component<IProps, IState> {
             onKeyPress={this.onClickEnterInSearch}
           />
         ) : null}
-        <Search size="23" onClick={onClickSearchIcon} color="#2EC4B6" />
+        <Search size="23" onClick={onClickSearchIcon} color="#011627" />
         {username ? (
           <React.Fragment>
             <StartText to="/">Hi {username}!</StartText>

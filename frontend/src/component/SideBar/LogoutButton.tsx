@@ -18,7 +18,7 @@ interface IProps {
 // };
 
 const LogoutButton: React.SFC<IProps> = ({ socialProvider, onLogoutSuccess }) => (
-  <span onClick={onLogoutSuccess}>logout</span>
+  <button onClick={onLogoutSuccess}>logout</button>
 );
 
 export default LogoutButton;

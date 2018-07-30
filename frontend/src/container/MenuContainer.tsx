@@ -47,15 +47,35 @@ class MenuContainer extends React.Component<IProps, IState> {
     }
   };
 
+  // 스크롤 내릴 때 마다 rendering 되는 것을 방지
+  shouldComponentUpdate (nextProps: IProps, nextState: IState) {
+    const { menuLayoutColor, showSideBar } = this.state;
+    const nextMenuLayoutColor = nextState.menuLayoutColor;
+    const nextShowSideBar = nextState.showSideBar;
+
+    if (showSideBar !== nextShowSideBar) {
+      return true;
+    }
+    if (this.props.email !== nextProps.email) {
+      return true;
+    }
+    if (menuLayoutColor === nextMenuLayoutColor) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   componentDidMount (): void {
     window.addEventListener('scroll', (): void => {
       if (window.pageYOffset === 0) {
         this.setState({
           menuLayoutColor: 'transparent'
+          // menuLayoutColor: '#E3DADB'
         });
       } else {
         this.setState({
-          menuLayoutColor: 'black'
+          menuLayoutColor: '#BCA9AB'
         });
       }
     });
@@ -85,7 +105,6 @@ class MenuContainer extends React.Component<IProps, IState> {
   };
 
   onClickLogout = () => {
-    console.log('logout');
     const { userAction } = this.props;
     localStorage.removeItem('token');
     userAction.logout();
@@ -97,16 +116,15 @@ class MenuContainer extends React.Component<IProps, IState> {
   render () {
     const { menuLayoutColor, showInputBox, showSideBar } = this.state;
     const { socialProvider } = this.props;
-    console.log(socialProvider);
     return (
       <React.Fragment>
         <MenuBarLayout backgroundColor={menuLayoutColor} showSideBar={showSideBar}>
           <HambergerIcon
             size="48"
             onClick={this.onClickHambergerButton}
-            color="#2EC4B6"
+            color="#1F2124"
           />
-          <Logo marginLeft="10px" />
+          <Logo marginLeft="50px" fontSize={'1.3rem'} />
           <SearchForm
             showInputBox={showInputBox}
             onClickSearchIcon={this.onClickSearchIcon}

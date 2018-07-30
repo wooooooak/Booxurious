@@ -21,6 +21,9 @@ const Layout = styled.div`
   height: 70px;
   top: 0;
   left: 0;
+  border-bottom-width: 0.1px;
+  border-bottom-color: #383a3f;
+  border-bottom-style: solid;
 `;
 
 const MenuBarLayout: React.SFC<IMenuBarLayoutProps> = ({

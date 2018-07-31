@@ -8,10 +8,27 @@ interface IProps {}
 interface IState {}
 
 class IntroContainer extends React.Component<IProps, IState> {
+  private introTwoLocationRef: React.RefObject<HTMLDivElement>;
+
+  constructor (props: any) {
+    super(props);
+    this.introTwoLocationRef = React.createRef();
+  }
+
+  onClickScrollDownButton = () => {
+    const introTwoLocation: HTMLDivElement = this.introTwoLocationRef
+      .current as HTMLDivElement;
+    introTwoLocation.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
+    });
+  };
+
   render () {
     return (
       <React.Fragment>
-        <IntroOne />
+        <IntroOne onClickScrollDownButton={this.onClickScrollDownButton} />
+        <div style={{ height: '0px' }} ref={this.introTwoLocationRef} />
         <IntroTwo />
       </React.Fragment>
     );

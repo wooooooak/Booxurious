@@ -2,9 +2,13 @@ import * as React from 'react';
 import styled from 'styled-components';
 import styledTS from 'styled-components-ts';
 
+import { KeyboardArrowDown } from 'styled-icons/material/KeyboardArrowDown';
+
 import { device } from '../../styled/device';
 
-interface IProps {}
+interface IProps {
+  onClickScrollDownButton(): void;
+}
 
 interface IState {
   introText: string[][];
@@ -70,26 +74,40 @@ const TextBox = styled.div`
   }
 `;
 
-const ButtonBox = styled.div`
+const BottomText = styled.div`
+  position: absolute;
+  top: 85%;
+  font-size: 0.5em;
+`;
+
+const DownArrowBox = styled.div`
+  width: 40px;
+  height: 40px;
+  background-color: transparent;
+  text-align: center;
+  margin: 30px auto 0px;
+  cursor: pointer;
+`;
+
+interface IButtonBoxProps {
+  visibility: string;
+}
+
+const ButtonBox = styledTS<IButtonBoxProps>(styled.div)`
   display: flex;
   align-items: center;
   justify-content: center;
+  visibility: ${(props) => props.visibility}
 `;
 
 const ChangeTextButton = styled.button`
   width: 45px;
   height: 45px;
   border-radius: 50%;
-  /* transform: translate(-200px, -200px); */
   background-color: transparent;
   border: 2px solid #efdc05;
   color: #efdc05;
-  &::before {
-    content: '';
-    width: 300px;
-    height: 20px;
-    background-color: black;
-  }
+  cursor: pointer;
 `;
 
 interface IHrProps {
@@ -145,33 +163,39 @@ class IntroOne extends React.Component<IProps, IState> {
 
   render () {
     const { selectedNumber } = this.state;
+    let prevButtonVisibility: string = '';
+    let nextButtonVisibility: string = '';
+    if (selectedNumber <= 0) {
+      prevButtonVisibility = 'hidden';
+      nextButtonVisibility = 'visible';
+    } else if (selectedNumber >= 2) {
+      prevButtonVisibility = 'visible';
+      nextButtonVisibility = 'hidden';
+    } else {
+      prevButtonVisibility = 'visible';
+      nextButtonVisibility = 'visible';
+    }
     return (
       <Layout>
         <IntroTextNumber>{selectedNumber + 1}</IntroTextNumber>
         <ContextBox>
-          {selectedNumber <= 0 ? (
-            <span />
-          ) : (
-            <ButtonBox>
-              <ChangeTextButton onClick={this.onClickPrevTextButton}>
-                prev
-              </ChangeTextButton>
-              <Hr translateX="-7px" />
-            </ButtonBox>
-          )}
-          <TextBox>{this.mapTextToDiv(selectedNumber)}</TextBox>
-          {selectedNumber >= 2 ? (
-            <span />
-          ) : (
-            <ButtonBox>
-              <Hr translateX="7px" />
-              <ChangeTextButton onClick={this.onClickNextTextButton}>
-                next
-              </ChangeTextButton>
-            </ButtonBox>
-          )}
+          <ButtonBox visibility={prevButtonVisibility}>
+            <ChangeTextButton onClick={this.onClickPrevTextButton}>prev</ChangeTextButton>
+            <Hr translateX="-7px" />
+          </ButtonBox>
+          <TextBox>
+            {this.mapTextToDiv(selectedNumber)}
+            <BottomText>
+              글 탐방하러 가기!<DownArrowBox>
+                <KeyboardArrowDown onClick={this.props.onClickScrollDownButton} />
+              </DownArrowBox>
+            </BottomText>
+          </TextBox>
+          <ButtonBox visibility={nextButtonVisibility}>
+            <Hr translateX="7px" />
+            <ChangeTextButton onClick={this.onClickNextTextButton}>next</ChangeTextButton>
+          </ButtonBox>
         </ContextBox>
-        <hr />
       </Layout>
     );
   }

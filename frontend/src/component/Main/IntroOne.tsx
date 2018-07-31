@@ -1,5 +1,8 @@
 import * as React from 'react';
 import styled from 'styled-components';
+import styledTS from 'styled-components-ts';
+
+import { device } from '../../styled/device';
 
 interface IProps {}
 
@@ -47,7 +50,67 @@ const TextBox = styled.div`
   align-items: center;
   font-size: 2.7em;
   font-family: 'Nanum Myeongjo', serif;
-  line-height: 0.1em;
+  word-break: break-all;
+  /* line-height: 0.5em; */
+  div {
+    margin-bottom: 30px;
+  }
+
+  @media ${device.laptop} {
+    font-size: 1.8em;
+  }
+  @media ${device.tablet} {
+    font-size: 1.1em;
+  }
+  @media ${device.mobileM} {
+    font-size: 0.6em;
+  }
+  @media ${device.mobileS} {
+    font-size: 0.3em;
+  }
+`;
+
+const ButtonBox = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const ChangeTextButton = styled.button`
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  /* transform: translate(-200px, -200px); */
+  background-color: transparent;
+  border: 2px solid #efdc05;
+  color: #efdc05;
+  &::before {
+    content: '';
+    width: 300px;
+    height: 20px;
+    background-color: black;
+  }
+`;
+
+interface IHrProps {
+  translateX: string;
+}
+
+const Hr = styledTS<IHrProps>(styled.div)`
+  width: 75px;
+  transform: ${(props) => `translate(${props.translateX})`};
+  color: #efdc05;
+  background-color: #efdc05;
+  height: 1px;
+
+  @media ${device.tablet} {
+    width: 30px;
+  }
+
+  @media ${device.mobileS} {
+    width: 10px;
+  }
+
 `;
 
 class IntroOne extends React.Component<IProps, IState> {
@@ -75,7 +138,7 @@ class IntroOne extends React.Component<IProps, IState> {
     const resultText: JSX.Element[] = this.state.introText[
       selectedNumber
     ].map((text, index) => {
-      return <p key={index}>{text}</p>;
+      return <div key={index}>{text}</div>;
     });
     return resultText;
   };
@@ -89,15 +152,26 @@ class IntroOne extends React.Component<IProps, IState> {
           {selectedNumber <= 0 ? (
             <span />
           ) : (
-            <span onClick={this.onClickPrevTextButton}>prev</span>
+            <ButtonBox>
+              <ChangeTextButton onClick={this.onClickPrevTextButton}>
+                prev
+              </ChangeTextButton>
+              <Hr translateX="-7px" />
+            </ButtonBox>
           )}
           <TextBox>{this.mapTextToDiv(selectedNumber)}</TextBox>
           {selectedNumber >= 2 ? (
             <span />
           ) : (
-            <span onClick={this.onClickNextTextButton}>next</span>
+            <ButtonBox>
+              <Hr translateX="7px" />
+              <ChangeTextButton onClick={this.onClickNextTextButton}>
+                next
+              </ChangeTextButton>
+            </ButtonBox>
           )}
         </ContextBox>
+        <hr />
       </Layout>
     );
   }

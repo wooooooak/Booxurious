@@ -55,7 +55,10 @@ class SignUpContainer extends React.Component<IProps, IState> {
   }
 }
 
-export default connect(
+interface IStateProps {}
+interface IDispatchProps {}
+
+export default connect<IStateProps, IDispatchProps>(
   ({ User }: IStoreState) => ({
     email: User.email,
     username: User.username,

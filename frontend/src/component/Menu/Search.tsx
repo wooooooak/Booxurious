@@ -6,7 +6,7 @@ import { Search } from 'styled-icons/octicons/Search';
 
 interface IProps {
   showInputBox: boolean;
-  username: string | null;
+  username: string | null | undefined;
   onClickSearchIcon(): void;
   onClickSignIn(): void;
 }

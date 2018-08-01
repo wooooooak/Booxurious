@@ -71,7 +71,8 @@ export const socialLoginAsync = (socialEmail: string, socialProvider: string) =>
               socialProvider,
               email: res.data.email,
               goToSignUpPage: true,
-              code: 500
+              code: 500,
+              username: ''
             })
           );
         }
@@ -108,7 +109,8 @@ export const signUp = (username: string, email: string, socialProvider: string) 
           dispatch(
             actionCreators.signUpFail({
               email,
-              code: 422
+              code: 422,
+              username
             })
           );
         }
@@ -134,7 +136,7 @@ export const actionCreators = {
 
 export interface IUserState {
   email: string;
-  username?: string | null;
+  username: string | null;
   socialProvider?: string;
   message?: string;
   goToSignUpPage?: boolean;
@@ -164,6 +166,7 @@ export default handleActions<IUserState, any>(
     [SOCIAL_LOGIN_FAIL]: (state, action): IUserState => {
       const { email, goToSignUpPage, code, socialProvider } = action.payload;
       return {
+        ...state,
         email,
         socialProvider,
         goToSignUpPage,

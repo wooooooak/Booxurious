@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 interface IProps {
-  socialProvider: string;
+  socialProvider: string | undefined;
   onLogoutSuccess(): void;
 }
 

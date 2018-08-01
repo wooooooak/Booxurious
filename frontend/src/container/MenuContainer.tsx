@@ -13,12 +13,17 @@ import SideBar from '../component/SideBar';
 import OuterToToggleSideBar from '../component/SideBar/OuterToToggleSideBar';
 import LogoutButton from '../component/SideBar/LogoutButton';
 
-interface IProps {
-  username: string;
+interface StateProps {
+  username: string | null;
   email: string;
-  userAction: typeof userActionCreator;
-  socialProvider: string;
+  socialProvider: string | undefined;
 }
+
+interface DispatchProps {
+  userAction: typeof userActionCreator;
+}
+
+interface OwnProps {}
 
 interface IState {
   prevYOffset: number;
@@ -34,7 +39,9 @@ const HambergerIcon = feather.Menu.extend`
   cursor: pointer;
 `;
 
-class MenuContainer extends React.Component<IProps, IState> {
+type Props = StateProps & DispatchProps & OwnProps;
+
+class MenuContainer extends React.Component<Props, IState> {
   state: IState = {
     prevYOffset: 0,
     menuLayoutColor: 'transparent',
@@ -48,7 +55,7 @@ class MenuContainer extends React.Component<IProps, IState> {
   };
 
   // 스크롤 내릴 때 마다 rendering 되는 것을 방지
-  shouldComponentUpdate (nextProps: IProps, nextState: IState) {
+  shouldComponentUpdate (nextProps: StateProps, nextState: IState) {
     const { menuLayoutColor, showSideBar } = this.state;
     const nextMenuLayoutColor = nextState.menuLayoutColor;
     const nextShowSideBar = nextState.showSideBar;
@@ -115,7 +122,7 @@ class MenuContainer extends React.Component<IProps, IState> {
 
   render () {
     const { menuLayoutColor, showInputBox, showSideBar } = this.state;
-    const { socialProvider } = this.props;
+    const { socialProvider, username } = this.props;
     return (
       <React.Fragment>
         <MenuBarLayout backgroundColor={menuLayoutColor} showSideBar={showSideBar}>
@@ -128,7 +135,7 @@ class MenuContainer extends React.Component<IProps, IState> {
           <SearchForm
             showInputBox={showInputBox}
             onClickSearchIcon={this.onClickSearchIcon}
-            username={this.props.username}
+            username={username}
             onClickSignIn={this.onClickSignIn}
           />
         </MenuBarLayout>
@@ -152,13 +159,13 @@ class MenuContainer extends React.Component<IProps, IState> {
   }
 }
 
-export default connect(
-  ({ User }: IStoreState) => ({
+export default connect<StateProps, DispatchProps, OwnProps>(
+  ({ User }: IStoreState): StateProps => ({
     email: User.email,
     username: User.username,
     socialProvider: User.socialProvider
   }),
-  (dispatch) => ({
+  (dispatch: any) => ({
     userAction: bindActionCreators(userActionCreator, dispatch)
   })
 )(MenuContainer);

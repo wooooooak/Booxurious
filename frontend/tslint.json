@@ -15,6 +15,7 @@
     "no-angle-bracket-type-assertion":false,
     "no-console":false,
     "jsx-no-lambda" : false,
-    "no-shadowed-variable": false
+    "no-shadowed-variable": false,
+    "interface-name": false
   }
 }

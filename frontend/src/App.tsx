@@ -22,21 +22,26 @@ injectGlobal`
   }
 `;
 
-interface IProps {
-  userAction: typeof userActionCreator;
+interface StateProps {
   email: string;
-  username: string;
+  username: string | null;
 }
+
+interface DispatchProps {
+  userAction: typeof userActionCreator;
+}
+
+interface OwnProps {}
+
+type Props = StateProps & DispatchProps & OwnProps;
 
 interface IState {}
 
-class App extends React.Component<IProps, IState> {
-  constructor (props: IProps) {
+class App extends React.Component<Props, IState> {
+  constructor (props: Props) {
     super(props);
     if (localStorage.token !== undefined) {
-      console.log('로컬스토리지에 token값 있음');
       const { userAction } = this.props;
-      // 토큰값을 이용해서 서버로부터 유저 정보를 불러오자
       userAction.fetchUserData(localStorage.token);
     }
   }
@@ -57,8 +62,8 @@ class App extends React.Component<IProps, IState> {
   }
 }
 
-export default connect(
-  ({ User }: IStoreState) => ({
+export default connect<StateProps, DispatchProps, OwnProps>(
+  ({ User }: IStoreState): StateProps => ({
     email: User.email,
     username: User.username
   }),

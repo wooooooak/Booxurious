@@ -12,6 +12,7 @@ import SearchForm from '../component/Menu/Search';
 import SideBar from '../component/SideBar';
 import OuterToToggleSideBar from '../component/SideBar/OuterToToggleSideBar';
 import LogoutButton from '../component/SideBar/LogoutButton';
+import Tags from '../component/Menu/Tags';
 
 interface StateProps {
   username: string | null;
@@ -55,11 +56,19 @@ class MenuContainer extends React.Component<Props, IState> {
   };
 
   // 스크롤 내릴 때 마다 rendering 되는 것을 방지
-  shouldComponentUpdate (nextProps: StateProps, nextState: IState) {
-    const { menuLayoutColor, showSideBar } = this.state;
-    const nextMenuLayoutColor = nextState.menuLayoutColor;
-    const nextShowSideBar = nextState.showSideBar;
+  // 하나의 false 때문에 이 메서드가 너무 지저분해 진게 아닌가 싶다.
+  // 더 좋은 방법이 떠오르지 않는데 언젠가는 한번 깊게 고민해봐야 할듯...
+  shouldComponentUpdate (nextProps: StateProps, nextState: IState): boolean {
+    const { menuLayoutColor, showSideBar, showInputBox } = this.state;
+    const {
+      menuLayoutColor: nextMenuLayoutColor,
+      showSideBar: nextShowSideBar,
+      showInputBox: nextShowInputBox
+    } = nextState;
 
+    if (showInputBox !== nextShowInputBox) {
+      return true;
+    }
     if (showSideBar !== nextShowSideBar) {
       return true;
     }
@@ -78,17 +87,17 @@ class MenuContainer extends React.Component<Props, IState> {
       if (window.pageYOffset === 0) {
         this.setState({
           menuLayoutColor: 'transparent'
-          // menuLayoutColor: '#E3DADB'
         });
       } else {
         this.setState({
-          menuLayoutColor: '#BCA9AB'
+          menuLayoutColor: '#95807F'
         });
       }
     });
   }
 
   onClickSearchIcon = (): void => {
+    console.log('click icon');
     this.setState({
       showInputBox: !this.state.showInputBox
     });
@@ -121,6 +130,7 @@ class MenuContainer extends React.Component<Props, IState> {
   };
 
   render () {
+    console.log('render');
     const { menuLayoutColor, showInputBox, showSideBar } = this.state;
     const { socialProvider, username } = this.props;
     return (
@@ -132,6 +142,7 @@ class MenuContainer extends React.Component<Props, IState> {
             color="#1F2124"
           />
           <Logo marginLeft="50px" fontSize={'1.3rem'} />
+          {showInputBox ? null : <Tags />}
           <SearchForm
             showInputBox={showInputBox}
             onClickSearchIcon={this.onClickSearchIcon}

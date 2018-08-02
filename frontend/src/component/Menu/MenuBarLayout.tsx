@@ -15,6 +15,7 @@ const Layout = styled.div`
   background-color: ${(props: ILayoutProps) => props.backgroundColor};
   color: white;
   position: fixed;
+  z-index: 999;
   width: 100vw;
   display: flex;
   align-items: center;

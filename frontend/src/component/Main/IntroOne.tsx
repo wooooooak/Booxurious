@@ -49,11 +49,11 @@ const IntroTextNumber = styled.div`
 
 const TextBox = styled.div`
   @import url('https://fonts.googleapis.com/css?family=Nanum+Myeongjo');
+  font-family: 'Nanum Myeongjo', serif;
   display: flex;
   flex-direction: column;
   align-items: center;
   font-size: 2.7em;
-  font-family: 'Nanum Myeongjo', serif;
   word-break: break-all;
   /* line-height: 0.5em; */
   div {

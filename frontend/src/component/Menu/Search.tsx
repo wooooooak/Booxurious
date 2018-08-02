@@ -15,6 +15,10 @@ interface IState {
   value: string;
 }
 
+const SearchIcon = styled(Search)`
+  cursor: pointer;
+`;
+
 const Contianer = styled.div`
   margin-left: auto;
   margin-right: 50px;
@@ -22,7 +26,8 @@ const Contianer = styled.div`
 
 const SearchInput = styled.input`
   margin-left: 20px;
-  width: 100px;
+  margin-right: 20px;
+  width: 200px;
   border-radius: 10px;
   padding-left: 5px;
   &:focus {
@@ -64,7 +69,7 @@ class SearchForm extends React.Component<IProps, IState> {
             onKeyPress={this.onClickEnterInSearch}
           />
         ) : null}
-        <Search size="23" onClick={onClickSearchIcon} color="#011627" />
+        <SearchIcon size="23" onClick={onClickSearchIcon} color="#011627" />
         {username ? (
           <React.Fragment>
             <StartText to="/">Hi {username}!</StartText>

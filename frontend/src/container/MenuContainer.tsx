@@ -90,7 +90,8 @@ class MenuContainer extends React.Component<Props, IState> {
         });
       } else {
         this.setState({
-          menuLayoutColor: '#95807F'
+          menuLayoutColor: '#f8f4f3'
+          // menuLayoutColor: '#95807F'
         });
       }
     });

@@ -21,20 +21,20 @@ const list: Datum[] = [
   {
     source:
       'https://ichef-1.bbci.co.uk/news/320/cpsprodpb/97BE/production/_98064883_ikea.jpg',
-    caption: 'one',
-    imageHeight: '200px',
+    caption: '1',
+    imageHeight: '300px',
     imageWidth: '300px'
   },
   {
     source: 'https://i.redd.it/th5enkjgumoz.jpg',
-    caption: 'two',
+    caption: '2',
     imageHeight: '300px',
     imageWidth: '300px'
   },
   {
     source: 'https://s3.ap-northeast-2.amazonaws.com/elebooks/book2.jpg',
-    caption: 'three',
-    imageHeight: '200px',
+    caption: '3',
+    imageHeight: '300px',
     imageWidth: '300px'
   },
   {
@@ -46,14 +46,33 @@ const list: Datum[] = [
   {
     source:
       'https://ichef-1.bbci.co.uk/news/320/cpsprodpb/97BE/production/_98064883_ikea.jpg',
-    caption: 'five',
+    caption: '5',
     imageHeight: '300px',
     imageWidth: '300px'
   },
   {
     source: 'https://i.redd.it/th5enkjgumoz.jpg',
-    caption: 'six',
-    imageHeight: '200px',
+    caption: '6',
+    imageHeight: '300px',
+    imageWidth: '300px'
+  },
+  {
+    source: 'https://s3.ap-northeast-2.amazonaws.com/elebooks/book2.jpg',
+    caption: '7',
+    imageHeight: '300px',
+    imageWidth: '300px'
+  },
+  {
+    source: 'https://i.redd.it/th5enkjgumoz.jpg',
+    caption: '8',
+    imageHeight: '300px',
+    imageWidth: '300px'
+  },
+  {
+    source:
+      'https://ichef-1.bbci.co.uk/news/320/cpsprodpb/97BE/production/_98064883_ikea.jpg',
+    caption: '9',
+    imageHeight: '300px',
     imageWidth: '300px'
   }
 ];
@@ -86,7 +105,7 @@ function cellRenderer ({ index, key, parent, style }: any): any {
             width: datum.imageWidth
           }}
         />
-        <h4>{datum.caption}</h4>
+        <h4 style={{ textAlign: 'center' }}>{datum.caption}</h4>
       </div>
     </CellMeasurer>
   );
@@ -125,7 +144,7 @@ class IntroTwo extends React.Component<IProps, IState> {
           cellMeasurerCache={cache}
           cellPositioner={cellPositioner}
           cellRenderer={cellRenderer}
-          height={600}
+          height={1300}
           width={900}
         />
         <div>see more book reports</div>

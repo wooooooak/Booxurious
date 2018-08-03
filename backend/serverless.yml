@@ -1,20 +1,27 @@
 service:
   name: elebooks-api
 
-# Add the serverless-webpack plugin
-plugins:
-  - serverless-webpack
-
 provider:
   name: aws
   runtime: nodejs8.10
+  stage: ${opt:stage}
   region: ap-northeast-2
-  stage: dev
+  environment:
+    NODE_ENV: ${opt:stage}
+    ASSETS_URL: "https://s3.ap-northeast-2.amazonaws.com/elebooks-${opt:stage}"
+
+package:
+  exclude:
+   - dist
 
 custom:
   webpackIncludeModules:
     forceInclude:
       - pg
+      - pg-native
+  s3Sync:
+    - bucketName: elebooks-${opt:stage}
+      localDir: dist/src
 
 functions:
   api:
@@ -26,3 +33,37 @@ functions:
       - http:
           path: /{any+} # this matches any path, the token 'any' doesn't mean anything special
           method: ANY
+
+resources:
+  Resources:
+    AssetsBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: elebooks-${opt:stage}
+    AssetsBucketPolicy:
+      Type: AWS::S3::BucketPolicy
+      Properties:
+        Bucket:
+          Ref: AssetsBucket
+        PolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            -
+              Action:
+                - s3:GetObject
+              Effect: Allow
+              Resource:
+                Fn::Join: 
+                  - ""
+                  - 
+                    - "arn:aws:s3:::"
+                    - 
+                      Ref: AssetsBucket
+                    - "/*"
+              Principal: "*"
+
+plugins:
+  - serverless-offline
+  - serverless-s3-sync
+  - serverless-webpack
+

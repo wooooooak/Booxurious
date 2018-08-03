@@ -14,9 +14,9 @@ export class Server {
   constructor () {
     dotenv.config();
     this.app = express();
-    this.app.get('/test', (req: express.Request, res: express.Response) => {
-      // res.sendFile(path.join(__dirname, '/build/index.html'));
-      res.json({ a: __dirname });
+    this.app.get('/', (req: express.Request, res: express.Response) => {
+      res.sendFile(path.join(__dirname, '/build/index.html'));
+      // res.json({ a: __dirname });
     });
     this.middleware();
     this.setRoute();

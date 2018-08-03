@@ -138,7 +138,7 @@ class IntroOne extends React.Component<IProps, IState> {
       [ '작가를 꿈꾸시나요?', '자신만의 글을 작성하세요', '베스트셀러가 될 수도 있습니다.' ],
       [ '이건 3번째 입니다', '무슨 말을 넣을까요?', '베스트셀러가 될 수도 있습니다.' ]
     ],
-    selectedNumber: 1
+    selectedNumber: 0
   };
 
   onClickPrevTextButton = () => {

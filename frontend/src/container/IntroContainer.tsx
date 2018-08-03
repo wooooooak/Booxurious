@@ -2,6 +2,7 @@ import * as React from 'react';
 
 import IntroOne from '../component/Main/IntroOne';
 import IntroTwo from '../component/Main/IntroTwo';
+import IntroThree from '../component/Main/IntroThree';
 
 interface IProps {}
 
@@ -30,6 +31,7 @@ class IntroContainer extends React.Component<IProps, IState> {
         <IntroOne onClickScrollDownButton={this.onClickScrollDownButton} />
         <div style={{ height: '0px' }} ref={this.introTwoLocationRef} />
         <IntroTwo />
+        <IntroThree />
       </React.Fragment>
     );
   }

@@ -118,7 +118,7 @@ class IntroTwo extends React.Component<IProps, IState> {
   render () {
     return (
       <IntroTwoContrainer>
-        <H1> Popular Topics </H1>
+        <H1> Popular Book Reports </H1>
         <Masonry
           autoHeight={true}
           cellCount={list.length}
@@ -128,7 +128,7 @@ class IntroTwo extends React.Component<IProps, IState> {
           height={600}
           width={900}
         />
-        <div>see more story</div>
+        <div>see more book reports</div>
       </IntroTwoContrainer>
     );
   }

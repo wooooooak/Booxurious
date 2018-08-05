@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "babel ./src --out-dir ./dist",
-    "deploy": "sls deploy --stage dev",
+    "deploy": "yarn build & sls deploy --stage dev",
     "local": "cross-env APP_ENV=local nodemon --exec babel-node src/app"
   },
   "author": "",

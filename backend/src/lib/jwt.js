@@ -7,15 +7,16 @@ const secretKey = 'FEhguHXMOvCErayV2Huezy';
 // const secretKey = process.env.SECRET_KEY;
 console.log('시크릿 키 : ' + 'FEhguHXMOvCErayV2Huezy');
 
-const generate = async (payload, options?) => {
+export const generate = async (payload) => {
   try {
     const token = await jwt.sign(payload, secretKey, {
       expiresIn: '7d',
-      issuer: 'elecoder',
-      ...options
+      issuer: 'elecoder'
     });
+    console.log('token', token);
     return token;
   } catch (error) {
+    console.log('error', error);
     return error;
   }
 };

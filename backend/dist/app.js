@@ -16,6 +16,10 @@ var _cors = require('cors');
 
 var _cors2 = _interopRequireDefault(_cors);
 
+var _router = require('./router');
+
+var _router2 = _interopRequireDefault(_router);
+
 var _db = require('./db');
 
 var _sync = require('./db/sync');
@@ -23,17 +27,18 @@ var _sync = require('./db/sync');
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var app = (0, _express2.default)();
+
+// 여기가 문제인듯
+
 app.use((0, _cors2.default)());
 app.use(_bodyParser2.default.json());
 app.use(_bodyParser2.default.urlencoded({ extended: true }));
 
-_db.sequelize.authenticate().then(function () {
-  (0, _sync.sync)();
-});
+// sequelize.authenticate().then(() => {
+//   sync();
+// });
 
-app.get('/test', function (req, res) {
-  res.send('ahaahahaha');
-});
+app.use('/', _router2.default);
 
 if (process.env.APP_ENV === 'local') {
   app.listen(8080, function () {

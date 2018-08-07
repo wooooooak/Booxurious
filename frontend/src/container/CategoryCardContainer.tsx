@@ -1,0 +1,151 @@
+import * as React from 'react';
+import ArticleLayout from '../component/CategoryCard/ArticleLayout';
+import Article from '../component/CategoryCard/Article';
+// import styled from "styled-components";
+
+export interface IArticle {
+  title: string;
+  img: string;
+  subTitle?: string;
+  bookName: string;
+  author: string;
+  like: number;
+}
+
+interface IState {
+  dataSet?: object[];
+  selectedNumber: number;
+}
+
+export interface Idata {
+  category: string;
+  articles: IArticle[];
+}
+
+// login정보를 받아오자. email이 없다면 비로그인이다.
+class CategoryCardContainer extends React.Component<{}, IState> {
+  state = {
+    dataSet: [ { category: '', articles: [] }, { category: '', articles: [] } ],
+    selectedNumber: 0
+  };
+
+  componentDidMount () {
+    const categoryOne: Idata = {
+      category: 'it 서적',
+      articles: [
+        {
+          title: 'hello',
+          subTitle: 'subtitle',
+          author: 'elecoder',
+          bookName: 'it book name',
+          like: 0,
+          img:
+            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPxBJ4rG_8LLjzKmjk5r8omKQraLTfY0LdE5m_oroScaJxSapiKA'
+        },
+        {
+          title: 'hello2',
+          subTitle: 'subtitle',
+          author: 'elecoder',
+          bookName: 'it book name',
+          like: 0,
+          img:
+            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPxBJ4rG_8LLjzKmjk5r8omKQraLTfY0LdE5m_oroScaJxSapiKA'
+        },
+        {
+          title: 'hello3',
+          subTitle: 'subtitle',
+          author: 'elecoder',
+          bookName: 'it book name',
+          like: 0,
+          img:
+            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPxBJ4rG_8LLjzKmjk5r8omKQraLTfY0LdE5m_oroScaJxSapiKA'
+        },
+        {
+          title: 'hello',
+          subTitle: 'subtitle',
+          author: 'elecoder',
+          bookName: 'it book name',
+          like: 0,
+          img:
+            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPxBJ4rG_8LLjzKmjk5r8omKQraLTfY0LdE5m_oroScaJxSapiKA'
+        }
+      ]
+    };
+    const categoryTwo: Idata = {
+      category: 'noble',
+      articles: [
+        {
+          title: 'hello',
+          subTitle: 'subtitle',
+          author: 'elecoder',
+          bookName: 'noble book',
+          like: 0,
+          img:
+            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPxBJ4rG_8LLjzKmjk5r8omKQraLTfY0LdE5m_oroScaJxSapiKA'
+        },
+        {
+          title: 'hello2',
+          subTitle: 'subtitle',
+          author: 'elecoder',
+          bookName: '밤에 우리 영혼은',
+          like: 0,
+          img:
+            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPxBJ4rG_8LLjzKmjk5r8omKQraLTfY0LdE5m_oroScaJxSapiKA'
+        },
+        {
+          title: 'hello3',
+          subTitle: 'subtitle',
+          author: 'elecoder',
+          bookName: '오직 두 사람',
+          like: 0,
+          img:
+            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPxBJ4rG_8LLjzKmjk5r8omKQraLTfY0LdE5m_oroScaJxSapiKA'
+        },
+        {
+          title: 'hello',
+          subTitle: 'subtitle',
+          author: 'elecoder',
+          bookName: '자기 앞의 생',
+          like: 0,
+          img:
+            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPxBJ4rG_8LLjzKmjk5r8omKQraLTfY0LdE5m_oroScaJxSapiKA'
+        }
+      ]
+    };
+    this.setState({
+      dataSet: [ categoryOne, categoryTwo ]
+    });
+  }
+
+  onClickNextPageButton = () => {
+    this.setState({
+      selectedNumber: this.state.selectedNumber + 1
+    });
+  };
+  onClickPrevPageButton = () => {
+    this.setState({
+      selectedNumber: this.state.selectedNumber - 1
+    });
+  };
+
+  render () {
+    const { selectedNumber } = this.state;
+    const data: Idata = this.state.dataSet[selectedNumber];
+    console.log(data);
+    let category;
+    if (data) {
+      category = data.category;
+    }
+    return (
+      <ArticleLayout
+        category={category}
+        onClickNextPageButton={this.onClickNextPageButton}
+        onClickPrevPageButton={this.onClickPrevPageButton}
+      >
+        {data ? <Article datas={data} /> : null}
+      </ArticleLayout>
+    );
+  }
+}
+
+export default CategoryCardContainer;

@@ -6,7 +6,8 @@ import { connect } from 'react-redux';
 import { IStoreState } from './store/modules';
 import { actionCreators as userActionCreator } from './store/modules/User';
 
-import IntroContainer from './container/IntroContainer';
+// import IntroContainer from './container/IntroContainer';
+import IntroPage from './pages/introPage';
 
 // container
 import MenuContainer from './container/MenuContainer';
@@ -40,6 +41,7 @@ interface IState {}
 class App extends React.Component<Props, IState> {
   constructor (props: Props) {
     super(props);
+    console.log(window);
     if (localStorage.token !== undefined) {
       const { userAction } = this.props;
       userAction.fetchUserData(localStorage.token);
@@ -52,7 +54,7 @@ class App extends React.Component<Props, IState> {
         <React.Fragment>
           <MenuContainer />
           <Switch>
-            <Route exact={true} path="/" component={IntroContainer} />
+            <Route exact={true} path="/" component={IntroPage} />
             <Route exact={true} path="/signIn" component={SignInContianer} />
             <Route exact={true} path="/signUp" component={SignUpContainer} />
           </Switch>

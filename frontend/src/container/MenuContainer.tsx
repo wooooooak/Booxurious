@@ -98,7 +98,6 @@ class MenuContainer extends React.Component<Props, IState> {
   }
 
   onClickSearchIcon = (): void => {
-    console.log('click icon');
     this.setState({
       showInputBox: !this.state.showInputBox
     });
@@ -131,7 +130,6 @@ class MenuContainer extends React.Component<Props, IState> {
   };
 
   render () {
-    console.log('render');
     const { menuLayoutColor, showInputBox, showSideBar } = this.state;
     const { socialProvider, username } = this.props;
     return (

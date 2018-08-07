@@ -13,9 +13,9 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// sequelize.authenticate().then(() => {
-//   sync();
-// });
+sequelize.authenticate().then(() => {
+  sync();
+});
 
 app.use('/', api);
 

@@ -49,7 +49,7 @@ export const socialLoginAsync = (socialEmail: string, socialProvider: string) =>
         'http://localhost:8080/auth/login/social',
       data: {
         // email: socialEmail
-        email: `bedv@abbbba.com`,
+        email: `bedsv@abbbba.asdcom`,
         socialProvider
       }
     })
@@ -57,6 +57,7 @@ export const socialLoginAsync = (socialEmail: string, socialProvider: string) =>
         // email이 존재해서 바로 로그인 된다면
         if (isUserExist(res)) {
           localStorage.token = res.data.token;
+
           dispatch(
             actionCreators.socialLoginSuccess({
               email: socialEmail,
@@ -87,7 +88,7 @@ export const signUp = (username: string, email: string, socialProvider: string) 
   return (dispatch: any) => {
     axios({
       method: 'post',
-      url: 'http://localhost:8080/auth/register/local',
+      url: 'http://localhost:8080/auth/register/social',
       data: {
         email,
         username,

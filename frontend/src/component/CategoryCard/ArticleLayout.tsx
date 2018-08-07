@@ -9,9 +9,10 @@ interface Props {
 
 const Layout = styled.div`
   height: 90vh;
-  padding: 50px 50px;
+  padding: 50px 100px;
   background: fixed;
-  background-color: #f8f4f3;
+  background-color: white;
+  margin-top: 30px;
   /* background-image: url('https://s3.ap-northeast-2.amazonaws.com/elebooks-frontend/book2.jpg');
   background-repeat: no-repeat;
   background-size: cover; */
@@ -32,9 +33,11 @@ const CardCollectionBox = styled.div`
   align-items: center;
   width: 100%;
   height: 100%;
-  background-color: #cfaa9e;
+  background-image: url('https://cdn.pixabay.com/photo/2017/02/25/16/54/high-tech-2098210_960_720.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
   border-radius: 8px;
-  box-shadow: 1px 3px 5px #6e7783;
+  box-shadow: 2px 3px 7px #6e7783;
 `;
 
 const PrevButton = styled.button`

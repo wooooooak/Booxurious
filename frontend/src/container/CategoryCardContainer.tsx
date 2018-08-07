@@ -29,7 +29,24 @@ class CategoryCardContainer extends React.Component<{}, IState> {
     selectedNumber: 0
   };
 
+  constructor (props: any) {
+    super(props);
+  }
+
   componentDidMount () {
+    (window as any).Kakao.init('c2f6cbb0640301748d24f77404ad204c');
+    console.log((window as any).Kakao);
+    // (window as any).Kakao.API
+    //   .request({
+    //     url: '/v2/search/book',
+    //     data: { url: 'dapi.kakao.com', query: '미움받을 용기' }
+    //   })
+    //   .then((res: any) => {
+    //     console.log(res);
+    //   })
+    //   .catch((error: any) => {
+    //     console.log(error);
+    //   });
     const categoryOne: Idata = {
       category: 'it 서적',
       articles: [
@@ -49,7 +66,7 @@ class CategoryCardContainer extends React.Component<{}, IState> {
           bookName: 'it book name',
           like: 0,
           img:
-            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPxBJ4rG_8LLjzKmjk5r8omKQraLTfY0LdE5m_oroScaJxSapiKA'
+            'http://t1.daumcdn.net/thumb/R72x100/?fname=http%3A%2F%2Ft1.daumcdn.net%2Fbook%2FKOR9788996991342%3Fmoddttm=20180807084348'
         },
         {
           title: 'hello3',
@@ -131,7 +148,6 @@ class CategoryCardContainer extends React.Component<{}, IState> {
   render () {
     const { selectedNumber } = this.state;
     const data: Idata = this.state.dataSet[selectedNumber];
-    console.log(data);
     let category;
     if (data) {
       category = data.category;

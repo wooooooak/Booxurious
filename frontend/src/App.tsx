@@ -41,7 +41,6 @@ interface IState {}
 class App extends React.Component<Props, IState> {
   constructor (props: Props) {
     super(props);
-    console.log(window);
     if (localStorage.token !== undefined) {
       const { userAction } = this.props;
       userAction.fetchUserData(localStorage.token);
@@ -49,6 +48,7 @@ class App extends React.Component<Props, IState> {
   }
 
   render () {
+    console.log('rene');
     return (
       <BrowserRouter>
         <React.Fragment>

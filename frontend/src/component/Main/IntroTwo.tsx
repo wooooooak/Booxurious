@@ -121,7 +121,7 @@ const IntroTwoContrainer = styled.div`
   justify-content: center;
   align-items: center;
   padding-top: 70px;
-  background-color: #f8f4f3;
+  background-color: white;
   /* height: 100vh; */
   width: 100vw;
 `;

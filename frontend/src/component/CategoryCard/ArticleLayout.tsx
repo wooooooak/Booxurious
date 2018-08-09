@@ -8,8 +8,8 @@ interface Props {
 }
 
 const Layout = styled.div`
-  height: 90vh;
-  padding: 50px 100px;
+  height: 60vh;
+  /* padding: 50px 100px; */
   background: fixed;
   background-color: white;
   margin-top: 30px;
@@ -21,7 +21,7 @@ const Layout = styled.div`
   align-items: flex-start;
 `;
 
-const Category = styled.div`
+const Category = styled.text`
   margin-bottom: 20px;
   color: black;
 `;
@@ -33,11 +33,11 @@ const CardCollectionBox = styled.div`
   align-items: center;
   width: 100%;
   height: 100%;
-  background-image: url('https://cdn.pixabay.com/photo/2017/02/25/16/54/high-tech-2098210_960_720.jpg');
+  /* background-image: url('https://cdn.pixabay.com/photo/2017/02/25/16/54/high-tech-2098210_960_720.jpg');
   background-repeat: no-repeat;
-  background-size: cover;
-  border-radius: 8px;
-  box-shadow: 2px 3px 7px #6e7783;
+  background-size: cover; */
+  /* border-radius: 8px; */
+  /* box-shadow: 2px 3px 7px #6e7783; */
 `;
 
 const PrevButton = styled.button`

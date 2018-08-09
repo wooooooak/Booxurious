@@ -48,7 +48,7 @@ class CategoryCardContainer extends React.Component<{}, IState> {
     //     console.log(error);
     //   });
     const categoryOne: Idata = {
-      category: 'it 서적',
+      category: 'IT',
       articles: [
         {
           title: 'hello',
@@ -85,17 +85,35 @@ class CategoryCardContainer extends React.Component<{}, IState> {
           like: 0,
           img:
             'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPxBJ4rG_8LLjzKmjk5r8omKQraLTfY0LdE5m_oroScaJxSapiKA'
-        }
-      ]
-    };
-    const categoryTwo: Idata = {
-      category: 'noble',
-      articles: [
+        },
         {
           title: 'hello',
           subTitle: 'subtitle',
           author: 'elecoder',
-          bookName: 'noble book',
+          bookName: 'it book name',
+          like: 0,
+          img:
+            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPxBJ4rG_8LLjzKmjk5r8omKQraLTfY0LdE5m_oroScaJxSapiKA'
+        }
+      ]
+    };
+    const categoryTwo: Idata = {
+      category: '소설',
+      articles: [
+        {
+          title: '안녕',
+          subTitle: '부제목',
+          author: '김작가',
+          bookName: '안나 카레리나',
+          like: 0,
+          img:
+            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPxBJ4rG_8LLjzKmjk5r8omKQraLTfY0LdE5m_oroScaJxSapiKA'
+        },
+        {
+          title: 'hello2',
+          subTitle: 'subtitle',
+          author: 'elecoder',
+          bookName: '밤에 우리 영혼은',
           like: 0,
           img:
             'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPxBJ4rG_8LLjzKmjk5r8omKQraLTfY0LdE5m_oroScaJxSapiKA'

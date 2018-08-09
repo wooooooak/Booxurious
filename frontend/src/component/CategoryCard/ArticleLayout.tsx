@@ -1,5 +1,9 @@
 import * as React from 'react';
 import styled from 'styled-components';
+
+import { CaretLeft } from 'styled-icons/fa-solid/CaretLeft';
+import { CaretRight } from 'styled-icons/fa-solid/CaretRight';
+
 interface Props {
   children: any;
   category: string | undefined;
@@ -18,12 +22,17 @@ const Layout = styled.div`
   background-size: cover; */
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
 `;
 
 const Category = styled.text`
-  margin-bottom: 20px;
+  @import url('https://fonts.googleapis.com/css?family=Nanum+Gothic');
+  font-family: 'Nanum Gothic', sans-serif;
+  font-weight: bold;
+  margin-top: 60px;
+  margin-bottom: -30px;
   color: black;
+  font-size: 1.5em;
 `;
 
 const CardCollectionBox = styled.div`
@@ -40,17 +49,13 @@ const CardCollectionBox = styled.div`
   /* box-shadow: 2px 3px 7px #6e7783; */
 `;
 
-const PrevButton = styled.button`
-  width: 30px;
-  height: 30px;
-  background-color: black;
+const PrevButton = CaretLeft.extend`
   margin-right: 100px;
+  cursor: pointer;
 `;
-const NextButton = styled.button`
-  width: 30px;
-  height: 30px;
-  background-color: black;
+const NextButton = CaretRight.extend`
   margin-left: 100px;
+  cursor: pointer;
 `;
 const ArticleLayout: React.SFC<Props> = ({
   children,
@@ -61,9 +66,9 @@ const ArticleLayout: React.SFC<Props> = ({
   <Layout>
     <Category>{category}</Category>
     <CardCollectionBox>
-      <PrevButton onClick={onClickPrevPageButton} />
+      <PrevButton onClick={onClickPrevPageButton} size={60} />
       {children}
-      <NextButton onClick={onClickNextPageButton} />
+      <NextButton onClick={onClickNextPageButton} size={60} />
     </CardCollectionBox>
   </Layout>
 );

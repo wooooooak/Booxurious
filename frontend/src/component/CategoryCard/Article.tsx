@@ -26,14 +26,15 @@ const hoverEffect = keyframes`
 const CardLayout = styledTS<ICardLayout>(styled.div)`
   display: flex;
   flex-direction: column;
+  justify-content: flex-end;
   width: 230px;
   height: 350px;
   background-image: ${(props) => `url('${props.img}')`};
   background-repeat: no-repeat;
   background-size: cover;
-  justify-content: flex-end;
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-  transition: all 0.2s ease-in-out 0.1s;
+  cursor: pointer;
+  transition: all 0.2s linear 0.1s;
   &:hover {
     box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
     // animation: ${hoverEffect} 1s 0s forwards;
@@ -42,7 +43,6 @@ const CardLayout = styledTS<ICardLayout>(styled.div)`
     height: 500px;
     
   }
-  cursor: pointer;
   `;
 
 const ContentArea = styled.div`

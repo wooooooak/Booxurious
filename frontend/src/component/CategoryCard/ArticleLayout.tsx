@@ -15,7 +15,7 @@ const Layout = styled.div`
   height: 60vh;
   /* padding: 50px 100px; */
   background: fixed;
-  background-color: white;
+  background-color: #f2f5f7;
   margin-top: 30px;
   /* background-image: url('https://s3.ap-northeast-2.amazonaws.com/elebooks-frontend/book2.jpg');
   background-repeat: no-repeat;

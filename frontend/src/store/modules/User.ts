@@ -23,7 +23,6 @@ export const fetchUserData = (token: string) => {
       headers: { 'Auth-Header': token }
     })
       .then((res) => {
-        console.log(res);
         const { email, username, socialProvider } = res.data;
         dispatch(
           actionCreators.fetchUserDataSuccess({

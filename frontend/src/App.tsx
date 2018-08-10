@@ -17,6 +17,7 @@ import SignUpContainer from './container/SignUpContainer';
 injectGlobal`
   body {
     margin: 0;
+    background-color: #f2f5f7
       *:focus {
         outline: none;
       }

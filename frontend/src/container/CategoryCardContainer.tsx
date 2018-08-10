@@ -57,7 +57,7 @@ class CategoryCardContainer extends React.Component<{}, IState> {
           bookName: 'it book name',
           like: 0,
           img:
-            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPxBJ4rG_8LLjzKmjk5r8omKQraLTfY0LdE5m_oroScaJxSapiKA'
+            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTpdH_ZhpoJM5TeBekJW0C5ZPokH-v9lC0PyzLzBRwRj_k3p-e'
         },
         {
           title: 'hello2',
@@ -66,7 +66,7 @@ class CategoryCardContainer extends React.Component<{}, IState> {
           bookName: 'it book name',
           like: 0,
           img:
-            'http://t1.daumcdn.net/thumb/R72x100/?fname=http%3A%2F%2Ft1.daumcdn.net%2Fbook%2FKOR9788996991342%3Fmoddttm=20180807084348'
+            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTpdH_ZhpoJM5TeBekJW0C5ZPokH-v9lC0PyzLzBRwRj_k3p-e'
         },
         {
           title: 'hello3',

@@ -29,18 +29,8 @@ class IntroContainer extends React.Component<IProps, IState> {
     return (
       <React.Fragment>
         <IntroOne onClickScrollDownButton={this.onClickScrollDownButton} />
-        <div style={{ height: '0px' }} ref={this.introTwoLocationRef} />
+        <div style={{ height: '50px' }} ref={this.introTwoLocationRef} />
         <IntroTwo />
-        {/* <div
-          style={{
-            backgroundColor: '#f8f4f3',
-            textAlign: 'center',
-            paddingTop: 30,
-            paddingBottom: 30
-          }}
-        >
-        </div> */}
-        {/* <IntroThree /> */}
       </React.Fragment>
     );
   }

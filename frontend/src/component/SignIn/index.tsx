@@ -5,6 +5,7 @@ import styledTS from 'styled-components-ts';
 import { FacebookF } from 'styled-icons/fa-brands/FacebookF';
 import { Google } from 'styled-icons/fa-brands/Google';
 import { GoogleLogin } from 'react-google-login';
+import KaKaoLogin from 'react-kakao-login';
 
 import Logo from '../Menu/Logo';
 
@@ -121,10 +122,19 @@ const SignIn: React.SFC<ISignInProps> = ({ onClickSocialLogin }) => (
       </SocialLoginButton>
       <GoogleLogin
         clientId="824329025824-9qvtl43o44nj9l34pdp31qg0uu903qh6.apps.googleusercontent.com"
-        buttonText="Login"
+        buttonText="Google Login"
         onSuccess={(response) =>
           onClickSocialLogin({ response, socialProvider: 'google' })}
         onFailure={onClickSocialLogin}
+      />
+      <KaKaoLogin
+        jsKey="c2f6cbb0640301748d24f77404ad204c"
+        onSuccess={(res) => {
+          console.log(res);
+        }}
+        onFailure={(error) => console.log(error)}
+        buttonComponent={<div>KaKao login</div>}
+        getProfile={true}
       />
       {/* <FacebookLogin
         clientId="824329025824-9qvtl43o44nj9l34pdp31qg0uu903qh6.apps.googleusercontent.com"

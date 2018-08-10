@@ -33,6 +33,8 @@ class SignInContainer extends React.Component<IProps, IState> {
       response.response.profileObj.email,
       response.socialProvider
     );
+    // 카카오면 다르게 해줘야 할듯
+    // 받아오는 response 형태가 다르기 때문.
   };
 
   render () {

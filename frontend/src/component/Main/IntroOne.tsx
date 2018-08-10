@@ -28,7 +28,7 @@ const Layout = styled.div`
   margin: 0;
   padding: 0;
   height: 100vh;
-  width: 100vw;
+  width: 100%;
 `;
 
 const ContextBox = styled.div`
@@ -55,29 +55,28 @@ const TextBox = styled.div`
   align-items: center;
   font-size: 2.7em;
   word-break: break-all;
-  /* line-height: 0.5em; */
   div {
     margin-bottom: 30px;
   }
 
-  @media ${device.laptop} {
-    font-size: 1.8em;
-  }
-  @media ${device.tablet} {
-    font-size: 1.1em;
+  @media ${device.mobileS} {
+    font-size: 0.4em;
   }
   @media ${device.mobileM} {
-    font-size: 0.6em;
+    font-size: 0.8em;
   }
-  @media ${device.mobileS} {
-    font-size: 0.3em;
+  @media ${device.tablet} {
+    font-size: 1.5em;
   }
-`;
-
-const BottomText = styled.div`
-  position: absolute;
-  top: 85%;
-  font-size: 0.5em;
+  @media ${device.laptop} {
+    font-size: 1.9em;
+  }
+  @media ${device.laptopL} {
+    font-size: 2.5em;
+  }
+  @media ${device.desktop} {
+    font-size: 2.7em;
+  }
 `;
 
 const DownArrowBox = styled.div`
@@ -97,7 +96,14 @@ const ButtonBox = styledTS<IButtonBoxProps>(styled.div)`
   display: flex;
   align-items: center;
   justify-content: center;
-  visibility: ${(props) => props.visibility}
+  visibility: ${(props) => props.visibility};
+  
+`;
+
+const BottomText = styled.div`
+  position: absolute;
+  top: 85%;
+  font-size: 0.5em;
 `;
 
 const ChangeTextButton = styled.button`
@@ -121,12 +127,17 @@ const Hr = styledTS<IHrProps>(styled.div)`
   background-color: #efdc05;
   height: 1px;
 
+  @media ${device.mobileS} {
+    width: 0px;
+  }
   @media ${device.tablet} {
     width: 30px;
   }
-
-  @media ${device.mobileS} {
-    width: 10px;
+  @media ${device.laptop} {
+    width: 45px;
+  }
+  @media ${device.desktop} {
+    width: 75px;
   }
 
 `;
@@ -134,9 +145,9 @@ const Hr = styledTS<IHrProps>(styled.div)`
 class IntroOne extends React.Component<IProps, IState> {
   state = {
     introText: [
-      [ '읽었다고 읽은 것이 아닙니다', '작성하고, 공유하고,', '되짚어야 읽은 것입니다' ],
+      [ '읽었다고 읽은 것이 아닙니다.', '작성하고, 공유하고,', '되짚어야 읽은 것입니다.' ],
       [ '작가를 꿈꾸시나요?', '자신만의 글을 작성하세요', '베스트셀러가 될 수도 있습니다.' ],
-      [ '이건 3번째 입니다', '무슨 말을 넣을까요?', '베스트셀러가 될 수도 있습니다.' ]
+      [ '딱 맞는 책을 고르기가 힘이 들군요?', '나와 취향이 비슷한 사람을 찾으세요!', '최고의 추천이 될 것입니다.' ]
     ],
     selectedNumber: 0
   };

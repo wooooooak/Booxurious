@@ -10,12 +10,12 @@ const SideBarLayout = styled.div`
   padding-top: 10px;
   display: flex;
   flex-direction: column;
-  position: absolute;
+  align-items: center;
   position: fixed;
   left: 0;
-  width: 250px;
+  width: 300px;
   height: 100vh;
-  background-color: white;
+  background-color: #f8f4f3;
   z-index: 999;
 `;
 

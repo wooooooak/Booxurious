@@ -169,6 +169,7 @@ const Img = styledTS<IImg>(styled.div)`
   background-image: ${(props) => `url(${props.imgSource})`};
   background-repeat: no-repeat;
   background-size: cover;
+  background-position: center;
   transition: all 0.2s 0s ease-in-out; 
   &:hover{
     transform: translateY(-10px);
@@ -182,7 +183,18 @@ const AuthorName = styled.div`
 `;
 
 const BottomArea = styled.div`
-  background-color: #f8f4f3;
+  /* background-color: #f8f4f3; */
+  background: #ee9ca7; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #ffdde1,
+    #ee9ca7
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #ffdde1,
+    #ee9ca7
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   height: 45px;
   width: 100%;
   margin-top: auto;

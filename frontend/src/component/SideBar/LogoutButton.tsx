@@ -1,4 +1,6 @@
 import * as React from 'react';
+import styled from 'styled-components';
+import styledTS from 'styled-components-ts';
 
 interface IProps {
   socialProvider: string | undefined;
@@ -16,9 +18,17 @@ interface IProps {
 //       return <span>log</span>;
 //   }
 // };
+interface LogoutButtonProps {
+  onClick(): void;
+}
+
+const Button = styledTS<LogoutButtonProps>(styled.button)`
+  margin-top: 200px;
+  width: 50px;
+`;
 
 const LogoutButton: React.SFC<IProps> = ({ socialProvider, onLogoutSuccess }) => (
-  <button onClick={onLogoutSuccess}>logout</button>
+  <Button onClick={onLogoutSuccess}>logout</Button>
 );
 
 export default LogoutButton;

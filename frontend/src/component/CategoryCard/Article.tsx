@@ -1,5 +1,5 @@
 import * as React from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 import styledTS from 'styled-components-ts';
 
 import { Idata } from '../../container/CategoryCardContainer';
@@ -8,42 +8,34 @@ interface Props {
   datas: Idata;
 }
 
-interface ICardLayout {
+const CardLayout = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  background-color: white;
+  width: 450px;
+  height: 300px;
+  border-radius: 5px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  cursor: pointer;
+`;
+
+interface ImgProps {
   img?: string;
 }
 
-const hoverEffect = keyframes`
-  0%{
-    width: 230px;
-    height: 350px;
-  }
-
-  100%{
-    width: 300px;
-    height: 500px;
-  }
-`;
-const CardLayout = styledTS<ICardLayout>(styled.div)`
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  width: 230px;
-  height: 350px;
+const Img = styledTS<ImgProps>(styled.div)`
+  height: 230px;
+  width: 160px;
+  margin-left: 15px;
+  box-shadow: 2px 2px 30px gray;
   background-image: ${(props) => `url('${props.img}')`};
   background-repeat: no-repeat;
   background-size: cover;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-  cursor: pointer;
-  transition: all 0.2s linear 0.1s;
-  &:hover {
-    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
-    // animation: ${hoverEffect} 1s 0s forwards;
-    // transform: scale(1.5, 1.5);
-    width: 300px;
-    height: 500px;
-    
-  }
-  `;
+  background-position: center;
+  border-radius: 2px;
+`;
 
 const ContentArea = styled.div`
   color: white;
@@ -58,7 +50,8 @@ class Article extends React.Component<Props, {}> {
     const { articles } = this.props.datas;
     return articles.map((article, index) => {
       return (
-        <CardLayout key={index} img={article.img}>
+        <CardLayout key={index}>
+          <Img img={article.img} />
           <ContentArea>
             <div>{article.bookName}</div>
             <p>{article.author}</p>

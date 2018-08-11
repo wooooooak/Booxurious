@@ -1,9 +1,9 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import styledTS from 'styled-components-ts';
+// import styledTS from 'styled-components-ts';
 // import { Link } from 'react-router-dom';
-import { FacebookF } from 'styled-icons/fa-brands/FacebookF';
-import { Google } from 'styled-icons/fa-brands/Google';
+// import { FacebookF } from 'styled-icons/fa-brands/FacebookF';
+// import { Google } from 'styled-icons/fa-brands/Google';
 import { GoogleLogin } from 'react-google-login';
 import KaKaoLogin from 'react-kakao-login';
 
@@ -70,27 +70,22 @@ export const LogoContainer = styled.div`
   margin-top: 20px;
 `;
 
-interface ISocialLoginButton {
-  backgroundColor: string;
-}
+// interface ISocialLoginButton {
+//   backgroundColor: string;
+// }
 
-const SocialLoginButton = styledTS<ISocialLoginButton>(styled.div)`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 300px;
-  height: 40px;
-  background-color: ${(props) => props.backgroundColor};
-  color: white;
-  border-radius: 15px;
-  margin-bottom: 7px;
-  cursor: pointer;
-`;
-
-const FacebookIcon = FacebookF.extend`
-  display: flex;
-  justify-self: flex-start;
-`;
+// const SocialLoginButton = styledTS<ISocialLoginButton>(styled.div)`
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   width: 300px;
+//   height: 40px;
+//   background-color: ${(props) => props.backgroundColor};
+//   color: white;
+//   border-radius: 15px;
+//   margin-bottom: 7px;
+//   cursor: pointer;
+// `;
 
 // const SteyldLink = styled(Link)`
 //   color: white;
@@ -112,14 +107,6 @@ const SignIn: React.SFC<ISignInProps> = ({ onClickSocialLogin }) => (
         <Logo fontSize={'30px'} />
       </LogoContainer>
       {/* <SteyldLink to="/signUp">회원가입</SteyldLink> */}
-      <SocialLoginButton backgroundColor="#3b5999">
-        <FacebookIcon size={30} />
-        <p> facebook login</p>
-      </SocialLoginButton>
-      <SocialLoginButton backgroundColor="#CB4023">
-        <Google size={25} />
-        <p> google login</p>
-      </SocialLoginButton>
       <GoogleLogin
         clientId="824329025824-9qvtl43o44nj9l34pdp31qg0uu903qh6.apps.googleusercontent.com"
         buttonText="Google Login"
@@ -129,8 +116,8 @@ const SignIn: React.SFC<ISignInProps> = ({ onClickSocialLogin }) => (
       />
       <KaKaoLogin
         jsKey="c2f6cbb0640301748d24f77404ad204c"
-        onSuccess={(res) => {
-          console.log(res);
+        onSuccess={(response) => {
+          onClickSocialLogin({ response, socialProvider: 'kakao' });
         }}
         onFailure={(error) => console.log(error)}
         buttonComponent={<div>KaKao login</div>}

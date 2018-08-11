@@ -28,11 +28,22 @@ class SignInContainer extends React.Component<IProps, IState> {
 
   onClickSocialLogin = (response: any) => {
     const { userAction } = this.props;
-    console.log(response);
-    userAction.socialLoginAsync(
-      response.response.profileObj.email,
-      response.socialProvider
-    );
+    switch (response.socialProvider) {
+      case 'google':
+        userAction.socialLoginAsync(
+          response.response.profileObj.email,
+          response.socialProvider
+        );
+        break;
+      case 'kakao':
+        console.log(response.response.kakao_account);
+      // userAction.socialLoginAsync(
+      //   response.response.profileObj.email,
+      //   response.socialProvider
+      // );
+      default:
+        break;
+    }
     // 카카오면 다르게 해줘야 할듯
     // 받아오는 response 형태가 다르기 때문.
   };

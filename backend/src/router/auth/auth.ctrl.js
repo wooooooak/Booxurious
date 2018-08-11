@@ -35,7 +35,7 @@ export const loginSocailAccount = async (req, res) => {
     const user = await User.findOne({ where: { email: email } });
     let token = '';
     if (user) {
-      token = await Jwt.generate({
+      token = await generate({
         socialProvider: socialProvider,
         email: email,
         username: user.username

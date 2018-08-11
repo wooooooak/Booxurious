@@ -1,10 +1,11 @@
 import * as React from 'react';
 import * as feather from 'styled-icons/feather';
 import { connect } from 'react-redux';
+import { bindActionCreators } from '../../node_modules/redux';
+
+import { actionCreators as userActionCreator } from '../store/modules/User';
 import { IStoreState } from '../store/modules';
 import { IUserState } from '../store/modules/User';
-import { actionCreators as userActionCreator } from '../store/modules/User';
-import { bindActionCreators } from '../../node_modules/redux';
 
 import Logo from '../component/Menu/Logo';
 import MenuBarLayout from '../component/Menu/MenuBarLayout';
@@ -12,7 +13,9 @@ import SearchForm from '../component/Menu/Search';
 import SideBar from '../component/SideBar';
 import OuterToToggleSideBar from '../component/SideBar/OuterToToggleSideBar';
 import LogoutButton from '../component/SideBar/LogoutButton';
+import SignInButton from '../component/SideBar/SignInButton';
 import Tags from '../component/Menu/Tags';
+import LinkItems from '../component/SideBar/LinkItems';
 
 interface StateProps {
   username: string | null;
@@ -122,7 +125,6 @@ class MenuContainer extends React.Component<Props, IState> {
 
   onClickLogout = () => {
     const { userAction } = this.props;
-    localStorage.removeItem('token');
     userAction.logout();
     this.setState({
       showSideBar: false
@@ -155,10 +157,15 @@ class MenuContainer extends React.Component<Props, IState> {
             color="#534847"
             onClick={this.onClickHambergerButton}
           />
-          <LogoutButton
-            socialProvider={socialProvider}
-            onLogoutSuccess={this.onClickLogout}
-          />
+          <LinkItems />
+          {localStorage.token ? (
+            <LogoutButton
+              socialProvider={socialProvider}
+              onLogoutSuccess={this.onClickLogout}
+            />
+          ) : (
+            <SignInButton />
+          )}
         </SideBar>
         <OuterToToggleSideBar
           showSideBar={showSideBar}

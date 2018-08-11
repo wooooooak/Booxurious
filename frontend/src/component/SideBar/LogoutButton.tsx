@@ -7,17 +7,6 @@ interface IProps {
   onLogoutSuccess(): void;
 }
 
-// const SelectLogoutButton = (socialProvider: string, onLogoutSuccess: any) => {
-//   switch (socialProvider) {
-//     case 'google':
-//       return (
-//         <GoogleLogout buttonText="logout Google" onLogoutSuccess={onLogoutSuccess} />
-//       );
-
-//     default:
-//       return <span>log</span>;
-//   }
-// };
 interface LogoutButtonProps {
   onClick(): void;
 }

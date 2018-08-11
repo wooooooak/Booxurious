@@ -7,7 +7,8 @@ import { IStoreState } from './store/modules';
 import { actionCreators as userActionCreator } from './store/modules/User';
 
 // import IntroContainer from './container/IntroContainer';
-import IntroPage from './pages/introPage';
+import IntroPage from './pages/IntroPage';
+import WritingBookReviewPage from './pages/WritingBookReviewPage';
 
 // container
 import MenuContainer from './container/MenuContainer';
@@ -58,6 +59,11 @@ class App extends React.Component<Props, IState> {
             <Route exact={true} path="/" component={IntroPage} />
             <Route exact={true} path="/signIn" component={SignInContianer} />
             <Route exact={true} path="/signUp" component={SignUpContainer} />
+            <Route
+              exact={true}
+              path="/writingBookReview"
+              component={WritingBookReviewPage}
+            />
           </Switch>
         </React.Fragment>
       </BrowserRouter>

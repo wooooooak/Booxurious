@@ -212,6 +212,7 @@ export default handleActions<IUserState, any>(
       };
     },
     [LOGOUT]: (state, action): IUserState => {
+      localStorage.removeItem('token');
       return {
         ...initialState
       };

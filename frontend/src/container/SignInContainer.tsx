@@ -36,7 +36,7 @@ class SignInContainer extends React.Component<IProps, IState> {
         );
         break;
       case 'kakao':
-        console.log(response.response.kakao_account);
+        console.log(response);
       // userAction.socialLoginAsync(
       //   response.response.profileObj.email,
       //   response.socialProvider

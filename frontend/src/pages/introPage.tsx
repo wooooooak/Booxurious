@@ -3,8 +3,7 @@ import * as React from 'react';
 import IntroContainer from '../container/IntroContainer';
 import CategoryCardContainer from '../container/CategoryCardContainer';
 
-const IntroPage: React.SFC<{ location: any }> = () => {
-  console.log(location);
+const IntroPage: React.SFC<{}> = () => {
   return (
     <React.Fragment>
       <IntroContainer />

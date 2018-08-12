@@ -12,10 +12,11 @@ import {
   BlockquoteButton,
   CodeBlockButton
 } from 'draft-js-buttons';
+import Cover from '../component/Write/Cover';
+import ImageUploader from '../component/Write/ImageUploader';
 
+/// css style
 import 'node_modules/draft-js-inline-toolbar-plugin/lib/plugin.css';
-
-import Cover, { CoverProps } from '../component/Wite/Cover';
 
 const inlineToolbarPlugin = createInlineToolbarPlugin({
   structure: [
@@ -37,15 +38,19 @@ const Layout = styled.div`
   display: flex;
 `;
 
-interface State extends CoverProps {
+interface State {
   editorState: any;
+  postTitle: string;
+  subTitle?: string;
+  bookCoverImg?: File | null;
 }
 
 class WrtingBookReviewContainer extends React.Component<{}, State> {
   state = {
     editorState: createEditorStateWithText(''),
-    postTitle: '안나 카레리나',
-    subTitle: '안나 카레리나는 명작입니다'
+    postTitle: '',
+    subTitle: '',
+    bookCoverImg: null
   };
 
   onChange = (editorState: any) => {
@@ -54,10 +59,35 @@ class WrtingBookReviewContainer extends React.Component<{}, State> {
     });
   };
 
+  onChangeTitle = (e: React.FormEvent<HTMLInputElement>) => {
+    this.setState({
+      postTitle: e.currentTarget.value
+    });
+  };
+  onChangeSubTitle = (e: React.FormEvent<HTMLTextAreaElement>) => {
+    this.setState({
+      subTitle: e.currentTarget.value
+    });
+  };
+
+  fileChangedHandler = (files: FileList) => {
+    const file = files[0];
+    this.setState({
+      bookCoverImg: file
+    });
+  };
   render () {
+    console.log(this.state);
     return (
       <React.Fragment>
-        <Cover postTitle={this.state.postTitle} subTitle={this.state.subTitle} />
+        <Cover
+          postTitle={this.state.postTitle}
+          onChangeTitle={this.onChangeTitle}
+          subTitle={this.state.subTitle}
+          onChangeSubTitle={this.onChangeSubTitle}
+        >
+          <ImageUploader fileChangedHandler={this.fileChangedHandler} />
+        </Cover>
         <Layout>
           <Editor
             editorState={this.state.editorState}

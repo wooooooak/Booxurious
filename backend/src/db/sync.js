@@ -1,9 +1,12 @@
 import { sequelize } from '.';
 
-import User from './model/User';
-
+import { Post, User, Category, Tag } from './model';
 export const sync = () => {
-  // User.hasMany(SocialAccount, { foreignKey: 'fk_user_id', onDelete: 'CASCADE' });
-  // User.hasOne(UserProfile, { foreignKey: 'fk_user_id', onDelete: 'CASCADE' });
+  Post.associate();
+  // PostsCategories.associate();
+  // User.associate();
+  Category.associate();
+  // Tag.associate();
+
   sequelize.sync();
 };

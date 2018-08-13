@@ -3,20 +3,18 @@ import { sequelize } from '..';
 
 import { Post } from './';
 
-const User = sequelize.define(
-  'user',
+const Tag = sequelize.define(
+  'tag',
   {
     id: {
       type: Sequelize.UUID,
       defaultValue: Sequelize.UUIDV1,
       primaryKey: true
     },
-    username: Sequelize.STRING,
-    email: {
+    name: {
       type: Sequelize.STRING,
       unique: true
-    },
-    socialProvider: Sequelize.STRING
+    }
   },
   {
     timestamps: true,
@@ -24,4 +22,14 @@ const User = sequelize.define(
   }
 );
 
-export default User;
+Tag.associate = function associate () {
+  Tag.belongsToMany(Posr, {
+    onDelete: 'CASCADE',
+    through: {
+      model: 'posts_tags'
+    },
+    foreignKey: 'fk_post_id'
+  });
+};
+
+export default Tag;

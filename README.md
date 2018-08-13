@@ -7,7 +7,7 @@
 * styled-components
 
 ## backend
-* nodeJS with Typescript
+* nodeJS , Express
 * aws lambda
 * aws-serverless-express
 * jwt (authenticate)

@@ -59,7 +59,7 @@ var loginSocailAccount = exports.loginSocailAccount = async function loginSocail
     var user = await _User2.default.findOne({ where: { email: email } });
     var token = '';
     if (user) {
-      token = await Jwt.generate({
+      token = await (0, _jwt.generate)({
         socialProvider: socialProvider,
         email: email,
         username: user.username

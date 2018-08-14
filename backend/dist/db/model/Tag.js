@@ -14,21 +14,29 @@ var _2 = require('./');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var User = _.sequelize.define('user', {
+var Tag = _.sequelize.define('tag', {
   id: {
     type: _sequelize2.default.UUID,
     defaultValue: _sequelize2.default.UUIDV1,
     primaryKey: true
   },
-  username: _sequelize2.default.STRING,
-  email: {
+  name: {
     type: _sequelize2.default.STRING,
     unique: true
-  },
-  socialProvider: _sequelize2.default.STRING
+  }
 }, {
   timestamps: true,
   charset: 'utf8'
 });
 
-exports.default = User;
+Tag.associate = function associate() {
+  Tag.belongsToMany(Posr, {
+    onDelete: 'CASCADE',
+    through: {
+      model: 'posts_tags'
+    },
+    foreignKey: 'fk_post_id'
+  });
+};
+
+exports.default = Tag;

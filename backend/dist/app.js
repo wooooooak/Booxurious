@@ -34,9 +34,9 @@ app.use((0, _cors2.default)());
 app.use(_bodyParser2.default.json());
 app.use(_bodyParser2.default.urlencoded({ extended: true }));
 
-// sequelize.authenticate().then(() => {
-//   sync();
-// });
+_db.sequelize.authenticate().then(function () {
+  (0, _sync.sync)();
+});
 
 app.use('/', _router2.default);
 

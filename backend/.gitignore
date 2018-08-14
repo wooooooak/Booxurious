@@ -6,3 +6,4 @@ jspm_packages
 .serverless
 
 src/secret.js
+src/config.js

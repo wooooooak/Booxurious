@@ -16,3 +16,9 @@ export const config = {
     port: 3306
   }
 };
+
+export const aws_config = {
+  aws_access_key_id: 'AKIAJZUPNKYX5IZL6ZUQ',
+  aws_secret_access_key: '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',
+  aws_region: 'ap-northeast-2'
+};

@@ -20,9 +20,6 @@ var _config$db_config_aws = _config.config.db_config_aws,
     dialect = _config$db_config_aws.dialect,
     host = _config$db_config_aws.host,
     port = _config$db_config_aws.port;
-
-console.log(host);
-
 var sequelize = exports.sequelize = new _sequelize2.default(database_name, username, password, {
   host: host,
   dialect: dialect,

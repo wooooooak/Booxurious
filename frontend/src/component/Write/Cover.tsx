@@ -53,6 +53,7 @@ const SubTitle = styled.textarea.attrs({
 export interface CoverProps {
   postTitle: string;
   subTitle?: string;
+
   onChangeTitle(e: React.FormEvent<HTMLInputElement>): void;
   onChangeSubTitle(e: React.FormEvent<HTMLTextAreaElement>): void;
 }

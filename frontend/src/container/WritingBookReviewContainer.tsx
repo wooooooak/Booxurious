@@ -1,5 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 import Editor, { createEditorStateWithText } from 'draft-js-plugins-editor';
 import createInlineToolbarPlugin from 'draft-js-inline-toolbar-plugin';
 import {
@@ -42,7 +43,8 @@ interface State {
   editorState: any;
   postTitle: string;
   subTitle?: string;
-  bookCoverImg?: File | null;
+  bookCoverImg?: string | null;
+  uploadingImg: boolean;
 }
 
 class WrtingBookReviewContainer extends React.Component<{}, State> {
@@ -50,7 +52,8 @@ class WrtingBookReviewContainer extends React.Component<{}, State> {
     editorState: createEditorStateWithText(''),
     postTitle: '',
     subTitle: '',
-    bookCoverImg: null
+    bookCoverImg: null,
+    uploadingImg: false
   };
 
   onChange = (editorState: any) => {
@@ -71,10 +74,29 @@ class WrtingBookReviewContainer extends React.Component<{}, State> {
   };
 
   fileChangedHandler = (files: FileList) => {
-    const file = files[0];
-    this.setState({
-      bookCoverImg: file
-    });
+    const file = files[0]; // const config = {
+    //   headers: { 'content-type': 'multipart/form-data' }
+    // };
+    const formData = new FormData();
+    formData.append('imgFile', file, file.name);
+    axios
+      .post('http://localhost:8080/post/uploadImage', formData, {
+        onUploadProgress: (progressEvent) => {
+          this.setState({
+            uploadingImg: true
+          });
+        }
+      })
+      .then((data) => {
+        console.log(data);
+        this.setState({
+          bookCoverImg: data.data.location,
+          uploadingImg: false
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   render () {
     console.log(this.state);
@@ -86,7 +108,11 @@ class WrtingBookReviewContainer extends React.Component<{}, State> {
           subTitle={this.state.subTitle}
           onChangeSubTitle={this.onChangeSubTitle}
         >
-          <ImageUploader fileChangedHandler={this.fileChangedHandler} />
+          <ImageUploader
+            fileChangedHandler={this.fileChangedHandler}
+            bookCoverImg={this.state.bookCoverImg}
+            uploadingImg={this.state.uploadingImg}
+          />
         </Cover>
         <Layout>
           <Editor

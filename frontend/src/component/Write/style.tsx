@@ -1,17 +1,22 @@
 import styled from 'styled-components';
 
-export const EditorBox = styled.div`
+export const EditorBoxLayout = styled.div`
+  margin-top: 30px;
+  min-width: 600px;
   box-sizing: border-box;
-  border: 1px solid #ddd;
+  /* border: 1px solid #ddd; */
   cursor: text;
-  padding: 20px;
+  padding: 16px;
   border-radius: 2px;
   margin-bottom: 2em;
-  box-shadow: inset 0px 1px 8px -3px #ababab;
-  background: #fefefe;
-  display: flex;
+  /* box-shadow: inset 0px 1px 8px -3px #ababab; */
+  background: transparent;
 
-  &:global(.public-DraftEditor-content) {
-    min-height: 140px;
+  .draftJsToolbar__toolbar__dNtBH {
+    margin-top: 20px;
+  }
+
+  .public-DraftEditorPlaceholder-inner {
+    color: burlywood;
   }
 `;

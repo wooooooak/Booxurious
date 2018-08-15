@@ -3,7 +3,7 @@ import * as React from 'react';
 import axios from 'axios';
 import Editor, { createEditorStateWithText } from 'draft-js-plugins-editor';
 import createInlineToolbarPlugin from 'draft-js-inline-toolbar-plugin';
-import createSideToolbarPlugin from 'draft-js-side-toolbar-plugin';
+import createToolbarPlugin from 'draft-js-static-toolbar-plugin';
 
 import {
   ItalicButton,
@@ -19,9 +19,10 @@ import Cover from '../component/Write/Cover';
 import ImageUploader from '../component/Write/ImageUploader';
 
 /// css style
-import 'node_modules/draft-js-inline-toolbar-plugin/lib/plugin.css';
-import 'draft-js-side-toolbar-plugin/lib/plugin.css';
-import { EditorBox } from '../component/Write/style';
+import 'draft-js-static-toolbar-plugin/lib/plugin.css';
+// import 'draft-js-inline-toolbar-plugin/lib/plugin.css';
+import EditorBox from '../component/Write/EditorBox';
+import PluginsEditor from 'draft-js-plugins-editor';
 
 const inlineToolbarPlugin = createInlineToolbarPlugin({
   structure: [
@@ -37,8 +38,8 @@ const inlineToolbarPlugin = createInlineToolbarPlugin({
 });
 const { InlineToolbar } = inlineToolbarPlugin;
 
-const sideToolbarPlugin = createSideToolbarPlugin();
-const { SideToolbar } = sideToolbarPlugin;
+const staticToolbarPlugin = createToolbarPlugin();
+const { Toolbar } = staticToolbarPlugin;
 
 interface State {
   editorState: any;
@@ -48,12 +49,6 @@ interface State {
   uploadingImg: boolean;
 }
 
-const styleMap = {
-  STRIKETHROUGH: {
-    textDecoration: 'line-through'
-  }
-};
-
 class WrtingBookReviewContainer extends React.Component<{}, State> {
   state = {
     editorState: createEditorStateWithText(''),
@@ -62,6 +57,12 @@ class WrtingBookReviewContainer extends React.Component<{}, State> {
     bookCoverImg: null,
     uploadingImg: false
   };
+
+  private editor: React.RefObject<PluginsEditor>;
+  constructor (props: any) {
+    super(props);
+    this.editor = React.createRef();
+  }
 
   onChange = (editorState: any) => {
     this.setState({
@@ -106,6 +107,10 @@ class WrtingBookReviewContainer extends React.Component<{}, State> {
       });
   };
 
+  focus = () => {
+    (this.editor.current as any).focus();
+  };
+
   render () {
     return (
       <React.Fragment>
@@ -121,15 +126,15 @@ class WrtingBookReviewContainer extends React.Component<{}, State> {
             uploadingImg={this.state.uploadingImg}
           />
         </Cover>
-        <EditorBox>
-          <SideToolbar />
+        <EditorBox focus={this.focus}>
           <Editor
-            customStyleMap={styleMap}
             editorState={this.state.editorState}
-            placeholder="Tell a story..."
+            placeholder="Tell a story"
             onChange={this.onChange}
-            plugins={[ inlineToolbarPlugin, sideToolbarPlugin ]}
+            plugins={[ inlineToolbarPlugin, staticToolbarPlugin ]}
+            ref={this.editor}
           />
+          <Toolbar />
         </EditorBox>
         <InlineToolbar />
       </React.Fragment>

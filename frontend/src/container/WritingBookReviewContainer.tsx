@@ -47,6 +47,12 @@ interface State {
   uploadingImg: boolean;
 }
 
+const styleMap = {
+  STRIKETHROUGH: {
+    textDecoration: 'line-through'
+  }
+};
+
 class WrtingBookReviewContainer extends React.Component<{}, State> {
   state = {
     editorState: createEditorStateWithText(''),
@@ -98,8 +104,8 @@ class WrtingBookReviewContainer extends React.Component<{}, State> {
         console.log(err);
       });
   };
+
   render () {
-    console.log(this.state);
     return (
       <React.Fragment>
         <Cover
@@ -115,12 +121,15 @@ class WrtingBookReviewContainer extends React.Component<{}, State> {
           />
         </Cover>
         <Layout>
-          <Editor
-            editorState={this.state.editorState}
-            placeholder="Tell a story..."
-            onChange={this.onChange}
-            plugins={[ inlineToolbarPlugin ]}
-          />
+          <div style={{ marginTop: '50px', fontSize: '1.5em', padding: '15px' }}>
+            <Editor
+              customStyleMap={styleMap}
+              editorState={this.state.editorState}
+              placeholder="Tell a story..."
+              onChange={this.onChange}
+              plugins={[ inlineToolbarPlugin ]}
+            />
+          </div>
           <InlineToolbar />
         </Layout>
       </React.Fragment>

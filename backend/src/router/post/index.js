@@ -22,7 +22,7 @@ let upload = multer({
     bucket: myBucket,
     key: function (req, file, cb) {
       let extension = path.extname(file.originalname);
-      cb(null, Date.now().toString() + extension);
+      cb(null, path.basename(file.originalname, extension) + Date.now().toString());
     },
     acl: 'public-read-write'
   })

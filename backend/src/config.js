@@ -18,7 +18,7 @@ export const config = {
 };
 
 export const aws_config = {
-  aws_access_key_id: 'AKIAJZUPNKYX5IZL6ZUQ',
-  aws_secret_access_key: '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',
+  aws_access_key_id: 'AKIAJDOGDGTBIOAPFUYQ',
+  aws_secret_access_key: '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',
   aws_region: 'ap-northeast-2'
 };

@@ -28,6 +28,7 @@ class SignInContainer extends React.Component<IProps, IState> {
 
   onClickSocialLogin = (response: any) => {
     const { userAction } = this.props;
+    console.log(response);
     switch (response.socialProvider) {
       case 'google':
         userAction.socialLoginAsync(
@@ -50,7 +51,6 @@ class SignInContainer extends React.Component<IProps, IState> {
 
   render () {
     const { goToSignUpPage } = this.props;
-    console.log(goToSignUpPage);
     if (localStorage.token !== undefined) {
       return <Redirect to="/" />;
     }

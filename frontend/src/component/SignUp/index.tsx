@@ -3,8 +3,14 @@ import * as React from 'react';
 
 import Logo from '../Menu/Logo';
 
-import { PageLayout, Content, LogoContainer, Input, ContentBackground } from '../SignIn';
-import styled from '../../../node_modules/styled-components';
+import {
+  PageLayout,
+  Content,
+  LogoContainer,
+  Input,
+  ContentBackground
+} from '../SignIn/style';
+import styled from 'styled-components';
 
 interface ISignUpProps {
   onSubmitSignUp(): void;

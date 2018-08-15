@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as feather from 'styled-icons/feather';
 import { connect } from 'react-redux';
-import { bindActionCreators } from '../../node_modules/redux';
+import { bindActionCreators } from 'redux';
 
 import { actionCreators as userActionCreator } from '../store/modules/User';
 import { IStoreState } from '../store/modules';

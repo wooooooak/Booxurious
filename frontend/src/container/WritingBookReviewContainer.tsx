@@ -1,8 +1,10 @@
 import * as React from 'react';
-import styled from 'styled-components';
+// import styled from 'styled-components';
 import axios from 'axios';
 import Editor, { createEditorStateWithText } from 'draft-js-plugins-editor';
 import createInlineToolbarPlugin from 'draft-js-inline-toolbar-plugin';
+import createSideToolbarPlugin from 'draft-js-side-toolbar-plugin';
+
 import {
   ItalicButton,
   BoldButton,
@@ -18,6 +20,8 @@ import ImageUploader from '../component/Write/ImageUploader';
 
 /// css style
 import 'node_modules/draft-js-inline-toolbar-plugin/lib/plugin.css';
+import 'draft-js-side-toolbar-plugin/lib/plugin.css';
+import { EditorBox } from '../component/Write/style';
 
 const inlineToolbarPlugin = createInlineToolbarPlugin({
   structure: [
@@ -33,11 +37,8 @@ const inlineToolbarPlugin = createInlineToolbarPlugin({
 });
 const { InlineToolbar } = inlineToolbarPlugin;
 
-const Layout = styled.div`
-  width: 800px;
-  background-color: white;
-  display: flex;
-`;
+const sideToolbarPlugin = createSideToolbarPlugin();
+const { SideToolbar } = sideToolbarPlugin;
 
 interface State {
   editorState: any;
@@ -120,18 +121,17 @@ class WrtingBookReviewContainer extends React.Component<{}, State> {
             uploadingImg={this.state.uploadingImg}
           />
         </Cover>
-        <Layout>
-          <div style={{ marginTop: '50px', fontSize: '1.5em', padding: '15px' }}>
-            <Editor
-              customStyleMap={styleMap}
-              editorState={this.state.editorState}
-              placeholder="Tell a story..."
-              onChange={this.onChange}
-              plugins={[ inlineToolbarPlugin ]}
-            />
-          </div>
-          <InlineToolbar />
-        </Layout>
+        <EditorBox>
+          <SideToolbar />
+          <Editor
+            customStyleMap={styleMap}
+            editorState={this.state.editorState}
+            placeholder="Tell a story..."
+            onChange={this.onChange}
+            plugins={[ inlineToolbarPlugin, sideToolbarPlugin ]}
+          />
+        </EditorBox>
+        <InlineToolbar />
       </React.Fragment>
     );
   }

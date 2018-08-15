@@ -50,7 +50,6 @@ class App extends React.Component<Props, IState> {
   }
 
   render () {
-    console.log('gg');
     return (
       <BrowserRouter>
         <React.Fragment>

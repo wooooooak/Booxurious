@@ -1,6 +1,7 @@
 import * as React from 'react';
 
 import { EditorBoxLayout } from './style';
+import 'react-quill/dist/quill.snow.css'; // ES6
 
 interface Props {
   focus(): void;

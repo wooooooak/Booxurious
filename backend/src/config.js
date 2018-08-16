@@ -9,10 +9,10 @@ export const config = {
   },
   db_config_aws: {
     database_name: 'elebooks',
-    username: 'root',
+    username: 'wooooooak',
     password: 'getover1',
     dialect: 'mysql',
-    host: '13.209.89.64',
+    host: 'elebooks-database.cpxyhbvmam5v.ap-northeast-2.rds.amazonaws.com',
     port: 3306
   }
 };

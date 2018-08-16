@@ -1,45 +1,12 @@
 import * as React from 'react';
-// import styled from 'styled-components';
 import axios from 'axios';
-import Editor, { createEditorStateWithText } from 'draft-js-plugins-editor';
-import createInlineToolbarPlugin from 'draft-js-inline-toolbar-plugin';
-import createToolbarPlugin from 'draft-js-static-toolbar-plugin';
+import * as ReactQuill from 'react-quill'; // Typescript
 
-import {
-  ItalicButton,
-  BoldButton,
-  UnderlineButton,
-  CodeButton,
-  UnorderedListButton,
-  OrderedListButton,
-  BlockquoteButton,
-  CodeBlockButton
-} from 'draft-js-buttons';
 import Cover from '../component/Write/Cover';
 import ImageUploader from '../component/Write/ImageUploader';
-
-/// css style
-import 'draft-js-static-toolbar-plugin/lib/plugin.css';
-// import 'draft-js-inline-toolbar-plugin/lib/plugin.css';
 import EditorBox from '../component/Write/EditorBox';
-import PluginsEditor from 'draft-js-plugins-editor';
 
-const inlineToolbarPlugin = createInlineToolbarPlugin({
-  structure: [
-    BoldButton,
-    ItalicButton,
-    UnderlineButton,
-    CodeButton,
-    UnorderedListButton,
-    OrderedListButton,
-    BlockquoteButton,
-    CodeBlockButton
-  ]
-});
-const { InlineToolbar } = inlineToolbarPlugin;
-
-const staticToolbarPlugin = createToolbarPlugin();
-const { Toolbar } = staticToolbarPlugin;
+import 'react-quill/dist/quill.snow.css';
 
 interface State {
   editorState: any;
@@ -49,19 +16,42 @@ interface State {
   uploadingImg: boolean;
 }
 
+const modules = {
+  toolbar: [
+    [ { font: [ { label: 'Monospace', value: 'monospace' } ] } ],
+    [ { header: [ 1, 2, false ] } ],
+    [ 'bold', 'italic', 'underline', 'strike', 'blockquote' ],
+    [ { list: 'ordered' }, { list: 'bullet' }, { indent: '-1' }, { indent: '+1' } ],
+    [ 'link', 'image' ],
+    [ 'clean' ]
+  ]
+};
+
+const formats = [
+  'header',
+  'bold',
+  'italic',
+  'underline',
+  'strike',
+  'blockquote',
+  'list',
+  'bullet',
+  'indent',
+  'link',
+  'image'
+];
+
 class WrtingBookReviewContainer extends React.Component<{}, State> {
   state = {
-    editorState: createEditorStateWithText(''),
+    editorState: '',
     postTitle: '',
     subTitle: '',
     bookCoverImg: null,
     uploadingImg: false
   };
 
-  private editor: React.RefObject<PluginsEditor>;
   constructor (props: any) {
     super(props);
-    this.editor = React.createRef();
   }
 
   onChange = (editorState: any) => {
@@ -108,10 +98,11 @@ class WrtingBookReviewContainer extends React.Component<{}, State> {
   };
 
   focus = () => {
-    (this.editor.current as any).focus();
+    console.log('focus');
   };
 
   render () {
+    const Quill = ReactQuill as any;
     return (
       <React.Fragment>
         <Cover
@@ -127,16 +118,14 @@ class WrtingBookReviewContainer extends React.Component<{}, State> {
           />
         </Cover>
         <EditorBox focus={this.focus}>
-          <Editor
-            editorState={this.state.editorState}
-            placeholder="Tell a story"
+          <Quill
+            theme="snow"
+            value={this.state.editorState}
             onChange={this.onChange}
-            plugins={[ inlineToolbarPlugin, staticToolbarPlugin ]}
-            ref={this.editor}
+            modules={modules}
+            formats={formats}
           />
-          <Toolbar />
         </EditorBox>
-        <InlineToolbar />
       </React.Fragment>
     );
   }

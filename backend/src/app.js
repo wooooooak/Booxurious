@@ -3,7 +3,6 @@ import awsServerlessExpress from 'aws-serverless-express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 
-// 여기가 문제인듯
 import api from './router';
 import { sequelize } from './db';
 import { sync } from './db/sync';

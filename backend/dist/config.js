@@ -14,10 +14,16 @@ var config = exports.config = {
   },
   db_config_aws: {
     database_name: 'elebooks',
-    username: 'root',
+    username: 'wooooooak',
     password: 'getover1',
     dialect: 'mysql',
-    host: '13.209.89.64',
+    host: 'elebooks-database.cpxyhbvmam5v.ap-northeast-2.rds.amazonaws.com',
     port: 3306
   }
+};
+
+var aws_config = exports.aws_config = {
+  aws_access_key_id: 'AKIAJURQFQCI3LZVXDZA',
+  aws_secret_access_key: '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',
+  aws_region: 'ap-northeast-2'
 };

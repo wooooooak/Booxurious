@@ -4,7 +4,7 @@ import multerS3 from 'multer-s3';
 import AWS from 'aws-sdk';
 import path from 'path';
 
-import { uploadImage } from './post.ctrl';
+import { uploadImage, write } from './post.ctrl';
 
 import { aws_config } from '../../config';
 
@@ -31,5 +31,6 @@ let upload = multer({
 const router = express.Router();
 
 router.post('/uploadImage', upload.single('imgFile'), uploadImage);
+router.post('/write', write);
 
 export default router;

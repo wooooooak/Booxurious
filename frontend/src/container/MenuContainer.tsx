@@ -157,7 +157,7 @@ class MenuContainer extends React.Component<Props, IState> {
             color="#534847"
             onClick={this.onClickHambergerButton}
           />
-          <LinkItems />
+          <LinkItems username={username} />
           {localStorage.token ? (
             <LogoutButton
               socialProvider={socialProvider}

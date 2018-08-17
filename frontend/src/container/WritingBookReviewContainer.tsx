@@ -1,10 +1,18 @@
 import * as React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import axios from 'axios';
-import * as ReactQuill from 'react-quill'; // Typescript
+import * as ReactQuill from 'react-quill';
+// import ImageResize from 'quill-image-resize-module';
+
+import { actionCreators as postActionCreator } from '../store/modules/Post';
+import { IStoreState } from '../store/modules';
+// import { PostState } from '../store/modules/Post';
 
 import Cover from '../component/Write/Cover';
 import ImageUploader from '../component/Write/ImageUploader';
 import EditorBox from '../component/Write/EditorBox';
+import SendButton from '../component/Write/SendButton';
 
 import 'react-quill/dist/quill.snow.css';
 
@@ -16,18 +24,37 @@ interface State {
   uploadingImg: boolean;
 }
 
+interface StoreProps {}
+
+interface DispatchProps {
+  postAction: typeof postActionCreator;
+}
+
+interface OwnProps {}
+
+type Props = StoreProps & DispatchProps & OwnProps;
+
+const Quill = ReactQuill as any;
+// Quill.register('modules/imageResize', ImageResize);
+
 const modules = {
   toolbar: [
-    [ { font: [ { label: 'Monospace', value: 'monospace' } ] } ],
+    // [ { font: Font.whitelist } ],
+    [ { font: [ 'miraza', 'roboto', 'amam' ] } ],
     [ { header: [ 1, 2, false ] } ],
     [ 'bold', 'italic', 'underline', 'strike', 'blockquote' ],
-    [ { list: 'ordered' }, { list: 'bullet' }, { indent: '-1' }, { indent: '+1' } ],
+    [ { list: 'ordered' }, { list: 'bullet' } ],
     [ 'link', 'image' ],
+    [ { align: [] } ],
     [ 'clean' ]
   ]
+  // handler: {
+  //   image: imageHandler
+  // }
 };
 
 const formats = [
+  'font',
   'header',
   'bold',
   'italic',
@@ -36,12 +63,12 @@ const formats = [
   'blockquote',
   'list',
   'bullet',
-  'indent',
   'link',
-  'image'
+  'image',
+  'align'
 ];
 
-class WrtingBookReviewContainer extends React.Component<{}, State> {
+class WrtingBookReviewContainer extends React.Component<Props, State> {
   state = {
     editorState: '',
     postTitle: '',
@@ -72,9 +99,7 @@ class WrtingBookReviewContainer extends React.Component<{}, State> {
   };
 
   fileChangedHandler = (files: FileList) => {
-    const file = files[0]; // const config = {
-    //   headers: { 'content-type': 'multipart/form-data' }
-    // };
+    const file = files[0];
     const formData = new FormData();
     formData.append('imgFile', file, file.name);
     axios
@@ -101,8 +126,11 @@ class WrtingBookReviewContainer extends React.Component<{}, State> {
     console.log('focus');
   };
 
+  onClickWritePost = () => {
+    this.props.postAction.writePost(this.state);
+  };
+
   render () {
-    const Quill = ReactQuill as any;
     return (
       <React.Fragment>
         <Cover
@@ -126,9 +154,20 @@ class WrtingBookReviewContainer extends React.Component<{}, State> {
             formats={formats}
           />
         </EditorBox>
+        <SendButton onClickSubmit={this.onClickWritePost} />
       </React.Fragment>
     );
   }
 }
 
-export default WrtingBookReviewContainer;
+export default connect<StoreProps, DispatchProps, OwnProps>(
+  ({ Post }: IStoreState): StoreProps => ({
+    editorState: Post.editorState,
+    postTitle: Post.postTitle,
+    subTitle: Post.subTitle,
+    bookCoverImg: Post.bookCoverImg
+  }),
+  (dispatch: any) => ({
+    postAction: bindActionCreators(postActionCreator, dispatch)
+  })
+)(WrtingBookReviewContainer);

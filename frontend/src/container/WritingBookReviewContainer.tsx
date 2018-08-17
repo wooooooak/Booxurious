@@ -3,11 +3,10 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import axios from 'axios';
 import * as ReactQuill from 'react-quill';
-// import ImageResize from 'quill-image-resize-module';
 
 import { actionCreators as postActionCreator } from '../store/modules/Post';
 import { IStoreState } from '../store/modules';
-// import { PostState } from '../store/modules/Post';
+import { PostState } from '../store/modules/Post';
 
 import Cover from '../component/Write/Cover';
 import ImageUploader from '../component/Write/ImageUploader';
@@ -21,10 +20,10 @@ interface State {
   postTitle: string;
   subTitle?: string;
   bookCoverImg?: string | null;
-  uploadingImg: boolean;
+  uploadingImg?: boolean;
 }
 
-interface StoreProps {}
+type StoreProps = PostState;
 
 interface DispatchProps {
   postAction: typeof postActionCreator;
@@ -35,7 +34,6 @@ interface OwnProps {}
 type Props = StoreProps & DispatchProps & OwnProps;
 
 const Quill = ReactQuill as any;
-// Quill.register('modules/imageResize', ImageResize);
 
 const modules = {
   toolbar: [
@@ -48,9 +46,6 @@ const modules = {
     [ { align: [] } ],
     [ 'clean' ]
   ]
-  // handler: {
-  //   image: imageHandler
-  // }
 };
 
 const formats = [
@@ -69,6 +64,10 @@ const formats = [
 ];
 
 class WrtingBookReviewContainer extends React.Component<Props, State> {
+  static getDerivedStateFromProps (nextProps: Props) {
+    return nextProps;
+  }
+
   state = {
     editorState: '',
     postTitle: '',
@@ -81,21 +80,26 @@ class WrtingBookReviewContainer extends React.Component<Props, State> {
     super(props);
   }
 
-  onChange = (editorState: any) => {
+  componentDidMount () {
+    console.log('didmount');
+    const { postTitle, subTitle, editorState, bookCoverImg } = this.props;
     this.setState({
-      editorState
+      postTitle,
+      subTitle,
+      editorState,
+      bookCoverImg
     });
+  }
+
+  onChange = (editorState: string) => {
+    this.props.postAction.onChangePostContent(editorState);
   };
 
   onChangeTitle = (e: React.FormEvent<HTMLInputElement>) => {
-    this.setState({
-      postTitle: e.currentTarget.value
-    });
+    this.props.postAction.onChangePostTitle(e.currentTarget.value);
   };
   onChangeSubTitle = (e: React.FormEvent<HTMLTextAreaElement>) => {
-    this.setState({
-      subTitle: e.currentTarget.value
-    });
+    this.props.postAction.onChangeSubTitle(e.currentTarget.value);
   };
 
   fileChangedHandler = (files: FileList) => {
@@ -131,6 +135,7 @@ class WrtingBookReviewContainer extends React.Component<Props, State> {
   };
 
   render () {
+    console.log('render');
     return (
       <React.Fragment>
         <Cover

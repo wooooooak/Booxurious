@@ -11,11 +11,11 @@ const Post = sequelize.define(
       defaultValue: Sequelize.UUIDV1,
       primaryKey: true
     },
-    title: Sequelize.STRING,
+    postTitle: Sequelize.STRING,
     fk_user_id: Sequelize.UUID,
     subTitle: Sequelize.TEXT,
-    content: Sequelize.TEXT,
-    book_cover: Sequelize.STRING
+    editorState: Sequelize.TEXT,
+    bookCoverImg: Sequelize.STRING
   },
   {
     timestamps: true,

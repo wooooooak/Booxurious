@@ -23,7 +23,7 @@ var config = exports.config = {
 };
 
 var aws_config = exports.aws_config = {
-  aws_access_key_id: 'AKIAJURQFQCI3LZVXDZA',
-  aws_secret_access_key: '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',
+  aws_access_key_id: 'AKIAJERTTKWHGKGWBIOQ',
+  aws_secret_access_key: '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',
   aws_region: 'ap-northeast-2'
 };

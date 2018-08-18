@@ -20,11 +20,11 @@ var Post = _.sequelize.define('post', {
     defaultValue: _sequelize2.default.UUIDV1,
     primaryKey: true
   },
-  title: _sequelize2.default.STRING,
+  postTitle: _sequelize2.default.STRING,
   fk_user_id: _sequelize2.default.UUID,
   subTitle: _sequelize2.default.TEXT,
-  content: _sequelize2.default.TEXT,
-  book_cover: _sequelize2.default.STRING
+  editorState: _sequelize2.default.TEXT,
+  bookCoverImg: _sequelize2.default.STRING
 }, {
   timestamps: true,
   charset: 'utf8'

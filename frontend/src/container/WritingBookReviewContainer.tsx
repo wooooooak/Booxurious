@@ -32,22 +32,9 @@ interface DispatchProps {
 interface OwnProps {}
 
 type Props = StoreProps & DispatchProps & OwnProps;
-
 const Quill = ReactQuill as any;
 
-const modules = {
-  toolbar: [
-    // [ { font: Font.whitelist } ],
-    [ { font: [ 'miraza', 'roboto', 'amam' ] } ],
-    [ { header: [ 1, 2, false ] } ],
-    [ 'bold', 'italic', 'underline', 'strike', 'blockquote' ],
-    [ { list: 'ordered' }, { list: 'bullet' } ],
-    [ 'link', 'image' ],
-    [ { align: [] } ],
-    [ 'clean' ]
-  ]
-};
-
+let modules: object = {};
 const formats = [
   'font',
   'header',
@@ -75,12 +62,31 @@ class WrtingBookReviewContainer extends React.Component<Props, State> {
     bookCoverImg: null,
     uploadingImg: false
   };
+  private quill: typeof Quill;
 
   constructor (props: any) {
     super(props);
+    this.quill = React.createRef();
   }
 
   componentDidMount () {
+    modules = {
+      toolbar: {
+        container: [
+          [ { font: [ 'miraza', 'roboto', 'amam' ] } ],
+          [ { header: [ 1, 2, false ] } ],
+          [ 'bold', 'italic', 'underline', 'strike', 'blockquote' ],
+          [ { list: 'ordered' }, { list: 'bullet' } ],
+          [ 'link', 'image' ],
+          [ { align: [] } ],
+          [ 'clean' ]
+        ],
+        handlers: {
+          image: this.imageHandler
+        }
+      }
+    };
+
     console.log('didmount');
     const { postTitle, subTitle, editorState, bookCoverImg } = this.props;
     this.setState({
@@ -91,7 +97,39 @@ class WrtingBookReviewContainer extends React.Component<Props, State> {
     });
   }
 
-  onChange = (editorState: string) => {
+  imageHandler = () => {
+    const input = document.createElement('input');
+    input.setAttribute('type', 'file');
+    input.setAttribute('accept', 'image/*');
+    input.click();
+    input.onchange = async () => {
+      const token: string = localStorage.token;
+      const quill = this.quill.current.getEditor();
+      try {
+        if (input.files) {
+          const file: File | null = input.files[0];
+          const formData = new FormData();
+          formData.append('imgFile', file, file.name);
+          const result = await axios({
+            method: 'post',
+            url: 'http://localhost:8080/post/contetImage',
+            data: formData,
+            headers: { 'Auth-Header': token },
+            onUploadProgress: () => {
+              console.log('로딩 중입니다');
+            }
+          });
+          const source: string = result.data.location;
+          const range = quill.getSelection();
+          quill.insertEmbed(range.index, 'image', source);
+        }
+      } catch (error) {
+        alert(error);
+      }
+    };
+  };
+
+  onChangeContent = (editorState: string) => {
     this.props.postAction.onChangePostContent(editorState);
   };
 
@@ -102,12 +140,12 @@ class WrtingBookReviewContainer extends React.Component<Props, State> {
     this.props.postAction.onChangeSubTitle(e.currentTarget.value);
   };
 
-  fileChangedHandler = (files: FileList) => {
+  bookCoverImageChangedHandler = (files: FileList) => {
     const file = files[0];
     const formData = new FormData();
     formData.append('imgFile', file, file.name);
     axios
-      .post('http://localhost:8080/post/uploadImage', formData, {
+      .post('http://localhost:8080/post/bookCoverImage', formData, {
         onUploadProgress: (progressEvent) => {
           this.setState({
             uploadingImg: true
@@ -145,16 +183,17 @@ class WrtingBookReviewContainer extends React.Component<Props, State> {
           onChangeSubTitle={this.onChangeSubTitle}
         >
           <ImageUploader
-            fileChangedHandler={this.fileChangedHandler}
+            fileChangedHandler={this.bookCoverImageChangedHandler}
             bookCoverImg={this.state.bookCoverImg}
             uploadingImg={this.state.uploadingImg}
           />
         </Cover>
         <EditorBox focus={this.focus}>
           <Quill
+            ref={this.quill}
             theme="snow"
             value={this.state.editorState}
-            onChange={this.onChange}
+            onChange={this.onChangeContent}
             modules={modules}
             formats={formats}
           />

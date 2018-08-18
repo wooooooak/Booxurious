@@ -1,8 +1,12 @@
 import Post from '../../db/model/Post';
 
-export const uploadImage = (req, res) => {
+export const uploadBookCoverImage = (req, res) => {
   let imgFile = req.file;
   res.json(imgFile);
+};
+export const uploadImageInContent = (req, res) => {
+  let imgFile = req.file;
+  res.status(200).json(imgFile);
 };
 
 export const write = async (req, res) => {

@@ -38,12 +38,12 @@ export const writePost = (post: PostState) => {
 };
 
 export const actionCreators = {
+  writePost,
   writeSuccess: createAction<PostState>(WRITE_SUCCESS),
   writeFail: createAction<PostState>(WRITE_FAIL),
   onChangePostContent: createAction<string>(ON_CHANGE_POST_CONTENT),
   onChangePostTitle: createAction<string>(ON_CHANGE_POST_TITLE),
-  onChangeSubTitle: createAction<string>(ON_CHANGE_SUB_TITLE),
-  writePost
+  onChangeSubTitle: createAction<string>(ON_CHANGE_SUB_TITLE)
 };
 
 const initialState: PostState = {

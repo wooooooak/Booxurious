@@ -12,6 +12,7 @@ interface IProps {
   useranem: string;
   code: number | null;
   userAction: typeof userActionCreator;
+  profileImg: string | null;
   socialProvider: string;
 }
 
@@ -25,10 +26,10 @@ class SignUpContainer extends React.Component<IProps, IState> {
   };
 
   onSubmitSignUp = () => {
-    const { email, socialProvider } = this.props;
-    console.log('socialProvider' + socialProvider);
+    const { email, socialProvider, profileImg } = this.props;
     const { userAction } = this.props;
-    userAction.signUp(this.state.username, email, socialProvider);
+    console.log(profileImg);
+    userAction.signUp(this.state.username, email, socialProvider, profileImg);
   };
 
   onChangeUserName = (e: React.FormEvent<HTMLInputElement>): void => {
@@ -62,6 +63,7 @@ export default connect<IStateProps, IDispatchProps>(
   ({ User }: IStoreState) => ({
     email: User.email,
     username: User.username,
+    profileImg: User.profileImg,
     code: User.code,
     socialProvider: User.socialProvider
   }),

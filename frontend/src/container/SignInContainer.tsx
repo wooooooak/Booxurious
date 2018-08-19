@@ -33,6 +33,7 @@ class SignInContainer extends React.Component<IProps, IState> {
       case 'google':
         userAction.socialLoginAsync(
           response.response.profileObj.email,
+          response.response.profileObj.imageUrl,
           response.socialProvider
         );
         break;

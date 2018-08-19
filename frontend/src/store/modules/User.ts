@@ -23,12 +23,13 @@ export const fetchUserData = (token: string) => {
       headers: { 'Auth-Header': token }
     })
       .then((res) => {
-        const { email, username, socialProvider } = res.data;
+        const { email, username, socialProvider, profileImg } = res.data;
         dispatch(
           actionCreators.fetchUserDataSuccess({
             email,
             username,
             socialProvider,
+            profileImg,
             code: 200
           })
         );
@@ -39,7 +40,11 @@ export const fetchUserData = (token: string) => {
   };
 };
 
-export const socialLoginAsync = (socialEmail: string, socialProvider: string) => {
+export const socialLoginAsync = (
+  socialEmail: string,
+  profileImge: string,
+  socialProvider: string
+) => {
   return async (dispatch: any) => {
     axios({
       method: 'post',
@@ -60,6 +65,7 @@ export const socialLoginAsync = (socialEmail: string, socialProvider: string) =>
           dispatch(
             actionCreators.socialLoginSuccess({
               email: socialEmail,
+              profileImg: profileImge,
               username: res.data.user.username,
               socialProvider,
               code: 200
@@ -69,6 +75,7 @@ export const socialLoginAsync = (socialEmail: string, socialProvider: string) =>
           dispatch(
             actionCreators.socialLoginFail({
               socialProvider,
+              profileImg: profileImge,
               email: res.data.email,
               goToSignUpPage: true,
               code: 500,
@@ -83,7 +90,12 @@ export const socialLoginAsync = (socialEmail: string, socialProvider: string) =>
   };
 };
 
-export const signUp = (username: string, email: string, socialProvider: string) => {
+export const signUp = (
+  username: string,
+  email: string,
+  socialProvider: string,
+  profileImg: string | null
+) => {
   return (dispatch: any) => {
     axios({
       method: 'post',
@@ -91,6 +103,7 @@ export const signUp = (username: string, email: string, socialProvider: string) 
       data: {
         email,
         username,
+        profileImg,
         socialProvider
       }
     })
@@ -100,6 +113,7 @@ export const signUp = (username: string, email: string, socialProvider: string) 
           actionCreators.signUpSuccess({
             username,
             email,
+            profileImg,
             code: 200
           })
         );
@@ -110,6 +124,7 @@ export const signUp = (username: string, email: string, socialProvider: string) 
             actionCreators.signUpFail({
               email,
               code: 422,
+              profileImg,
               username
             })
           );
@@ -137,6 +152,7 @@ export const actionCreators = {
 export interface IUserState {
   email: string;
   username: string | null;
+  profileImg: string | null;
   socialProvider?: string;
   message?: string;
   goToSignUpPage?: boolean;
@@ -146,6 +162,7 @@ export interface IUserState {
 const initialState: IUserState = {
   email: '',
   username: '',
+  profileImg: null,
   socialProvider: '',
   goToSignUpPage: false,
   code: null
@@ -155,30 +172,33 @@ const initialState: IUserState = {
 export default handleActions<IUserState, any>(
   {
     [SOCIAL_LOGIN_SUCCESS]: (state, action): IUserState => {
-      const { email, username, code, socialProvider } = action.payload;
+      const { email, username, profileImg, code, socialProvider } = action.payload;
       return {
         email,
         username,
+        profileImg,
         socialProvider,
         code
       };
     },
     [SOCIAL_LOGIN_FAIL]: (state, action): IUserState => {
-      const { email, goToSignUpPage, code, socialProvider } = action.payload;
+      const { email, goToSignUpPage, profileImg, code, socialProvider } = action.payload;
       return {
         ...state,
         email,
+        profileImg,
         socialProvider,
         goToSignUpPage,
         code
       };
     },
     [FETCH_USER_DATA_SUCCESS]: (state, action): IUserState => {
-      const { email, username, code, socialProvider } = action.payload;
+      const { email, username, code, socialProvider, profileImg } = action.payload;
       return {
         ...state,
         email,
         username,
+        profileImg,
         socialProvider,
         code
       };

@@ -54,7 +54,8 @@ class MenuContainer extends React.Component<Props, IState> {
     user: {
       email: '',
       username: this.props.username ? this.props.username : null,
-      code: null
+      code: null,
+      profileImg: null
     }
   };
 

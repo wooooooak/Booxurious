@@ -16,7 +16,8 @@ const User = sequelize.define(
       type: Sequelize.STRING,
       unique: true
     },
-    socialProvider: Sequelize.STRING
+    socialProvider: Sequelize.STRING,
+    profileImg: Sequelize.TEXT
   },
   {
     timestamps: true,

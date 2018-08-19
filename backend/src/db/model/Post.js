@@ -15,7 +15,11 @@ const Post = sequelize.define(
     fk_user_id: Sequelize.UUID,
     subTitle: Sequelize.TEXT,
     editorState: Sequelize.TEXT,
-    bookCoverImg: Sequelize.STRING
+    bookCoverImg: Sequelize.STRING,
+    like: {
+      type: Sequelize.INTEGER,
+      default: 0
+    }
   },
   {
     timestamps: true,

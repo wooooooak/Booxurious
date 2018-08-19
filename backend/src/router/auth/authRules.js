@@ -20,7 +20,8 @@ export const authRules = {
         return user ? false : true;
       })
       .withMessage('duple username'),
-    check('socialProvider').isString().withMessage('Invalid provider name').trim()
+    check('socialProvider').isString().withMessage('Invalid provider name').trim(),
+    check('profileImg').isString().withMessage('Invalid profile image')
   ],
   forLocalLogin: []
 };

@@ -18,7 +18,11 @@ const Post = sequelize.define(
     bookCoverImg: Sequelize.STRING,
     like: {
       type: Sequelize.INTEGER,
-      default: 0
+      defaultValue: 0
+    },
+    starRating: {
+      type: Sequelize.INTEGER,
+      defaultValue: 0
     }
   },
   {

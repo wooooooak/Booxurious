@@ -60,8 +60,7 @@ export const socialLoginAsync = (
       .then((res) => {
         // email이 존재해서 바로 로그인 된다면
         if (isUserExist(res)) {
-          localStorage.token = res.data.token;
-
+          localStorage.setItem('token', res.data.token);
           dispatch(
             actionCreators.socialLoginSuccess({
               email: socialEmail,
@@ -108,12 +107,13 @@ export const signUp = (
       }
     })
       .then((res) => {
-        localStorage.token = res.data.token;
+        localStorage.setItem('token', res.data.token);
         dispatch(
           actionCreators.signUpSuccess({
             username,
             email,
             profileImg,
+            socialProvider,
             code: 200
           })
         );
@@ -125,6 +125,7 @@ export const signUp = (
               email,
               code: 422,
               profileImg,
+              socialProvider,
               username
             })
           );
@@ -153,7 +154,7 @@ export interface IUserState {
   email: string;
   username: string | null;
   profileImg: string | null;
-  socialProvider?: string;
+  socialProvider: string;
   message?: string;
   goToSignUpPage?: boolean;
   code: number | null;

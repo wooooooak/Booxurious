@@ -1,7 +1,5 @@
-import express from 'express';
 import { validationResult } from 'express-validator/check';
 import { dumper } from 'dumper';
-// import  bcrypt from 'bcryptjs';
 import { matchedData } from 'express-validator/filter';
 import User from '../../db/model/User';
 import { generate, decodeToken } from '../../lib/jwt';
@@ -24,9 +22,10 @@ export const createAccount = async (req, res) => {
       email,
       username,
       socialProvider,
-      profileImg
+      profileImg,
+      userId: user.id
     });
-    return res.json({ user, token: token });
+    return res.json({ user, token });
   } catch (error) {
     console.log('err', error);
     return res.json({ message: error.name });
@@ -40,10 +39,11 @@ export const loginSocailAccount = async (req, res) => {
     let token = '';
     if (user) {
       token = await generate({
-        socialProvider: socialProvider,
-        email: email,
+        socialProvider,
+        email,
         username: user.username,
-        profileImg: user.profileImg
+        profileImg: user.profileImg,
+        userId: user.id
       });
       res.json({ user, code: 1, token: token });
     } else {

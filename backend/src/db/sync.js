@@ -1,12 +1,11 @@
 import { sequelize } from '.';
 
-import { Post, User, Category, Tag } from './model';
+import { Post, User, Category, Tag, Work, Folder } from './model';
 export const sync = () => {
   Post.associate();
-  // PostsCategories.associate();
-  // User.associate();
   Category.associate();
-  // Tag.associate();
+  Work.associate();
+  Folder.associate();
 
   sequelize.sync();
 };

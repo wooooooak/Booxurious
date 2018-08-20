@@ -9,7 +9,7 @@ const LinkItems: React.SFC<Props> = ({ username }) => {
     return (
       <ItemConatiner>
         <Item to="/writingBookReview">독후감 쓰기</Item>
-        <Item to="/">내 글 연재하기</Item>
+        <Item to="/choiceFolderOrWriting">내 글 연재하기</Item>
         <Item to="/">작품 발굴하기</Item>
         <Item to="/">나의 팔로우들</Item>
         <Item to="/">설정</Item>

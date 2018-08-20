@@ -15,13 +15,7 @@ import SendButton from '../component/Write/SendButton';
 
 import 'react-quill/dist/quill.snow.css';
 
-interface State {
-  editorState: any;
-  postTitle: string;
-  subTitle?: string;
-  bookCoverImg?: string | null;
-  uploadingImg?: boolean;
-}
+interface State extends PostState {}
 
 type StoreProps = PostState;
 
@@ -35,6 +29,15 @@ type Props = StoreProps & DispatchProps & OwnProps;
 const Quill = ReactQuill as any;
 
 let modules: object = {};
+const toolbarContainer: any[] = [
+  [ { font: [ 'miraza', 'roboto', 'amam' ] } ],
+  [ { header: [ 1, 2, false ] } ],
+  [ 'bold', 'italic', 'underline', 'strike', 'blockquote' ],
+  [ { list: 'ordered' }, { list: 'bullet' } ],
+  [ 'link', 'image' ],
+  [ { align: [] } ],
+  [ 'clean' ]
+];
 const formats = [
   'font',
   'header',
@@ -72,22 +75,12 @@ class WrtingBookReviewContainer extends React.Component<Props, State> {
   componentDidMount () {
     modules = {
       toolbar: {
-        container: [
-          [ { font: [ 'miraza', 'roboto', 'amam' ] } ],
-          [ { header: [ 1, 2, false ] } ],
-          [ 'bold', 'italic', 'underline', 'strike', 'blockquote' ],
-          [ { list: 'ordered' }, { list: 'bullet' } ],
-          [ 'link', 'image' ],
-          [ { align: [] } ],
-          [ 'clean' ]
-        ],
+        container: toolbarContainer,
         handlers: {
           image: this.imageHandler
         }
       }
     };
-
-    console.log('didmount');
     const { postTitle, subTitle, editorState, bookCoverImg } = this.props;
     this.setState({
       postTitle,
@@ -103,7 +96,7 @@ class WrtingBookReviewContainer extends React.Component<Props, State> {
     input.setAttribute('accept', 'image/*');
     input.click();
     input.onchange = async () => {
-      const token: string = localStorage.token;
+      const token: string | null = localStorage.getItem('token');
       const quill = this.quill.current.getEditor();
       try {
         if (input.files) {
@@ -141,31 +134,7 @@ class WrtingBookReviewContainer extends React.Component<Props, State> {
   };
 
   bookCoverImageChangedHandler = (files: FileList) => {
-    const file = files[0];
-    const formData = new FormData();
-    formData.append('imgFile', file, file.name);
-    axios
-      .post('http://localhost:8080/post/bookCoverImage', formData, {
-        onUploadProgress: (progressEvent) => {
-          this.setState({
-            uploadingImg: true
-          });
-        }
-      })
-      .then((data) => {
-        console.log(data);
-        this.setState({
-          bookCoverImg: data.data.location,
-          uploadingImg: false
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  focus = () => {
-    console.log('focus');
+    this.props.postAction.OnChangeBookCoverImg(files);
   };
 
   onClickWritePost = () => {
@@ -188,7 +157,7 @@ class WrtingBookReviewContainer extends React.Component<Props, State> {
             uploadingImg={this.state.uploadingImg}
           />
         </Cover>
-        <EditorBox focus={this.focus}>
+        <EditorBox>
           <Quill
             ref={this.quill}
             theme="snow"
@@ -209,7 +178,8 @@ export default connect<StoreProps, DispatchProps, OwnProps>(
     editorState: Post.editorState,
     postTitle: Post.postTitle,
     subTitle: Post.subTitle,
-    bookCoverImg: Post.bookCoverImg
+    bookCoverImg: Post.bookCoverImg,
+    uploadingImg: Post.uploadingImg
   }),
   (dispatch: any) => ({
     postAction: bindActionCreators(postActionCreator, dispatch)

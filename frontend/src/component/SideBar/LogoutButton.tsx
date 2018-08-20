@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import styledTS from 'styled-components-ts';
 
 interface IProps {
-  socialProvider: string | undefined;
   onLogoutSuccess(): void;
 }
 
@@ -16,7 +15,7 @@ export const Button = styledTS<LogoutButtonProps>(styled.button)`
   width: 50px;
 `;
 
-const LogoutButton: React.SFC<IProps> = ({ socialProvider, onLogoutSuccess }) => (
+const LogoutButton: React.SFC<IProps> = ({ onLogoutSuccess }) => (
   <Button onClick={onLogoutSuccess}>logout</Button>
 );
 

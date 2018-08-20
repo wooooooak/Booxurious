@@ -8,19 +8,24 @@ import { actionCreators as userActionCreator } from '../store/modules/User';
 
 import SignIn from '../component/SignIn';
 
-interface IProps {
-  userAction: typeof userActionCreator;
+interface StoreProps {
   email: string;
   username: string | null;
   goToSignUpPage?: boolean;
 }
+
+interface DispatchProps {
+  userAction: typeof userActionCreator;
+}
+
+type ContainerProps = StoreProps & DispatchProps;
 
 interface IState {
   email: string | null;
   password: string | null;
 }
 
-class SignInContainer extends React.Component<IProps, IState> {
+class SignInContainer extends React.Component<ContainerProps, IState> {
   state = {
     email: '',
     password: ''
@@ -62,14 +67,10 @@ class SignInContainer extends React.Component<IProps, IState> {
   }
 }
 
-interface IStateProps {}
-interface IDispatchProps {}
-
-export default connect<IStateProps, IDispatchProps>(
-  ({ User }: IStoreState) => ({
+export default connect<StoreProps, DispatchProps>(
+  ({ User }: IStoreState): StoreProps => ({
     email: User.email,
     username: User.username,
-    message: User.message,
     goToSignUpPage: User.goToSignUpPage
   }),
   (dispatch) => ({

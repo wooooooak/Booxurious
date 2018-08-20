@@ -6,6 +6,9 @@ const WRITE_FAIL = 'post/WriteFail';
 const ON_CHANGE_POST_CONTENT = 'post/OnChangePostContent';
 const ON_CHANGE_POST_TITLE = 'post/OnChangePostTitle';
 const ON_CHANGE_SUB_TITLE = 'post/OnChangeSubTitle';
+const ON_CHANGE_BOOK_COVER_IMG_PENDING = 'post/OnChangeBookCoverImgPeding';
+const ON_CHANGE_BOOK_COVER_IMG_SUCCESS = 'post/OnChangeBookCoverImgSuccess';
+const ON_CHANGE_BOOK_COVER_IMG_FAIL = 'post/OnChangeBookCoverImgFail';
 
 export interface PostState {
   editorState: string;
@@ -16,7 +19,7 @@ export interface PostState {
 }
 
 export const writePost = (post: PostState) => {
-  const token: string = localStorage.token;
+  const token: string | null = localStorage.getItem('token');
   return (dispatch: any) => {
     axios({
       method: 'post',
@@ -37,13 +40,37 @@ export const writePost = (post: PostState) => {
   };
 };
 
+export const OnChangeBookCoverImg = (files: FileList) => {
+  const file = files[0];
+  const formData = new FormData();
+  formData.append('imgFile', file, file.name);
+  return (dispatch: any) => {
+    axios
+      .post('http://localhost:8080/post/bookCoverImage', formData, {
+        onUploadProgress: (progressEvent) => {
+          dispatch(actionCreators.OnChangeBookCoverImgPending());
+        }
+      })
+      .then((result) => {
+        dispatch(actionCreators.OnChangeBookCoverImgSuccess(result.data.location));
+      })
+      .catch((err) => {
+        dispatch(actionCreators.OnChangeBookCoverImgFail());
+      });
+  };
+};
+
 export const actionCreators = {
   writePost,
   writeSuccess: createAction<PostState>(WRITE_SUCCESS),
   writeFail: createAction<PostState>(WRITE_FAIL),
   onChangePostContent: createAction<string>(ON_CHANGE_POST_CONTENT),
   onChangePostTitle: createAction<string>(ON_CHANGE_POST_TITLE),
-  onChangeSubTitle: createAction<string>(ON_CHANGE_SUB_TITLE)
+  onChangeSubTitle: createAction<string>(ON_CHANGE_SUB_TITLE),
+  OnChangeBookCoverImg,
+  OnChangeBookCoverImgSuccess: createAction<string>(ON_CHANGE_BOOK_COVER_IMG_SUCCESS),
+  OnChangeBookCoverImgFail: createAction(ON_CHANGE_BOOK_COVER_IMG_FAIL),
+  OnChangeBookCoverImgPending: createAction(ON_CHANGE_BOOK_COVER_IMG_PENDING)
 };
 
 const initialState: PostState = {
@@ -80,6 +107,25 @@ export default handleActions<PostState, any>(
       return {
         ...state,
         subTitle: action.payload
+      };
+    },
+    [ON_CHANGE_BOOK_COVER_IMG_SUCCESS]: (state, action): PostState => {
+      return {
+        ...state,
+        bookCoverImg: action.payload,
+        uploadingImg: false
+      };
+    },
+    [ON_CHANGE_BOOK_COVER_IMG_FAIL]: (state, action): PostState => {
+      return {
+        ...state
+      };
+    },
+    [ON_CHANGE_BOOK_COVER_IMG_PENDING]: (state, action): PostState => {
+      console.log('pending');
+      return {
+        ...state,
+        uploadingImg: true
       };
     }
   },

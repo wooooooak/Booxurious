@@ -6,21 +6,20 @@ import { IStoreState } from '../store/modules';
 import { actionCreators as userActionCreator } from '../store/modules/User';
 
 import SignUp from '../component/SignUp';
+import { IUserState } from '../store/modules/User';
 
-interface IProps {
-  email: string;
-  useranem: string;
-  code: number | null;
+type StoreProps = IUserState;
+interface DispatchProps {
   userAction: typeof userActionCreator;
-  profileImg: string | null;
-  socialProvider: string;
 }
+
+type ContainerProps = StoreProps & DispatchProps;
 
 interface IState {
   username: string;
 }
 
-class SignUpContainer extends React.Component<IProps, IState> {
+class SignUpContainer extends React.Component<ContainerProps, IState> {
   state = {
     username: ''
   };
@@ -56,10 +55,7 @@ class SignUpContainer extends React.Component<IProps, IState> {
   }
 }
 
-interface IStateProps {}
-interface IDispatchProps {}
-
-export default connect<IStateProps, IDispatchProps>(
+export default connect<StoreProps, DispatchProps>(
   ({ User }: IStoreState) => ({
     email: User.email,
     username: User.username,

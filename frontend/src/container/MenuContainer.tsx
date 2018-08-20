@@ -17,10 +17,9 @@ import SignInButton from '../component/SideBar/SignInButton';
 import Tags from '../component/Menu/Tags';
 import LinkItems from '../component/SideBar/LinkItems';
 
-interface StateProps {
+interface StoreProps {
   username: string | null;
   email: string;
-  socialProvider: string | undefined;
 }
 
 interface DispatchProps {
@@ -43,7 +42,7 @@ const HambergerIcon = feather.Menu.extend`
   cursor: pointer;
 `;
 
-type Props = StateProps & DispatchProps & OwnProps;
+type Props = StoreProps & DispatchProps & OwnProps;
 
 class MenuContainer extends React.Component<Props, IState> {
   state: IState = {
@@ -55,14 +54,15 @@ class MenuContainer extends React.Component<Props, IState> {
       email: '',
       username: this.props.username ? this.props.username : null,
       code: null,
-      profileImg: null
+      profileImg: null,
+      socialProvider: ''
     }
   };
 
   // 스크롤 내릴 때 마다 rendering 되는 것을 방지
   // 하나의 false 때문에 이 메서드가 너무 지저분해 진게 아닌가 싶다.
   // 더 좋은 방법이 떠오르지 않는데 언젠가는 한번 깊게 고민해봐야 할듯...
-  shouldComponentUpdate (nextProps: StateProps, nextState: IState): boolean {
+  shouldComponentUpdate (nextProps: StoreProps, nextState: IState): boolean {
     const { menuLayoutColor, showSideBar, showInputBox } = this.state;
     const {
       menuLayoutColor: nextMenuLayoutColor,
@@ -134,7 +134,7 @@ class MenuContainer extends React.Component<Props, IState> {
 
   render () {
     const { menuLayoutColor, showInputBox, showSideBar } = this.state;
-    const { socialProvider, username } = this.props;
+    const { username } = this.props;
     return (
       <React.Fragment>
         <MenuBarLayout backgroundColor={menuLayoutColor} showSideBar={showSideBar}>
@@ -159,9 +159,9 @@ class MenuContainer extends React.Component<Props, IState> {
             onClick={this.onClickHambergerButton}
           />
           <LinkItems username={username} />
-          {localStorage.token ? (
+          {localStorage.getItem('token') ? (
             <LogoutButton
-              socialProvider={socialProvider}
+              // socialProvider={socialProvider}
               onLogoutSuccess={this.onClickLogout}
             />
           ) : (
@@ -177,11 +177,11 @@ class MenuContainer extends React.Component<Props, IState> {
   }
 }
 
-export default connect<StateProps, DispatchProps, OwnProps>(
-  ({ User }: IStoreState): StateProps => ({
+export default connect<StoreProps, DispatchProps, OwnProps>(
+  ({ User }: IStoreState): StoreProps => ({
     email: User.email,
-    username: User.username,
-    socialProvider: User.socialProvider
+    username: User.username
+    // socialProvider: User.socialProvider
   }),
   (dispatch: any) => ({
     userAction: bindActionCreators(userActionCreator, dispatch)

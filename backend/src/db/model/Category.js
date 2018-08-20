@@ -1,7 +1,7 @@
 import Sequelize from 'sequelize';
 import { sequelize } from '..';
 
-import { Post } from './';
+import { Post, Work } from './';
 
 const Category = sequelize.define(
   'category',
@@ -33,6 +33,14 @@ Category.associate = function associate () {
     },
     foreignKey: 'fk_category_id'
   });
+  // Category.belongsToMany(Work, {
+  //   onDelete: 'CASCADE',
+  //   onUpdate: 'restrict',
+  //   through: {
+  //     model: 'works_categories'
+  //   },
+  //   foreignKey: 'fk_category_id'
+  // });
 };
 
 export default Category;

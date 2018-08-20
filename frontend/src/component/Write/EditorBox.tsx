@@ -3,11 +3,9 @@ import * as React from 'react';
 import { EditorBoxLayout } from './style';
 import 'react-quill/dist/quill.snow.css'; // ES6
 
-interface Props {
-  focus(): void;
-}
+interface Props {}
 
-const EditorBox: React.SFC<Props> = ({ focus, children }) => {
+const EditorBox: React.SFC<Props> = ({ children }) => {
   return <EditorBoxLayout onClick={focus}>{children}</EditorBoxLayout>;
 };
 

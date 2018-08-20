@@ -4,6 +4,7 @@ import multerS3 from 'multer-s3';
 import AWS from 'aws-sdk';
 import path from 'path';
 
+import { authMiddleware } from '../../middleware/auth';
 import { uploadBookCoverImage, write, uploadImageInContent } from './post.ctrl';
 
 import { aws_config } from '../../config';
@@ -43,6 +44,6 @@ const router = express.Router();
 
 router.post('/bookCoverImage', bookCoverUpload.single('imgFile'), uploadBookCoverImage);
 router.post('/contetImage', contentImageUpload.single('imgFile'), uploadImageInContent);
-router.post('/write', write);
+router.post('/write', authMiddleware, write);
 
 export default router;

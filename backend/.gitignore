@@ -5,6 +5,8 @@ jspm_packages
 # Serverless directories
 .serverless
 
+dist/*
+
 src/secret.js
 src/config.js
 

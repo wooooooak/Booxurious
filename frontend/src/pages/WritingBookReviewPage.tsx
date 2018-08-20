@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
+import MenuContainer from '../container/MenuContainer';
 import WritingBookReviewContainer from '../container/WritingBookReviewContainer';
 
 const PageLayout = styled.div`
@@ -12,6 +13,7 @@ const PageLayout = styled.div`
 
 const WritingBookReviewPage: React.SFC<{}> = () => (
   <PageLayout>
+    <MenuContainer />
     <WritingBookReviewContainer />
   </PageLayout>
 );

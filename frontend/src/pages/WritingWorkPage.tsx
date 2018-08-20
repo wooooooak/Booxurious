@@ -1,6 +1,8 @@
 import * as React from 'react';
 import styled from 'styled-components';
 
+import MenuContainer from '../container/MenuContainer';
+
 const PageLayout = styled.div`
   display: flex;
   flex-direction: column;
@@ -10,6 +12,10 @@ const PageLayout = styled.div`
   background-size: cover;
 `;
 
-const WritingWorkPage: React.SFC<{}> = () => <PageLayout>div</PageLayout>;
+const WritingWorkPage: React.SFC<{}> = () => (
+  <PageLayout>
+    <MenuContainer />div
+  </PageLayout>
+);
 
 export default WritingWorkPage;

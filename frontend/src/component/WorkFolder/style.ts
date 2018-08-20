@@ -1,18 +1,18 @@
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 
-export const BoxShadowing = keyframes`
-  0%{
-    box-shadow: 0px 0px 0px transparent;
-  }
-  100% {
-    box-shadow: 5px 5px 30px black;
-  }
-`;
+// export const BoxShadowing = keyframes`
+//   0%{
+//     box-shadow: 0px 0px 0px transparent;
+//   }
+//   100% {
+//     box-shadow: 2px 2px 50px black;
+//   }
+// `;
 
 export const Title = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 30px;
+  margin: 20px 0;
   color: white;
 `;
 
@@ -21,8 +21,8 @@ export const LayoutLeftBox = styled.div`
   height: 600px;
   background-color: #1e272e;
   border-radius: 15px;
-
-  animation: ${BoxShadowing} 2s forwards;
+  box-shadow: 2px 2px 50px black;
+  position: relative;
 `;
 
 export const LayoutRightBox = styled.div`
@@ -30,5 +30,5 @@ export const LayoutRightBox = styled.div`
   height: 600px;
   background-color: #1e272e;
   border-radius: 15px;
-  animation: ${BoxShadowing} 2s forwards;
+  box-shadow: 2px 2px 50px black;
 `;

@@ -90,7 +90,7 @@ class WrtingBookReviewContainer extends React.Component<Props, State> {
     });
   }
 
-  imageHandler = () => {
+  imageHandler = async () => {
     const input = document.createElement('input');
     input.setAttribute('type', 'file');
     input.setAttribute('accept', 'image/*');

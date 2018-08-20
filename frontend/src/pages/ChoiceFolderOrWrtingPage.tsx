@@ -2,6 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 import FolderConatiner from '../container/FolderConatiner';
+import MenuContainer from '../container/MenuContainer';
 
 const PageLayout = styled.div`
   width: 100vw;
@@ -21,21 +22,22 @@ const BoxLine = styled.div`
   justify-content: space-around;
 `;
 
-const BackButton = styled.div`
-  margin-top: 100px;
-  width: 200px;
-  height: 50px;
-  background-color: white;
-  margin: 100px auto -80px;
-  border-radius: 50px;
-`;
+// const BackButton = styled.div`
+//   margin-top: 100px;
+//   width: 200px;
+//   height: 50px;
+//   background-color: white;
+//   margin: 100px auto -80px;
+//   border-radius: 50px;
+// `;
 
 const ChoiceFolderOrWritingPage: React.SFC<{}> = () => (
   <PageLayout>
+    <MenuContainer />
     <BoxLine>
       <FolderConatiner />
     </BoxLine>
-    <BackButton />
+    {/* <BackButton /> */}
   </PageLayout>
 );
 

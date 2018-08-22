@@ -12,10 +12,12 @@ const PageLayout = styled.div`
 `;
 
 const WritingBookReviewPage: React.SFC<{}> = () => (
-  <PageLayout>
+  <React.Fragment>
     <MenuContainer />
-    <WritingBookReviewContainer />
-  </PageLayout>
+    <PageLayout>
+      <WritingBookReviewContainer />
+    </PageLayout>
+  </React.Fragment>
 );
 
 export default WritingBookReviewPage;

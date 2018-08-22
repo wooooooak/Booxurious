@@ -30,6 +30,11 @@ export const EditorBoxLayout = styled.div`
     top: 70px; */
   }
 
+  .ql-container.ql-snow {
+    margin-top: 20px;
+    border: none;
+  }
+
   .ql-toolbar .ql-font span[data-value="Aref Ruqaa"]::before {
     font-family: "Aref Ruqaa";
   }

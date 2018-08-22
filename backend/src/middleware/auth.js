@@ -1,5 +1,4 @@
 import { decodeToken } from '../lib/jwt';
-import { dumper } from 'dumper';
 
 export const authMiddleware = async (req, res, next) => {
   const token = req.headers['auth-header'] || req.query.token;

@@ -11,7 +11,7 @@ const PageLayout = styled.div`
   flex-direction: column;
   align-items: space-around;
   justify-content: center;
-  background-image: url('https://cdn.pixabay.com/photo/2015/03/26/10/23/notepad-691250_960_720.jpg');
+  background-image: url('https://cdn.pixabay.com/photo/2015/03/26/11/10/book-692575__340.jpg');
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;

@@ -10,6 +10,7 @@ import { FolderState, WorkState } from '../store/modules/Work';
 
 import MakingForm from '../component/WorkFolder/MakingForm';
 import FolderChoicer from '../component/WorkFolder/FolderChoicer';
+import WorkSideBar from '../component/WorkFolder/WorkSideBar';
 
 interface StoreProps {}
 interface DispatchProps {
@@ -109,10 +110,16 @@ class FolderContainer extends React.Component<Props, State> {
     });
   };
   render () {
-    console.log(this.state);
     const { folderCoverImage, goToWritePage } = this.state;
     if (goToWritePage) {
-      return null;
+      return (
+        <div style={{ display: 'flex' }}>
+          <WorkSideBar
+            folderName={this.state.folderName}
+            image={this.state.folderCoverImage}
+          />
+        </div>
+      );
     } else {
       return (
         <React.Fragment>

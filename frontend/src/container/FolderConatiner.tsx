@@ -6,11 +6,12 @@ import Select from 'react-select';
 
 import { actionCreators as folderActionCreator } from '../store/modules/Work';
 import { IStoreState } from '../store/modules';
-import { FolderState, WorkState } from '../store/modules/Work';
+import { FolderState } from '../store/modules/Work';
+
+import WorkContainer from './WorkContainer';
 
 import MakingForm from '../component/WorkFolder/MakingForm';
 import FolderChoicer from '../component/WorkFolder/FolderChoicer';
-import WorkSideBar from '../component/WorkFolder/WorkSideBar';
 
 interface StoreProps {}
 interface DispatchProps {
@@ -19,7 +20,8 @@ interface DispatchProps {
 interface OwnProps {}
 
 type Props = DispatchProps & StoreProps;
-interface State extends FolderState, WorkState {
+interface State {
+  folder: FolderState;
   goToWritePage: boolean;
   myFolderList: FolderState[] | null;
 }
@@ -58,10 +60,13 @@ const categories: Category[] = [
 
 class FolderContainer extends React.Component<Props, State> {
   state = {
-    folderCoverImage:
-      'https://cdn.pixabay.com/photo/2018/08/03/11/48/skyline-3581739__340.jpg',
-    folderName: '',
-    category: '',
+    folder: {
+      folderCoverImage:
+        'https://cdn.pixabay.com/photo/2018/08/03/11/48/skyline-3581739__340.jpg',
+      folderName: '',
+      category: '',
+      id: null
+    },
     currentChapter: 1,
     content: null,
     author: '',
@@ -85,7 +90,10 @@ class FolderContainer extends React.Component<Props, State> {
         }
       });
       this.setState({
-        folderCoverImage: result.data.location
+        folder: {
+          ...this.state.folder,
+          folderCoverImage: result.data.location
+        }
       });
     } catch (error) {
       alert(error);
@@ -95,19 +103,25 @@ class FolderContainer extends React.Component<Props, State> {
   onChangeFolderName = (e: React.FormEvent<HTMLInputElement>) => {
     const folderName = e.currentTarget.value;
     this.setState({
-      folderName
+      folder: {
+        ...this.state.folder,
+        folderName
+      }
     });
   };
 
   onChangeCategory = (category: Category) => {
     const { value } = category;
     this.setState({
-      category: value
+      folder: {
+        ...this.state.folder,
+        category: value
+      }
     });
   };
 
   onClickMakeFolder = () => {
-    this.props.folderAction.addNewFolder(this.state);
+    this.props.folderAction.addNewFolder(this.state.folder);
     this.setState({
       goToWritePage: true
     });
@@ -118,7 +132,6 @@ class FolderContainer extends React.Component<Props, State> {
   }
 
   fetchFolders = async () => {
-    console.log('fetch');
     const token: string | null = localStorage.getItem('token');
     const result = await axios({
       method: 'get',
@@ -126,23 +139,28 @@ class FolderContainer extends React.Component<Props, State> {
       headers: { 'Auth-Header': token }
     });
     const myFolderList: FolderState[] = result.data;
-    console.log(myFolderList);
     this.setState({
       myFolderList
     });
   };
 
+  onClickExistFolder = (folder: FolderState) => {
+    this.setState({
+      goToWritePage: true,
+      folder: {
+        ...this.state.folder,
+        folderName: folder.folderName,
+        folderCoverImage: folder.folderCoverImage,
+        id: folder.id
+      }
+    });
+  };
+
   render () {
-    const { folderCoverImage, goToWritePage } = this.state;
+    const { folderCoverImage } = this.state.folder;
+    const { goToWritePage } = this.state;
     if (goToWritePage) {
-      return (
-        <div style={{ display: 'flex' }}>
-          <WorkSideBar
-            folderName={this.state.folderName}
-            image={this.state.folderCoverImage}
-          />
-        </div>
-      );
+      return <WorkContainer folder={this.state.folder} />;
     } else {
       return (
         <React.Fragment>
@@ -159,7 +177,10 @@ class FolderContainer extends React.Component<Props, State> {
               defaultValue={categories[0]}
             />
           </MakingForm>
-          <FolderChoicer folderList={this.state.myFolderList} />
+          <FolderChoicer
+            folderList={this.state.myFolderList}
+            onClickExistFolder={this.onClickExistFolder}
+          />
         </React.Fragment>
       );
     }

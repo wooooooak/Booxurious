@@ -61,29 +61,29 @@ interface Props {
   fileChangedHandler(e: FileList | null): void;
 }
 
-class ImageUploader extends React.Component<Props, {}> {
-  render () {
-    return (
-      <Conatiner>
-        <Img bookCoverImge={this.props.bookCoverImg}>
-          {this.props.uploadingImg ? (
-            <React.Fragment>
-              <Loding size={70} />
-              <p>이미지 등록 중!</p>
-            </React.Fragment>
-          ) : (
-            <React.Fragment>
-              <Upload size={40} />
-              <p>Book Cover Image</p>
-            </React.Fragment>
-          )}
-        </Img>
-        <FileUploaderButton
-          onChange={(e) => this.props.fileChangedHandler(e.target.files)}
-        />
-      </Conatiner>
-    );
-  }
-}
+const ImageUploader: React.SFC<Props> = ({
+  bookCoverImg,
+  uploadingImg,
+  fileChangedHandler
+}) => {
+  return (
+    <Conatiner>
+      <Img bookCoverImge={bookCoverImg}>
+        {uploadingImg ? (
+          <React.Fragment>
+            <Loding size={70} />
+            <p>이미지 등록 중!</p>
+          </React.Fragment>
+        ) : (
+          <React.Fragment>
+            <Upload size={40} />
+            <p>Book Cover Image</p>
+          </React.Fragment>
+        )}
+      </Img>
+      <FileUploaderButton onChange={(e) => fileChangedHandler(e.target.files)} />
+    </Conatiner>
+  );
+};
 
 export default ImageUploader;

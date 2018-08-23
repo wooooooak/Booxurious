@@ -19,10 +19,19 @@ const FolderContainer = styled.div`
 
 const Folder = styled.div`
   width: 300px;
-  height: 220px;
+  height: 200px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  cursor: pointer;
+  margin-top: 15px;
+  transition: background-color 0.5s 0s linear;
+  :hover {
+    background-color: white;
+    h3 {
+      color: black;
+    }
+  }
 `;
 
 interface FolderImageProps {
@@ -31,22 +40,26 @@ interface FolderImageProps {
 
 const FolderImage = styledTS<FolderImageProps>(styled.div)`
   width: 100%;
-  height: 60%;
+  height: 70%;
   background-image: url(${(props) => props.image});
   background-position: center;
   background-size: cover;
 `;
 
-const FolderName = styled.p`color: white;`;
+const FolderName = styled.h3`color: white;`;
 
 interface Props {
   folderList: FolderState[] | null;
+  onClickExistFolder(folder: FolderState): void;
 }
 
-const mapFolderListToCard = (folderList: FolderState[]) => {
+const mapFolderListToCard = (
+  folderList: FolderState[],
+  onClickExistFolder: (folder: FolderState) => void
+) => {
   return folderList.map((folder, index) => {
     return (
-      <Folder key={index}>
+      <Folder key={index} onClick={() => onClickExistFolder(folder)}>
         <FolderImage image={folder.folderCoverImage} />
         <FolderName>{folder.folderName}</FolderName>
       </Folder>
@@ -54,13 +67,17 @@ const mapFolderListToCard = (folderList: FolderState[]) => {
   });
 };
 
-const FolderCoicer: React.SFC<Props> = ({ folderList }) => {
+const FolderCoicer: React.SFC<Props> = ({ folderList, onClickExistFolder }) => {
   console.log(folderList);
   return (
     <LayoutRightBox>
       <Title>기존 폴더에서 작업하기</Title>
       <FolderContainer>
-        {folderList ? mapFolderListToCard(folderList) : <h2>첫 작품을 담을 폴더를 생성해보세요</h2>}
+        {folderList ? (
+          mapFolderListToCard(folderList, onClickExistFolder)
+        ) : (
+          <h2>첫 작품을 담을 폴더를 생성해보세요</h2>
+        )}
       </FolderContainer>
     </LayoutRightBox>
   );

@@ -11,22 +11,25 @@ export interface FolderState {
   folderName: string;
   folderCoverImage: string;
   category: string;
+  id: string | null;
 }
 
-export interface WorkState extends FolderState {
-  currentChapter: number;
+export interface WorkState {
+  id: string | null;
+  chapter: number;
   content: string | null;
-  author: string;
+  title: string;
 }
 
-const initialState: WorkState = {
+const initialState: WorkState & FolderState = {
+  id: null,
   folderName: '',
   folderCoverImage:
     'https://cdn.pixabay.com/photo/2018/08/03/11/48/skyline-3581739__340.jpg',
   category: '',
-  currentChapter: 1,
+  chapter: 1,
   content: null,
-  author: ''
+  title: ''
 };
 
 export const addNewFolder = (folder: FolderState) => {

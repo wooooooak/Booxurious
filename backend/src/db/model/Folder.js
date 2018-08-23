@@ -26,7 +26,7 @@ Folder.associate = function associate () {
     onUpdate: 'restrict'
   });
   Folder.hasMany(Work, {
-    as: 'Workers',
+    as: 'Work',
     foreignKey: 'fk_folder_id'
   });
   Folder.belongsTo(Category, {

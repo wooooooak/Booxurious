@@ -1,21 +1,29 @@
 import Sequelize from 'sequelize';
 import { sequelize } from '..';
 
-import { Category, Folder } from './';
+import { Folder } from './';
 import User from './User';
 
-const Work = sequelize.define('work', {
-  id: {
-    type: Sequelize.UUID,
-    defaultValue: Sequelize.UUIDV1,
-    primaryKey: true
+const Work = sequelize.define(
+  'work',
+  {
+    id: {
+      type: Sequelize.UUID,
+      defaultValue: Sequelize.UUIDV1,
+      primaryKey: true
+    },
+    title: Sequelize.TEXT,
+    chapter: {
+      type: Sequelize.INTEGER,
+      allowNull: false
+    },
+    content: Sequelize.TEXT
   },
-  workTitle: Sequelize.TEXT,
-  editorState: Sequelize.TEXT
-});
-
-// work has one folder
-// folder has many work
+  {
+    timestamps: true,
+    charset: 'utf8'
+  }
+);
 
 Work.associate = function associate () {
   Work.belongsTo(User, {
@@ -28,13 +36,5 @@ Work.associate = function associate () {
     onDelete: 'CASCADE',
     onUpdate: 'restrict'
   });
-  // Work.belongsToMany(Category, {
-  //   onDelete: 'CASCADE',
-  //   onUpdate: 'restrict',
-  //   through: {
-  //     model: 'works_categories'
-  //   },
-  //   foreignKey: 'fk_work_id'
-  // });
 };
 export default Work;

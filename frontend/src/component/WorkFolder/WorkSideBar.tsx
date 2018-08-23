@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import styledTS from 'styled-components-ts';
 import { AngleLeft } from 'styled-icons/fa-solid/AngleLeft';
 import { AngleRight } from 'styled-icons/fa-solid/AngleRight';
+import { WorkState } from '../../store/modules/Work';
 
 interface ContainerProps {
   showSideBarState: boolean;
@@ -50,6 +51,7 @@ const FolderName = styled.h1`color: black;`;
 interface Props {
   folderName: string;
   image: string;
+  works: WorkState[] | null;
 }
 
 interface State {
@@ -67,12 +69,19 @@ class WorkSideBar extends React.Component<Props, State> {
     });
   };
 
+  // todos
+  // li에 work마다 id를 걸어놓고 클릭하면 그 내용을 편집할 수 있게 하기
   render () {
     return (
       <Container showSideBarState={this.state.showSidebarState}>
         <BarLayout>
           <Img image={this.props.image} />
           <FolderName>{this.props.folderName}</FolderName>
+          <ul>
+            <li>work의 chapter이름 & id</li>
+            <li>work의 chapter이름 & id</li>
+            <li>work의 chapter이름 & id</li>
+          </ul>
         </BarLayout>
         <ButtonLine>
           {this.state.showSidebarState ? (

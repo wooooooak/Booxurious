@@ -21,6 +21,7 @@ interface OwnProps {}
 type Props = DispatchProps & StoreProps;
 interface State extends FolderState, WorkState {
   goToWritePage: boolean;
+  myFolderList: FolderState[] | null;
 }
 
 const selectorStyle = {
@@ -64,7 +65,8 @@ class FolderContainer extends React.Component<Props, State> {
     currentChapter: 1,
     content: null,
     author: '',
-    goToWritePage: false
+    goToWritePage: false,
+    myFolderList: null
   };
 
   onChangeCoverImgHandler = async (files: FileList) => {
@@ -96,6 +98,7 @@ class FolderContainer extends React.Component<Props, State> {
       folderName
     });
   };
+
   onChangeCategory = (category: Category) => {
     const { value } = category;
     this.setState({
@@ -109,6 +112,26 @@ class FolderContainer extends React.Component<Props, State> {
       goToWritePage: true
     });
   };
+
+  componentDidMount () {
+    this.fetchFolders();
+  }
+
+  fetchFolders = async () => {
+    console.log('fetch');
+    const token: string | null = localStorage.getItem('token');
+    const result = await axios({
+      method: 'get',
+      url: 'http://localhost:8080/folder/myFolderList',
+      headers: { 'Auth-Header': token }
+    });
+    const myFolderList: FolderState[] = result.data;
+    console.log(myFolderList);
+    this.setState({
+      myFolderList
+    });
+  };
+
   render () {
     const { folderCoverImage, goToWritePage } = this.state;
     if (goToWritePage) {
@@ -133,9 +156,10 @@ class FolderContainer extends React.Component<Props, State> {
               options={categories}
               styles={selectorStyle}
               onChange={this.onChangeCategory}
+              defaultValue={categories[0]}
             />
           </MakingForm>
-          <FolderChoicer />
+          <FolderChoicer folderList={this.state.myFolderList} />
         </React.Fragment>
       );
     }

@@ -10,10 +10,10 @@ const Folder = sequelize.define('folder', {
     defaultValue: Sequelize.UUIDV1,
     primaryKey: true
   },
-  name: {
+  folderName: {
     type: Sequelize.STRING
   },
-  coverImage: {
+  folderCoverImage: {
     type: Sequelize.STRING
   }
   // fk_category_id: Sequelize.UUID

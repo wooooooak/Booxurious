@@ -14,6 +14,7 @@ export const Title = styled.div`
   justify-content: center;
   margin: 20px 0;
   color: white;
+  width: 100%;
 `;
 
 export const LayoutLeftBox = styled.div`
@@ -31,4 +32,6 @@ export const LayoutRightBox = styled.div`
   background-color: #1e272e;
   border-radius: 15px;
   box-shadow: 2px 2px 50px black;
+  display: flex;
+  flex-direction: column;
 `;

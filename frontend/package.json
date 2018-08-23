@@ -27,7 +27,9 @@
   "scripts": {
     "start": "react-scripts-ts start",
     "build": "react-scripts-ts build",
-    "deploy": "aws s3 sync build/ s3://elebooks-frontend",
+    "predeploy": "react-scripts-ts bulid",
+    "deploy": "aws s3 sync build/ s3://elebooks-frontend --delete",
+    "postdeploy": "aws cloudfront create-invalidation --distribution-id EMFNQHZ6HY2EQ --paths /*",
     "test": "react-scripts-ts test --env=jsdom",
     "eject": "react-scripts-ts eject"
   },

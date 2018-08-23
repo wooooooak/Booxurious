@@ -1,7 +1,7 @@
 import express from 'express';
 
 import { authMiddleware } from '../../middleware/auth';
-import { uploadCoverImage, makeNewFolder } from './folder.ctrl';
+import { uploadCoverImage, makeNewFolder, myFolderList } from './folder.ctrl';
 import { folderCoverImageUploader } from '../../lib/imageUploader';
 
 const folder = express.Router();
@@ -14,5 +14,6 @@ folder.post(
 );
 
 folder.post('/newFolder', authMiddleware, makeNewFolder);
+folder.get('/myFolderList', authMiddleware, myFolderList);
 
 export default folder;

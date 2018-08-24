@@ -35,3 +35,11 @@ export const LayoutRightBox = styled.div`
   display: flex;
   flex-direction: column;
 `;
+
+export const QuillStyle = styled.div`
+  width: 700px;
+  .ql-container.ql-snow {
+    font-size: 1.2em;
+    border: none;
+  }
+`;

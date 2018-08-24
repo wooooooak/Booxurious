@@ -51,7 +51,8 @@ const FolderName = styled.h1`color: black;`;
 interface Props {
   folderName: string;
   image: string;
-  works: WorkState[] | null;
+  workList: WorkState[];
+  onClickOtherChapter(chapterNumber: number): void;
 }
 
 interface State {
@@ -69,19 +70,43 @@ class WorkSideBar extends React.Component<Props, State> {
     });
   };
 
+  mapWorkListToChapterli = (workList: WorkState[]) => {
+    return workList.map((work, index) => {
+      <li key={index} onClick={() => this.props.onClickOtherChapter(0)}>
+        <span>{work.chapter} </span> {work.title}{' '}
+      </li>;
+    });
+  };
+
   // todos
   // li에 work마다 id를 걸어놓고 클릭하면 그 내용을 편집할 수 있게 하기
   render () {
+    console.log(this.props.workList.length);
     return (
       <Container showSideBarState={this.state.showSidebarState}>
         <BarLayout>
           <Img image={this.props.image} />
           <FolderName>{this.props.folderName}</FolderName>
-          <ul>
-            <li>work의 chapter이름 & id</li>
-            <li>work의 chapter이름 & id</li>
-            <li>work의 chapter이름 & id</li>
-          </ul>
+          {this.props.workList.length !== 0 ? (
+            <ul>{this.mapWorkListToChapterli(this.props.workList)}</ul>
+          ) : (
+            <ul>
+              {' '}
+              <ul>
+                <li onClick={() => this.props.onClickOtherChapter(0)}>
+                  데이터가 없을 경우를 위한 샘플입니다
+                </li>
+                <li onClick={() => this.props.onClickOtherChapter(1)}>
+                  work의 chapter이름 & id
+                </li>
+                <li onClick={() => this.props.onClickOtherChapter(2)}>
+                  work의 chapter이름 & id
+                </li>
+              </ul>
+            </ul>
+          )}
+
+          <button>추가하기</button>
         </BarLayout>
         <ButtonLine>
           {this.state.showSidebarState ? (

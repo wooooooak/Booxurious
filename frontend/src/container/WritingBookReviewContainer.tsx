@@ -4,8 +4,8 @@ import { bindActionCreators } from 'redux';
 import axios from 'axios';
 import * as ReactQuill from 'react-quill';
 
-import { actionCreators as postActionCreator } from '../store/modules/Post';
 import { IStoreState } from '../store/modules';
+import { actionCreators as postActionCreator } from '../store/modules/Post';
 import { PostState } from '../store/modules/Post';
 
 import Cover from '../component/Write/Cover';

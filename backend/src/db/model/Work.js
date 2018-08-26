@@ -13,10 +13,6 @@ const Work = sequelize.define(
       primaryKey: true
     },
     title: Sequelize.TEXT,
-    chapter: {
-      type: Sequelize.INTEGER,
-      allowNull: false
-    },
     content: Sequelize.TEXT
   },
   {

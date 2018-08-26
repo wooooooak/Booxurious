@@ -5,21 +5,20 @@ import axios from 'axios';
 import Select from 'react-select';
 
 import { actionCreators as folderActionCreator } from '../store/modules/Work';
+import { FolderState, CurrentWorkAndFolderState } from '../store/modules/Work';
 import { IStoreState } from '../store/modules';
-import { FolderState } from '../store/modules/Work';
 
 import WorkContainer from './WorkContainer';
 
 import MakingForm from '../component/WorkFolder/MakingForm';
 import FolderChoicer from '../component/WorkFolder/FolderChoicer';
 
-interface StoreProps {}
 interface DispatchProps {
   folderAction: typeof folderActionCreator;
 }
 interface OwnProps {}
 
-type Props = DispatchProps & StoreProps;
+type Props = DispatchProps;
 interface State {
   folder: FolderState;
   goToWritePage: boolean;
@@ -145,14 +144,15 @@ class FolderContainer extends React.Component<Props, State> {
   };
 
   onClickExistFolder = (folder: FolderState) => {
+    this.props.folderAction.onClickExistFolder(folder);
     this.setState({
-      goToWritePage: true,
-      folder: {
-        ...this.state.folder,
-        folderName: folder.folderName,
-        folderCoverImage: folder.folderCoverImage,
-        id: folder.id
-      }
+      goToWritePage: true
+      // folder: {
+      //   ...this.state.folder,
+      //   folderName: folder.folderName,
+      //   folderCoverImage: folder.folderCoverImage,
+      //   id: folder.id
+      // }
     });
   };
 
@@ -187,8 +187,11 @@ class FolderContainer extends React.Component<Props, State> {
   }
 }
 
-export default connect<StoreProps, DispatchProps, OwnProps>(
-  ({ Folder }: IStoreState): StoreProps => ({}),
+export default connect<{}, DispatchProps, OwnProps>(
+  ({ CurrentWorkAndFolder }: IStoreState): CurrentWorkAndFolderState => ({
+    currentFolder: CurrentWorkAndFolder.currentFolder,
+    currentWork: CurrentWorkAndFolder.currentWork
+  }),
   (dispatch: any) => ({
     folderAction: bindActionCreators(folderActionCreator, dispatch)
   })

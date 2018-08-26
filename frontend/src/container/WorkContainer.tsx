@@ -1,19 +1,30 @@
 import * as React from 'react';
 import * as ReactQuill from 'react-quill';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import axios from 'axios';
 
+import { CurrentWorkAndFolderState } from '../store/modules/Work';
+import { actionCreators as workActionCreator } from '../store/modules/Work';
+import { IStoreState } from '../store/modules';
+
 import WorkSideBar from '../component/WorkFolder/WorkSideBar';
-// import WorkWriter from '../component/WorkFolder/WorkWriter';
-import { FolderState, WorkState } from '../store/modules/Work';
+import { WorkState } from '../store/modules/Work';
 import { QuillStyle } from '../component/WorkFolder/style';
 
-interface Props {
-  folder: FolderState;
+type StoreProps = CurrentWorkAndFolderState;
+
+interface DispatchProps {
+  workAndFolderAction: typeof workActionCreator;
 }
+
+interface OwnProps {}
+
+interface Props extends StoreProps, DispatchProps {}
 
 interface State {
   workList: WorkState[];
-  content: string;
+  isAddWorkMode: boolean;
   currentWork: WorkState;
 }
 
@@ -52,53 +63,95 @@ const formats = [
 class WorkContainer extends React.Component<Props, State> {
   state = {
     workList: [],
-    content: '',
+    isAddWorkMode: false,
     currentWork: {
       id: null,
       content: '',
-      chapter: 1,
       title: ''
     }
   };
+
+  private quill: typeof Quill;
+
+  constructor (props: any) {
+    super(props);
+    this.quill = React.createRef();
+  }
   componentDidMount () {
     modules = {
       toolbar: {
         container: toolbarContainer
       }
     };
-    this.fetchWorkList(this.props.folder.id);
-    this.setState({});
+    this.fetchWorkList(this.props.currentFolder.id);
   }
 
   fetchWorkList = async (id: string | null) => {
-    const workList = await axios({
+    const result = await axios({
       method: 'get',
       url: 'http://localhost:8080/work/list',
       params: { id }
     });
-    console.log(workList);
-    if (workList[0]) {
+    if (result.data[0]) {
       this.setState({
-        currentWork: workList[0]
+        workList: result.data
+        // currentWork: workList.data[0]
       });
-    } else {
-      this.setState({
-        currentWork: {
-          ...this.state.currentWork,
-          title: '첫 작성을 하세요'
-        }
-      });
+      this.props.workAndFolderAction.changeWork(result.data[0]);
     }
   };
 
   onClickOtherChapter = (chapterNumber: number) => {
-    console.log(`챕터 ${chapterNumber} 을 클릭하였습니다. `);
-    if (!this.state.workList[chapterNumber]) {
-      console.log('그러나 실제 db에 해당 폴더의 작품 리스트가 없습니다.');
-      return;
-    }
     this.setState({
       currentWork: this.state.workList[chapterNumber]
+    });
+  };
+
+  onChangeContent = (content: string): void => {
+    this.setState({
+      currentWork: {
+        ...this.state.currentWork,
+        content
+      }
+    });
+  };
+
+  onChangeWorkTitle = (e: React.FormEvent<HTMLInputElement>): void => {
+    const title = e.currentTarget.value;
+    this.setState({
+      currentWork: {
+        ...this.state.currentWork,
+        title
+      }
+    });
+  };
+
+  onClickSaveWork = async () => {
+    const token: string | null = localStorage.getItem('token');
+    const id = this.props.currentFolder.id;
+    const toBeSendData = {
+      ...this.state.currentWork,
+      id
+    };
+    await axios({
+      method: 'post',
+      url: 'http://localhost:8080/work/newWork',
+      data: toBeSendData,
+      headers: { 'Auth-Header': token }
+    });
+  };
+
+  onClickAddWorkButton = () => {
+    const workList = this.state.workList;
+    const newWork = {
+      id: null,
+      content: '',
+      title: ''
+    };
+    (workList as WorkState[]).push(newWork);
+    this.setState({
+      workList,
+      currentWork: newWork
     });
   };
 
@@ -113,26 +166,42 @@ class WorkContainer extends React.Component<Props, State> {
         }}
       >
         <WorkSideBar
-          folderName={this.props.folder.folderName}
-          image={this.props.folder.folderCoverImage}
+          folderName={this.props.currentFolder.folderName}
+          image={this.props.currentFolder.folderCoverImage}
           workList={this.state.workList}
           onClickOtherChapter={this.onClickOtherChapter}
+          onClickAddWorkButton={this.onClickAddWorkButton}
         />
         {/* <WorkWriter /> */}
         <QuillStyle>
           <div>
-            <h2>{this.state.currentWork.title}</h2>
+            <input
+              type="text"
+              onChange={this.onChangeWorkTitle}
+              value={this.state.currentWork.title}
+            />
           </div>
           <Quill
+            ref={this.quill}
             theme="snow"
-            value={this.state.content}
+            value={this.state.currentWork.content}
+            onChange={this.onChangeContent}
             modules={modules}
             formats={formats}
           />
+          <button onClick={() => this.onClickSaveWork()}> 저장 </button>
         </QuillStyle>
       </div>
     );
   }
 }
 
-export default WorkContainer;
+export default connect<StoreProps, DispatchProps, OwnProps>(
+  ({ CurrentWorkAndFolder }: IStoreState): StoreProps => ({
+    currentFolder: CurrentWorkAndFolder.currentFolder,
+    currentWork: CurrentWorkAndFolder.currentWork
+  }),
+  (dispatch: any) => ({
+    workAndFolderAction: bindActionCreators(workActionCreator, dispatch)
+  })
+)(WorkContainer);

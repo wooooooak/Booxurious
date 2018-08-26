@@ -6,6 +6,8 @@ import axios from 'axios';
 const ON_CHANGE_FOLDER_INFO = 'folder/OnChangeFolderInfo';
 const ADD_NEW_FOLDER_SUCCESS = 'folder/AddNewFolderSucceess';
 const ADD_NEW_FOLDER_FAIL = 'folder/AddNewFolderFail';
+const CHANGE_WORK = 'work/changeWork';
+const ON_CLICK_EXIST_FOLDER = 'folder/onClickExistFolder';
 
 export interface FolderState {
   folderName: string;
@@ -16,20 +18,27 @@ export interface FolderState {
 
 export interface WorkState {
   id: string | null;
-  chapter: number;
   content: string | null;
   title: string;
 }
 
-const initialState: WorkState & FolderState = {
-  id: null,
-  folderName: '',
-  folderCoverImage:
-    'https://cdn.pixabay.com/photo/2018/08/03/11/48/skyline-3581739__340.jpg',
-  category: '',
-  chapter: 1,
-  content: null,
-  title: ''
+export interface CurrentWorkAndFolderState {
+  currentFolder: FolderState;
+  currentWork: WorkState;
+}
+const initialState: CurrentWorkAndFolderState = {
+  currentFolder: {
+    id: null,
+    folderName: '',
+    folderCoverImage:
+      'https://cdn.pixabay.com/photo/2018/08/03/11/48/skyline-3581739__340.jpg',
+    category: ''
+  },
+  currentWork: {
+    id: null,
+    content: null,
+    title: ''
+  }
 };
 
 export const addNewFolder = (folder: FolderState) => {
@@ -42,12 +51,11 @@ export const addNewFolder = (folder: FolderState) => {
       headers: { 'Auth-Header': token }
     })
       .then((res) => {
-        console.log(res);
+        disptach(actionCreators.addNewFolderSuccess(res.data));
       })
       .catch((error) => {
         console.log(error);
       });
-    console.log('addNewFolder');
   };
 };
 
@@ -55,10 +63,12 @@ export const actionCreators = {
   addNewFolder,
   addNewFolderSuccess: createAction<FolderState>(ADD_NEW_FOLDER_SUCCESS),
   addNewFolderFail: createAction<FolderState>(ADD_NEW_FOLDER_FAIL),
-  onChangeFolderInfo: createAction<FolderState>(ON_CHANGE_FOLDER_INFO)
+  onChangeFolderInfo: createAction<CurrentWorkAndFolderState>(ON_CHANGE_FOLDER_INFO),
+  changeWork: createAction<WorkState>(CHANGE_WORK),
+  onClickExistFolder: createAction<FolderState>(ON_CLICK_EXIST_FOLDER)
 };
 
-export default handleActions<WorkState, typeof actionCreators>(
+export default handleActions<CurrentWorkAndFolderState, any>(
   {
     [ON_CHANGE_FOLDER_INFO]: (state, action) => {
       return {
@@ -67,15 +77,38 @@ export default handleActions<WorkState, typeof actionCreators>(
       };
     },
     [ADD_NEW_FOLDER_SUCCESS]: (state, action) => {
+      console.log(action.payload);
+      const { id, folderName, folderCoverImage, category } = action.payload;
       return {
         ...state,
-        ...action.payload
+        currentFolder: {
+          id,
+          folderName,
+          folderCoverImage,
+          category
+        }
       };
     },
     [ADD_NEW_FOLDER_FAIL]: (state, action) => {
       return {
         ...state,
         ...action.payload
+      };
+    },
+    [CHANGE_WORK]: (state, action) => {
+      return {
+        ...state,
+        currentWork: {
+          ...action.payload
+        }
+      };
+    },
+    [ON_CLICK_EXIST_FOLDER]: (state, action) => {
+      return {
+        ...state,
+        currentFolder: {
+          ...action.payload
+        }
       };
     }
   },

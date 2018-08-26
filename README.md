@@ -1,10 +1,3 @@
-# elebooks
-
-[http://booxurious.com](https://booxurious.com)
-or
-[http://www.booxurious.com](https://www.booxurious.com)
-
-
 ## frontend
 * react
 * redux

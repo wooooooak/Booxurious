@@ -8,7 +8,7 @@ const Layout = styled.div`
   display: flex;
   /* flex-direction: column; */
   align-items: center;
-  background-image: url('https://s3.ap-northeast-2.amazonaws.com/elebooks-frontend/book2.jpg');
+  background-image: url('https://s3.ap-northeast-2.amazonaws.com/elebooks-image/book2.jpg');
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;

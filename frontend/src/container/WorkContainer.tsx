@@ -62,7 +62,7 @@ const formats = [
 // 사이드바를 누를 경우 현재 작성중인 글을 저장할지 물어보고 이동 시켜야 할듯
 class WorkContainer extends React.Component<Props, State> {
   state = {
-    workList: [],
+    workList: [] as WorkState[],
     isAddWorkMode: false,
     currentWork: {
       id: null,
@@ -148,7 +148,7 @@ class WorkContainer extends React.Component<Props, State> {
       content: '',
       title: ''
     };
-    (workList as WorkState[]).push(newWork);
+    workList.push(newWork);
     this.setState({
       workList,
       currentWork: newWork

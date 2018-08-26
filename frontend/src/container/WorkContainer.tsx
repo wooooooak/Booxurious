@@ -128,7 +128,7 @@ class WorkContainer extends React.Component<Props, State> {
 
   onClickSaveWork = async () => {
     const token: string | null = localStorage.getItem('token');
-    const id = this.props.currentFolder.id;
+    const id: string | null = this.props.currentFolder.id;
     const toBeSendData = {
       ...this.state.currentWork,
       id
@@ -141,14 +141,22 @@ class WorkContainer extends React.Component<Props, State> {
     });
   };
 
-  onClickAddWorkButton = () => {
-    const workList = this.state.workList;
-    const newWork = {
-      id: null,
+  onClickAddWorkButton = async () => {
+    const token: string | null = localStorage.getItem('token');
+    const workList: WorkState[] = this.state.workList;
+    const newWork: WorkState = {
+      id: this.props.currentFolder.id,
       content: '',
       title: ''
     };
-    workList.push(newWork);
+    const result = await axios({
+      method: 'post',
+      url: 'http://localhost:8080/work/newWork',
+      data: newWork,
+      headers: { 'Auth-Header': token }
+    });
+    console.log(result.data);
+    workList.push(result.data);
     this.setState({
       workList,
       currentWork: newWork

@@ -4,13 +4,13 @@ import { dumper } from 'dumper';
 import { User } from '../../db/model';
 
 export const getWorkListRelatedFolder = async (req, res) => {
-  dumper(req.query);
   const { id } = req.query;
-  console.log('asdfafdasfffffffffffff');
-  console.log(id);
   try {
     // const workList = await Work.getFolder();
-    const workList = await Work.findAll({ where: { fk_folder_id: id } });
+    const workList = await Work.findAll({
+      where: { fk_folder_id: id },
+      order: [ [ 'createdAt', 'ASC' ] ]
+    });
     res.status(200).json(workList);
   } catch (error) {
     console.log(error);

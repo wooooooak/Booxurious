@@ -147,12 +147,6 @@ class FolderContainer extends React.Component<Props, State> {
     this.props.folderAction.onClickExistFolder(folder);
     this.setState({
       goToWritePage: true
-      // folder: {
-      //   ...this.state.folder,
-      //   folderName: folder.folderName,
-      //   folderCoverImage: folder.folderCoverImage,
-      //   id: folder.id
-      // }
     });
   };
 

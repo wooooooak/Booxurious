@@ -14,9 +14,7 @@ export const authRules = {
     check('username').isLength({ max: 20 }).withMessage('Too long username'),
     check('username')
       .custom(async (username, { req }) => {
-        console.log(username);
         const user = await User.findOne({ where: { username } });
-        console.log(user);
         return user ? false : true;
       })
       .withMessage('duple username'),

@@ -68,7 +68,6 @@ const mapFolderListToCard = (
 };
 
 const FolderCoicer: React.SFC<Props> = ({ folderList, onClickExistFolder }) => {
-  console.log(folderList);
   return (
     <LayoutRightBox>
       <Title>기존 폴더에서 작업하기</Title>

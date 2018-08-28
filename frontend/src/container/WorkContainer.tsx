@@ -11,6 +11,7 @@ import { IStoreState } from '../store/modules';
 import WorkSideBar from '../component/WorkFolder/WorkSideBar';
 import { WorkState } from '../store/modules/Work';
 import { QuillStyle } from '../component/WorkFolder/style';
+import ButtonGroup from '../component/WorkFolder/ButtonGroup';
 
 type StoreProps = CurrentWorkAndFolderState;
 
@@ -92,13 +93,26 @@ class WorkContainer extends React.Component<Props, State> {
       url: 'http://localhost:8080/work/list',
       params: { id }
     });
-    if (result.data[0]) {
+    if (this.isWorkExist(result.data)) {
       this.setState({
-        workList: result.data
-        // currentWork: workList.data[0]
+        workList: result.data,
+        currentWork: result.data[0]
       });
       this.props.workAndFolderAction.changeWork(result.data[0]);
+    } else {
+      this.setState({
+        workList: [] as WorkState[],
+        currentWork: {
+          id: null,
+          content: '',
+          title: ''
+        }
+      });
     }
+  };
+
+  isWorkExist = (workList: WorkState[]): boolean => {
+    return workList[0] ? true : false;
   };
 
   onClickOtherChapter = (chapterNumber: number) => {
@@ -128,10 +142,12 @@ class WorkContainer extends React.Component<Props, State> {
 
   onClickSaveWork = async () => {
     const token: string | null = localStorage.getItem('token');
-    const id: string | null = this.props.currentFolder.id;
+    const folderId: string | null = this.props.currentFolder.id;
+    const workId: string | null = this.state.currentWork.id;
     const toBeSendData = {
       ...this.state.currentWork,
-      id
+      folderId,
+      workId
     };
     await axios({
       method: 'post',
@@ -139,13 +155,26 @@ class WorkContainer extends React.Component<Props, State> {
       data: toBeSendData,
       headers: { 'Auth-Header': token }
     });
+    this.fetchWorkList(this.props.currentFolder.id);
+  };
+
+  onClickDeleteButton = async (workId: string) => {
+    const token: string | null = localStorage.getItem('token');
+    await axios({
+      method: 'delete',
+      url: 'http://localhost:8080/work/',
+      data: { workId },
+      headers: { 'Auth-Header': token }
+    });
+    this.fetchWorkList(this.props.currentFolder.id);
   };
 
   onClickAddWorkButton = async () => {
     const token: string | null = localStorage.getItem('token');
     const workList: WorkState[] = this.state.workList;
-    const newWork: WorkState = {
-      id: this.props.currentFolder.id,
+    const newWork = {
+      folderId: this.props.currentFolder.id,
+      workId: this.state.currentWork.id,
       content: '',
       title: ''
     };
@@ -155,15 +184,19 @@ class WorkContainer extends React.Component<Props, State> {
       data: newWork,
       headers: { 'Auth-Header': token }
     });
-    console.log(result.data);
     workList.push(result.data);
     this.setState({
       workList,
-      currentWork: newWork
+      currentWork: {
+        id: result.data.id as string,
+        content: result.data.content as string,
+        title: result.data.title as string
+      }
     });
   };
 
   render () {
+    console.log(this.state.workList);
     return (
       <div
         style={{
@@ -187,6 +220,7 @@ class WorkContainer extends React.Component<Props, State> {
               type="text"
               onChange={this.onChangeWorkTitle}
               value={this.state.currentWork.title}
+              placeholder="제목"
             />
           </div>
           <Quill
@@ -197,8 +231,12 @@ class WorkContainer extends React.Component<Props, State> {
             modules={modules}
             formats={formats}
           />
-          <button onClick={() => this.onClickSaveWork()}> 저장 </button>
         </QuillStyle>
+        <ButtonGroup
+          onClickSaveWork={this.onClickSaveWork}
+          onClickDeleteButton={this.onClickDeleteButton}
+          workId={this.state.currentWork.id}
+        />
       </div>
     );
   }

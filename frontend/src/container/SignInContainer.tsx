@@ -33,7 +33,6 @@ class SignInContainer extends React.Component<ContainerProps, IState> {
 
   onClickSocialLogin = (response: any) => {
     const { userAction } = this.props;
-    console.log(response);
     switch (response.socialProvider) {
       case 'google':
         userAction.socialLoginAsync(

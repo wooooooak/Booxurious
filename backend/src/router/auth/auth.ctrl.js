@@ -27,7 +27,6 @@ export const createAccount = async (req, res) => {
     });
     return res.json({ user, token });
   } catch (error) {
-    console.log('err', error);
     return res.json({ message: error.name });
   }
 };

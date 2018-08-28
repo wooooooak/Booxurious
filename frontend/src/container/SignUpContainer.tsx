@@ -27,7 +27,6 @@ class SignUpContainer extends React.Component<ContainerProps, IState> {
   onSubmitSignUp = () => {
     const { email, socialProvider, profileImg } = this.props;
     const { userAction } = this.props;
-    console.log(profileImg);
     userAction.signUp(this.state.username, email, socialProvider, profileImg);
   };
 

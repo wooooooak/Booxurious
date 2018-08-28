@@ -77,7 +77,6 @@ export default handleActions<CurrentWorkAndFolderState, any>(
       };
     },
     [ADD_NEW_FOLDER_SUCCESS]: (state, action) => {
-      console.log(action.payload);
       const { id, folderName, folderCoverImage, category } = action.payload;
       return {
         ...state,

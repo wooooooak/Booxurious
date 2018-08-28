@@ -97,14 +97,7 @@ class WorkSideBar extends React.Component<Props, State> {
               <button onClick={this.props.onClickAddWorkButton}>추가하기</button>
             </React.Fragment>
           ) : (
-            <ul>
-              {' '}
-              <ul>
-                <li onClick={() => this.props.onClickOtherChapter(0)}>
-                  데이터가 없을 경우를 위한 샘플입니다. 누르지 마세요
-                </li>
-              </ul>
-            </ul>
+            <p>오른쪽 에디터에서 첫 원고를 작성해 보세요!</p>
           )}
         </BarLayout>
         <ButtonLine>

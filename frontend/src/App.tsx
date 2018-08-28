@@ -14,9 +14,10 @@ import ChoiceFolderOrWritingPage from './pages/ChoiceFolderOrWrtingPage';
 import WritingBookReviewPage from './pages/WritingBookReviewPage';
 
 injectGlobal`
+  
   body {
     margin: 0;
-    background-color: #f2f5f7
+    background-color: #f2f5f7 !important;
       *:focus {
         outline: none;
       }

@@ -5,9 +5,8 @@ export const authRules = {
   forLocalRegister: [
     check('email').isEmail().withMessage('Invalid email format').trim().exists(),
     check('email')
-      .isEmail()
       .custom(async (email, { req }) => {
-        const user = await User.findOne({ where: { email: email } });
+        const user = await User.findOne({ where: { email } });
         return user ? false : true;
       })
       .withMessage('duple email'),

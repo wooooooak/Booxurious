@@ -35,6 +35,7 @@ class SignInContainer extends React.Component<ContainerProps, IState> {
     const { userAction } = this.props;
     switch (response.socialProvider) {
       case 'google':
+        console.log(response);
         userAction.socialLoginAsync(
           response.response.profileObj.email,
           response.response.profileObj.imageUrl,
@@ -43,10 +44,17 @@ class SignInContainer extends React.Component<ContainerProps, IState> {
         break;
       case 'kakao':
         console.log(response);
-      // userAction.socialLoginAsync(
-      //   response.response.profileObj.email,
-      //   response.socialProvider
-      // );
+        const { profile } = response.response;
+        let profileImage = '';
+        if (profile.profile_image) {
+          profileImage = profile.profil_image;
+        }
+        userAction.socialLoginAsync(
+          response.response.profile.kakao_account.email,
+          profileImage,
+          response.socialProvider
+        );
+        break;
       default:
         break;
     }
@@ -56,7 +64,8 @@ class SignInContainer extends React.Component<ContainerProps, IState> {
 
   render () {
     const { goToSignUpPage } = this.props;
-    if (localStorage.token !== undefined) {
+    if (localStorage.getItem('token') !== null) {
+      console.log(localStorage.getItem('token'));
       return <Redirect to="/" />;
     }
     if (goToSignUpPage) {

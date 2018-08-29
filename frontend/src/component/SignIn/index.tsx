@@ -1,11 +1,7 @@
 import * as React from 'react';
 import { PageLayout, ContentBackground, Content, LogoContainer, Text } from './style';
-// import styledTS from 'styled-components-ts';
-// import { Link } from 'react-router-dom';
-// import { FacebookF } from 'styled-icons/fa-brands/FacebookF';
-// import { Google } from 'styled-icons/fa-brands/Google';
 import { GoogleLogin } from 'react-google-login';
-// import KaKaoLogin from 'react-kakao-login';
+import KaKaoLogin from 'react-kakao-login';
 
 import Logo from '../Menu/Logo';
 
@@ -29,15 +25,15 @@ const SignIn: React.SFC<ISignInProps> = ({ onClickSocialLogin }) => (
           onClickSocialLogin({ response, socialProvider: 'google' })}
         onFailure={onClickSocialLogin}
       />
-      {/* <KaKaoLogin
-        jsKey="c2f6cbb0640301748d24f77404ad204c"
+      <KaKaoLogin
+        jsKey="ec51e20f327f7c3775270a3bff685e4f"
         onSuccess={(response) => {
           onClickSocialLogin({ response, socialProvider: 'kakao' });
         }}
         onFailure={(error) => console.log(error)}
         buttonComponent={<div>KaKao login</div>}
         getProfile={true}
-      /> */}
+      />
       <Text>기존에 사용하시던 계정으로 쉽게 이용하세요.</Text>
     </Content>
   </PageLayout>

@@ -26,6 +26,7 @@ export interface CurrentWorkAndFolderState {
   currentFolder: FolderState;
   currentWork: WorkState;
 }
+
 const initialState: CurrentWorkAndFolderState = {
   currentFolder: {
     id: null,

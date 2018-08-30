@@ -96,9 +96,9 @@ class WorkContainer extends React.Component<Props, State> {
     if (this.isWorkExist(result.data)) {
       this.setState({
         workList: result.data,
-        currentWork: result.data[0]
+        currentWork: result.data[result.data.length - 1]
       });
-      this.props.workAndFolderAction.changeWork(result.data[0]);
+      this.props.workAndFolderAction.changeWork(result.data[result.data.length - 1]);
     } else {
       this.setState({
         workList: [] as WorkState[],
@@ -174,7 +174,7 @@ class WorkContainer extends React.Component<Props, State> {
     const workList: WorkState[] = this.state.workList;
     const newWork = {
       folderId: this.props.currentFolder.id,
-      workId: this.state.currentWork.id,
+      workId: null,
       content: '',
       title: ''
     };
@@ -196,7 +196,6 @@ class WorkContainer extends React.Component<Props, State> {
   };
 
   render () {
-    console.log(this.state.workList);
     return (
       <div
         style={{

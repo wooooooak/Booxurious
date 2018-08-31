@@ -33,10 +33,10 @@ const Text = styled.text`
 const Logo: React.SFC<IProps> = ({ fontSize, marginLeft }) => (
   <LogoContainer to="/" marginLeft={marginLeft}>
     <Text color="#FFBC42" fontSize={fontSize}>
-      ele
+      boo
     </Text>
     <Text color="#1F2124" fontSize={fontSize}>
-      books
+      xurious
     </Text>
   </LogoContainer>
 );

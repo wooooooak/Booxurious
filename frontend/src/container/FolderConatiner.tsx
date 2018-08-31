@@ -150,11 +150,22 @@ class FolderContainer extends React.Component<Props, State> {
     });
   };
 
+  onClickChoiceFolder = () => {
+    this.setState({
+      goToWritePage: false
+    });
+  };
+
   render () {
     const { folderCoverImage } = this.state.folder;
     const { goToWritePage } = this.state;
     if (goToWritePage) {
-      return <WorkContainer folder={this.state.folder} />;
+      return (
+        <WorkContainer
+          // folder={this.state.folder}
+          onClickChoiceFolder={this.onClickChoiceFolder}
+        />
+      );
     } else {
       return (
         <React.Fragment>

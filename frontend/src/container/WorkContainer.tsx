@@ -21,7 +21,9 @@ interface DispatchProps {
 
 interface OwnProps {}
 
-interface Props extends StoreProps, DispatchProps {}
+interface Props extends StoreProps, DispatchProps {
+  onClickChoiceFolder(): void;
+}
 
 interface State {
   workList: WorkState[];
@@ -211,6 +213,7 @@ class WorkContainer extends React.Component<Props, State> {
           workList={this.state.workList}
           onClickOtherChapter={this.onClickOtherChapter}
           onClickAddWorkButton={this.onClickAddWorkButton}
+          onClickChoiceFolder={this.props.onClickChoiceFolder}
         />
         {/* <WorkWriter /> */}
         <QuillStyle>

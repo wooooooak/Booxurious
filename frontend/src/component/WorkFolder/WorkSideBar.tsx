@@ -54,6 +54,7 @@ interface Props {
   workList: WorkState[];
   onClickOtherChapter(chapterNumber: number): void;
   onClickAddWorkButton(): void;
+  onClickChoiceFolder(): void;
 }
 
 interface State {
@@ -99,6 +100,7 @@ class WorkSideBar extends React.Component<Props, State> {
           ) : (
             <p>오른쪽 에디터에서 첫 원고를 작성해 보세요!</p>
           )}
+          <button onClick={this.props.onClickChoiceFolder}>돌아가기</button>
         </BarLayout>
         <ButtonLine>
           {this.state.showSidebarState ? (

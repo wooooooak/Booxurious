@@ -32,7 +32,7 @@ const FileUploaderButton = styled.input.attrs({
   cursor: pointer;
 `;
 
-const P = styled.p`color: #e0e3da;`;
+const P = styled.p`color: black;`;
 
 const FormArea = styled.div`
   margin-top: 50px;
@@ -47,21 +47,21 @@ const Input = styled.input.attrs({
 })`
   height: 1.5em;
   background: transparent;
-  color: white;
+  color: black;
   border: none;
-  border-bottom-color: white;
+  border-bottom-color: black;
   border-bottom-width: 1px;
   border-bottom-style: solid;
 `;
 
 const buttonHover = keyframes`
   0%{
-    background-color: transparent
-    color: white;
+    background-color: transparent;
+    color: black;
   }
   100%{
-    background-color: white
-    color: #1E272E;
+    background-color: black;
+    color: white;
   }
 `;
 
@@ -70,11 +70,11 @@ const Button = styled.button`
   height: 40px;
   background-color: transparent;
   margin-top: 25px;
-  color: white;
+  color: black;
   border-radius: 15px;
   border-width: 1px;
   border-style: solid;
-  border-color: white;
+  border-color: black;
   cursor: pointer;
   &:hover {
     animation: ${buttonHover} 0.5s 0s forwards;

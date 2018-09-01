@@ -14,16 +14,15 @@ interface ILogoContainer {
 }
 
 const LogoContainer = CssTs<ILogoContainer>(styled(Link))`
-  text-decoration: none;
   margin-left: ${(props) => (props.marginLeft ? props.marginLeft : '0px;')}
+  text-decoration: underline;
 `;
 
 const Text = styled.text`
   color: ${(props) => props.color};
   background-color: transparent;
   font-family: sans-serif;
-  border: none;
-  text-decoration: none;
+  /* border: none; */
   font-size: ${(props) => props.fontSize};
   &:visited {
     color: white;

@@ -18,18 +18,10 @@ const PageLayout = styled.div`
 `;
 
 const BoxLine = styled.div`
+  margin-top: 70px;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
 `;
-
-// const BackButton = styled.div`
-//   margin-top: 100px;
-//   width: 200px;
-//   height: 50px;
-//   background-color: white;
-//   margin: 100px auto -80px;
-//   border-radius: 50px;
-// `;
 
 const ChoiceFolderOrWritingPage: React.SFC<{}> = () => (
   <PageLayout>

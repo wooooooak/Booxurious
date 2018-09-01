@@ -202,8 +202,8 @@ class WorkContainer extends React.Component<Props, State> {
       <div
         style={{
           display: 'flex',
-          alignSelf: 'flex-start',
           height: '100vh',
+          width: '100vw',
           marginTop: '80px'
         }}
       >

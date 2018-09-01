@@ -46,7 +46,10 @@ const FolderImage = styledTS<FolderImageProps>(styled.div)`
   background-size: cover;
 `;
 
-const FolderName = styled.h3`color: white;`;
+const FolderName = styled.h3`
+  color: black;
+  padding-top: 15px;
+`;
 
 interface Props {
   folderList: FolderState[] | null;

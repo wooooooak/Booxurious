@@ -1,6 +1,8 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import styledTS from 'styled-components-ts';
+
+import { device } from '../../styled/device';
 import { AngleLeft } from 'styled-icons/fa-solid/AngleLeft';
 import { AngleRight } from 'styled-icons/fa-solid/AngleRight';
 import { WorkState } from '../../store/modules/Work';
@@ -17,6 +19,10 @@ const Container = styledTS<ContainerProps>(styled.div)`
   left: ${(props) => (props.showSideBarState ? '0px' : '-390px')};
   top: 70px;
   height: 100%;
+  
+  @media ${device.laptopL} {
+    left: ${(props) => (props.showSideBarState ? '0px' : '-350px')};
+  }
 `;
 
 const BarLayout = styled.div`
@@ -25,6 +31,10 @@ const BarLayout = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  @media ${device.laptopL} {
+    width: 350px;
+  }
 `;
 const ButtonLine = styled.div`
   width: 30px;

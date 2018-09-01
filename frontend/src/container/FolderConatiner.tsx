@@ -32,9 +32,9 @@ const selectorStyle = {
     width: '180px',
     marginTop: '15px'
   }),
-  input: (styles: any) => ({ ...styles, color: 'white' }),
-  placeholder: (styles: object) => ({ ...styles, color: 'white' }),
-  singleValue: (styles: any) => ({ ...styles, color: 'white' })
+  input: (styles: any) => ({ ...styles, color: 'black' }),
+  placeholder: (styles: object) => ({ ...styles, color: 'black' }),
+  singleValue: (styles: any) => ({ ...styles, color: 'black' })
 };
 
 interface Category {

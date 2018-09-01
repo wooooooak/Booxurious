@@ -10,6 +10,7 @@ const FolderContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   overflow: scroll;
+  margin-top: 20px;
   justify-content: space-around;
   /* overflow-x: hidden; */
   ::-webkit-scrollbar {

@@ -2,6 +2,7 @@ import * as React from 'react';
 import * as feather from 'styled-icons/feather';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { message } from 'antd';
 
 import { actionCreators as userActionCreator } from '../store/modules/User';
 import { IStoreState } from '../store/modules';
@@ -127,6 +128,10 @@ class MenuContainer extends React.Component<Props, IState> {
   onClickLogout = () => {
     const { userAction } = this.props;
     userAction.logout();
+    message.config({
+      top: 100
+    });
+    message.success('로그아웃 되었습니다.');
     this.setState({
       showSideBar: false
     });

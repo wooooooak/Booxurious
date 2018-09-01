@@ -13,7 +13,7 @@ import { device } from '../../styled/device';
 export const Title = styled.div`
   display: flex;
   justify-content: center;
-  margin: 20px 0;
+  margin: 20px 0 50px 0;
   color: black;
   width: 100%;
 `;
@@ -21,22 +21,12 @@ export const Title = styled.div`
 export const LayoutLeftBox = styled.div`
   width: 50vw;
   height: calc(100vh - 70px);
-  /* position: relative; */
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  border-right: black 1px solid;
-  background: #ef3b36; /* fallback for old browsers */
-  background: -webkit-linear-gradient(
-    to bottom,
-    #ffffff,
-    #ef3b36
-  ); /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(
-    to bottom,
-    #ffffff,
-    #ef3b36
-  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background-image: url('https://cdn.pixabay.com/photo/2016/03/27/19/32/blur-1283865__340.jpg');
+  background-size: cover;
   transition: 1s;
   :hover {
     width: 75%;
@@ -49,17 +39,9 @@ export const LayoutRightBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: #ffefba; /* fallback for old browsers */
-  background: -webkit-linear-gradient(
-    to bottom,
-    #ffffff,
-    #ffefba
-  ); /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(
-    to bottom,
-    #ffffff,
-    #ffefba
-  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background-image: url('https://cdn.pixabay.com/photo/2015/09/02/12/33/books-918521__340.jpg');
+  background-size: cover;
+  background-position: center;
   transition: 1s;
   :hover {
     width: 75%;

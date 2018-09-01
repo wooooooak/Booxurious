@@ -30,7 +30,8 @@ const selectorStyle = {
     ...styles,
     background: 'transparent',
     width: '180px',
-    marginTop: '15px'
+    marginTop: '15px',
+    borderColor: 'black'
   }),
   input: (styles: any) => ({ ...styles, color: 'black' }),
   placeholder: (styles: object) => ({ ...styles, color: 'black' }),

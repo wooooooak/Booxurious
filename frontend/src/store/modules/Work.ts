@@ -47,7 +47,7 @@ export const addNewFolder = (folder: FolderState) => {
   return (disptach: any) => {
     axios({
       method: 'post',
-      url: 'http://localhost:8080/folder/newFolder',
+      url: `${process.env.REACT_APP_DOMAIN}/folder/newFolder`,
       data: folder,
       headers: { 'Auth-Header': token }
     })

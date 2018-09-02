@@ -19,7 +19,7 @@ export const fetchUserData = (token: string) => {
   return (dispatch: any) => {
     axios({
       method: 'get',
-      url: `http://localhost:8080/user/token`,
+      url: `${process.env.REACT_APP_DOMAIN}/user/token`,
       headers: { 'Auth-Header': token }
     })
       .then((res) => {
@@ -50,7 +50,7 @@ export const socialLoginAsync = (
       method: 'post',
       url:
         // 'https://2bu3ko5b6j.execute-api.ap-northeast-2.amazonaws.com/dev/auth/login/social',
-        'http://localhost:8080/auth/login/social',
+        `${process.env.REACT_APP_DOMAIN}/auth/login/social`,
       data: {
         // email: socialEmail
         email: `bedsv@abbbba.asdcom`,
@@ -98,7 +98,7 @@ export const signUp = (
   return (dispatch: any) => {
     axios({
       method: 'post',
-      url: 'http://localhost:8080/auth/register/social',
+      url: `${process.env.REACT_APP_DOMAIN}/auth/register/social`,
       data: {
         email,
         username,

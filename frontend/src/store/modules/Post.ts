@@ -23,7 +23,7 @@ export const writePost = (post: PostState) => {
   return (dispatch: any) => {
     axios({
       method: 'post',
-      url: 'http://localhost:8080/post/write',
+      url: `${process.env.REACT_APP_DOMAIN}/post/write`,
       data: post,
       headers: { 'Auth-Header': token }
     })
@@ -46,7 +46,7 @@ export const OnChangeBookCoverImg = (files: FileList) => {
   formData.append('imgFile', file, file.name);
   return (dispatch: any) => {
     axios
-      .post('http://localhost:8080/post/bookCoverImage', formData, {
+      .post(`${process.env.REACT_APP_DOMAIN}/post/bookCoverImage`, formData, {
         onUploadProgress: (progressEvent) => {
           dispatch(actionCreators.OnChangeBookCoverImgPending());
         }
@@ -122,7 +122,6 @@ export default handleActions<PostState, any>(
       };
     },
     [ON_CHANGE_BOOK_COVER_IMG_PENDING]: (state, action): PostState => {
-      console.log('pending');
       return {
         ...state,
         uploadingImg: true

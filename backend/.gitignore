@@ -9,6 +9,7 @@ dist/*
 
 src/secret.js
 src/config.js
+env.yml
 
 yarn-error.log
 yarn.lock

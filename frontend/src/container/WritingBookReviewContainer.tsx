@@ -105,7 +105,7 @@ class WrtingBookReviewContainer extends React.Component<Props, State> {
           formData.append('imgFile', file, file.name);
           const result = await axios({
             method: 'post',
-            url: 'http://localhost:8080/post/contetImage',
+            url: `${process.env.REACT_APP_DOMAIN}/post/contetImage`,
             data: formData,
             headers: { 'Auth-Header': token },
             onUploadProgress: () => {
@@ -142,7 +142,6 @@ class WrtingBookReviewContainer extends React.Component<Props, State> {
   };
 
   render () {
-    console.log('render');
     return (
       <React.Fragment>
         <Cover

@@ -15,7 +15,7 @@ interface ILogoContainer {
 
 const LogoContainer = CssTs<ILogoContainer>(styled(Link))`
   margin-left: ${(props) => (props.marginLeft ? props.marginLeft : '0px;')}
-  text-decoration: underline;
+  // text-decoration: underline;
 `;
 
 const Text = styled.text`

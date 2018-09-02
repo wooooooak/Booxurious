@@ -18,7 +18,7 @@ sequelize.authenticate().then(() => {
 
 app.use('/', api);
 
-if (process.env.APP_ENV === 'local') {
+if (process.env.NODE_ENV === 'development') {
   app.listen(8080, () => {
     console.log(`Express server listening on port 8080`);
   });

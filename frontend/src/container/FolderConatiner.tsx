@@ -82,7 +82,7 @@ class FolderContainer extends React.Component<Props, State> {
     try {
       const result = await axios({
         method: 'post',
-        url: 'http://localhost:8080/folder/folderCoverImage',
+        url: `${process.env.REACT_APP_DOMAIN}/folder/folderCoverImage`,
         data: formData,
         headers: { 'Auth-Header': token },
         onUploadProgress: () => {
@@ -135,7 +135,7 @@ class FolderContainer extends React.Component<Props, State> {
     const token: string | null = localStorage.getItem('token');
     const result = await axios({
       method: 'get',
-      url: 'http://localhost:8080/folder/myFolderList',
+      url: `${process.env.REACT_APP_DOMAIN}/folder/myFolderList`,
       headers: { 'Auth-Header': token }
     });
     const myFolderList: FolderState[] = result.data;

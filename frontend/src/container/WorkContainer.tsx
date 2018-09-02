@@ -3,6 +3,7 @@ import * as ReactQuill from 'react-quill';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import axios from 'axios';
+import { message } from 'antd';
 
 import { CurrentWorkAndFolderState } from '../store/modules/Work';
 import { actionCreators as workActionCreator } from '../store/modules/Work';
@@ -12,6 +13,7 @@ import WorkSideBar from '../component/WorkFolder/WorkSideBar';
 import { WorkState } from '../store/modules/Work';
 import { QuillStyle } from '../component/WorkFolder/style';
 import ButtonGroup from '../component/WorkFolder/ButtonGroup';
+import WorkWriter from '../component/WorkFolder/WorkWriter';
 
 type StoreProps = CurrentWorkAndFolderState;
 
@@ -92,7 +94,7 @@ class WorkContainer extends React.Component<Props, State> {
   fetchWorkList = async (id: string | null) => {
     const result = await axios({
       method: 'get',
-      url: 'http://localhost:8080/work/list',
+      url: `${process.env.REACT_APP_DOMAIN}/work/list`,
       params: { id }
     });
     if (this.isWorkExist(result.data)) {
@@ -153,10 +155,11 @@ class WorkContainer extends React.Component<Props, State> {
     };
     await axios({
       method: 'post',
-      url: 'http://localhost:8080/work/newWork',
+      url: `${process.env.REACT_APP_DOMAIN}/work/newWork`,
       data: toBeSendData,
       headers: { 'Auth-Header': token }
     });
+    message.success('저장 완료!');
     this.fetchWorkList(this.props.currentFolder.id);
   };
 
@@ -164,7 +167,7 @@ class WorkContainer extends React.Component<Props, State> {
     const token: string | null = localStorage.getItem('token');
     await axios({
       method: 'delete',
-      url: 'http://localhost:8080/work/',
+      url: `${process.env.REACT_APP_DOMAIN}/work/`,
       data: { workId },
       headers: { 'Auth-Header': token }
     });
@@ -182,7 +185,7 @@ class WorkContainer extends React.Component<Props, State> {
     };
     const result = await axios({
       method: 'post',
-      url: 'http://localhost:8080/work/newWork',
+      url: `${process.env.REACT_APP_DOMAIN}/work/newWork`,
       data: newWork,
       headers: { 'Auth-Header': token }
     });
@@ -215,24 +218,20 @@ class WorkContainer extends React.Component<Props, State> {
           onClickAddWorkButton={this.onClickAddWorkButton}
           onClickChoiceFolder={this.props.onClickChoiceFolder}
         />
-        {/* <WorkWriter /> */}
         <QuillStyle>
-          <div>
-            <input
-              type="text"
-              onChange={this.onChangeWorkTitle}
-              value={this.state.currentWork.title}
-              placeholder="제목"
+          <WorkWriter
+            onChangeWorkTitle={this.onChangeWorkTitle}
+            title={this.state.currentWork.title}
+          >
+            <Quill
+              ref={this.quill}
+              theme="snow"
+              value={this.state.currentWork.content}
+              onChange={this.onChangeContent}
+              modules={modules}
+              formats={formats}
             />
-          </div>
-          <Quill
-            ref={this.quill}
-            theme="snow"
-            value={this.state.currentWork.content}
-            onChange={this.onChangeContent}
-            modules={modules}
-            formats={formats}
-          />
+          </WorkWriter>
         </QuillStyle>
         <ButtonGroup
           onClickSaveWork={this.onClickSaveWork}

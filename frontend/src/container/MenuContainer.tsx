@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as feather from 'styled-icons/feather';
 import { connect } from 'react-redux';
+import { withRouter, RouteComponentProps } from 'react-router';
 import { bindActionCreators } from 'redux';
 import { message } from 'antd';
 
@@ -43,7 +44,7 @@ const HambergerIcon = feather.Menu.extend`
   cursor: pointer;
 `;
 
-type Props = StoreProps & DispatchProps & OwnProps;
+type Props = StoreProps & DispatchProps & RouteComponentProps<OwnProps>;
 
 class MenuContainer extends React.Component<Props, IState> {
   state: IState = {
@@ -132,6 +133,8 @@ class MenuContainer extends React.Component<Props, IState> {
       top: 100
     });
     message.success('로그아웃 되었습니다.');
+    message.destroy();
+    this.props.history.push('/');
     this.setState({
       showSideBar: false
     });
@@ -182,13 +185,15 @@ class MenuContainer extends React.Component<Props, IState> {
   }
 }
 
-export default connect<StoreProps, DispatchProps, OwnProps>(
-  ({ User }: IStoreState): StoreProps => ({
-    email: User.email,
-    username: User.username
-    // socialProvider: User.socialProvider
-  }),
-  (dispatch: any) => ({
-    userAction: bindActionCreators(userActionCreator, dispatch)
-  })
-)(MenuContainer);
+export default withRouter<any>(
+  connect<StoreProps, DispatchProps, OwnProps>(
+    ({ User }: IStoreState): StoreProps => ({
+      email: User.email,
+      username: User.username
+      // socialProvider: User.socialProvider
+    }),
+    (dispatch: any) => ({
+      userAction: bindActionCreators(userActionCreator, dispatch)
+    })
+  )(MenuContainer)
+);

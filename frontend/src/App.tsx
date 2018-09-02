@@ -49,6 +49,7 @@ class App extends React.Component<Props, IState> {
   }
 
   render () {
+    console.log(process.env);
     return (
       <BrowserRouter>
         <React.Fragment>

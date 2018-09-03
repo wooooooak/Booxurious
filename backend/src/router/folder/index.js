@@ -14,6 +14,6 @@ folder.post(
 );
 
 folder.post('/newFolder', authMiddleware, makeNewFolder);
-folder.get('/myFolderList', authMiddleware, myFolderList);
+folder.get('/myList', authMiddleware, myFolderList);
 
 export default folder;

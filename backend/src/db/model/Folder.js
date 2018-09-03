@@ -4,20 +4,28 @@ import User from './User';
 import Work from './Work';
 import Category from './Category';
 
-const Folder = sequelize.define('folder', {
-  id: {
-    type: Sequelize.UUID,
-    defaultValue: Sequelize.UUIDV1,
-    primaryKey: true
+const Folder = sequelize.define(
+  'folder',
+  {
+    id: {
+      type: Sequelize.UUID,
+      defaultValue: Sequelize.UUIDV1,
+      primaryKey: true
+    },
+    folderName: {
+      type: Sequelize.STRING
+    },
+    folderCoverImage: {
+      type: Sequelize.STRING
+    }
+
+    // fk_category_id: Sequelize.UUID
   },
-  folderName: {
-    type: Sequelize.STRING
-  },
-  folderCoverImage: {
-    type: Sequelize.STRING
+  {
+    timestamps: true,
+    charset: 'utf8'
   }
-  // fk_category_id: Sequelize.UUID
-});
+);
 
 Folder.associate = function associate () {
   Folder.belongsTo(User, {
@@ -27,7 +35,9 @@ Folder.associate = function associate () {
   });
   Folder.hasMany(Work, {
     as: 'Work',
-    foreignKey: 'fk_folder_id'
+    foreignKey: 'fk_folder_id',
+    onDelete: 'CASCADE',
+    onUpdate: 'restrict'
   });
   Folder.belongsTo(Category, {
     as: 'Category',

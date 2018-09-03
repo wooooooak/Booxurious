@@ -6569,9 +6569,9 @@ react-is@^16.3.1:
   version "16.4.2"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.4.2.tgz#84891b56c2b6d9efdee577cc83501dfc5ecead88"
 
-react-kakao-login@^1.0.10:
-  version "1.0.10"
-  resolved "https://registry.yarnpkg.com/react-kakao-login/-/react-kakao-login-1.0.10.tgz#11d8dd58db3edc15d0590c25e1016c0011128ec2"
+react-kakao-login@1.0.9:
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/react-kakao-login/-/react-kakao-login-1.0.9.tgz#6fd769f6446d38698cfb0ddc0a1a96b9bd79303a"
   dependencies:
     prop-types "^15.6.0"
     react "^15.1.0"

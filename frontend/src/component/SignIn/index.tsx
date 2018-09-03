@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { PageLayout, ContentBackground, Content, LogoContainer, Text } from './style';
 import { GoogleLogin } from 'react-google-login';
+// import KaKaoLogin from 'react-kakao-login';
 import KaKaoLogin from 'react-kakao-login';
 
 import Logo from '../Menu/Logo';
@@ -12,7 +13,6 @@ interface ISignInProps {
 
 const SignIn: React.SFC<ISignInProps> = ({ onClickSocialLogin }) => (
   <PageLayout>
-    {/* <SignInBox /> */}
     <ContentBackground />
     <Content>
       <LogoContainer>

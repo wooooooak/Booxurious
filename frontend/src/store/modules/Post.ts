@@ -23,7 +23,7 @@ export const writePost = (post: PostState) => {
   return (dispatch: any) => {
     axios({
       method: 'post',
-      url: `${process.env.REACT_APP_DOMAIN}/post/write`,
+      url: `${process.env.REACT_APP_DOMAIN}/post`,
       data: post,
       headers: { 'Auth-Header': token }
     })

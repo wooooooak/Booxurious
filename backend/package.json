@@ -8,7 +8,8 @@
     "build": "babel ./src --out-dir ./dist",
     "devdeploy": "yarn build & sls deploy --stage dev",
     "deploy": "yarn build & sls deploy --stage prod",
-    "dev": "cross-env NODE_ENV=development nodemon --exec babel-node src/app"
+    "dev": "cross-env NODE_ENV=development nodemon --exec babel-node src/app",
+    "prod": "cross-env NODE_ENV=production nodemon --exec babel-node src/app"
   },
   "author": "wooooooak",
   "license": "ISC",

@@ -6,7 +6,7 @@ import { getWorkListRelatedFolder, createWork, deleteWork } from './work.ctrl';
 const work = express.Router();
 
 work.get('/list', getWorkListRelatedFolder);
-work.post('/newWork', authMiddleware, createWork);
+work.post('/', authMiddleware, createWork);
 work.delete('/', authMiddleware, deleteWork);
 
 export default work;

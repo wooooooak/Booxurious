@@ -155,7 +155,7 @@ class WorkContainer extends React.Component<Props, State> {
     };
     await axios({
       method: 'post',
-      url: `${process.env.REACT_APP_DOMAIN}/work/newWork`,
+      url: `${process.env.REACT_APP_DOMAIN}/work`,
       data: toBeSendData,
       headers: { 'Auth-Header': token }
     });

@@ -8,6 +8,6 @@ const router = express.Router();
 
 router.post('/bookCoverImage', bookCoverUploader.single('imgFile'), uploadBookCoverImage);
 router.post('/contetImage', contentImageUploader.single('imgFile'), uploadImageInContent);
-router.post('/write', authMiddleware, write);
+router.post('/', authMiddleware, write);
 
 export default router;

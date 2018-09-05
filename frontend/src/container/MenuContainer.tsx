@@ -22,6 +22,7 @@ import LinkItems from '../component/SideBar/LinkItems';
 interface StoreProps {
   username: string | null;
   email: string;
+  profileImg: string;
 }
 
 interface DispatchProps {
@@ -56,7 +57,7 @@ class MenuContainer extends React.Component<Props, IState> {
       email: '',
       username: this.props.username ? this.props.username : null,
       code: null,
-      profileImg: null,
+      profileImg: '',
       socialProvider: ''
     }
   };
@@ -142,7 +143,7 @@ class MenuContainer extends React.Component<Props, IState> {
 
   render () {
     const { menuLayoutColor, showInputBox, showSideBar } = this.state;
-    const { username } = this.props;
+    const { username, profileImg } = this.props;
     return (
       <React.Fragment>
         <MenuBarLayout backgroundColor={menuLayoutColor} showSideBar={showSideBar}>
@@ -165,8 +166,9 @@ class MenuContainer extends React.Component<Props, IState> {
             size="48"
             color="#534847"
             onClick={this.onClickHambergerButton}
+            style={{ marginLeft: '-1px' }}
           />
-          <LinkItems username={username} />
+          <LinkItems username={username} profileImg={profileImg} />
           {localStorage.getItem('token') ? (
             <LogoutButton
               // socialProvider={socialProvider}
@@ -189,7 +191,8 @@ export default withRouter<any>(
   connect<StoreProps, DispatchProps, OwnProps>(
     ({ User }: IStoreState): StoreProps => ({
       email: User.email,
-      username: User.username
+      username: User.username,
+      profileImg: User.profileImg
       // socialProvider: User.socialProvider
     }),
     (dispatch: any) => ({

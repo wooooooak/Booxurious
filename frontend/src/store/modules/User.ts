@@ -52,8 +52,7 @@ export const socialLoginAsync = (
         // 'https://2bu3ko5b6j.execute-api.ap-northeast-2.amazonaws.com/dev/auth/login/social',
         `${process.env.REACT_APP_DOMAIN}/auth/login/social`,
       data: {
-        // email: socialEmail
-        email: `bedsv@abbbba.asdcom`,
+        email: socialEmail,
         socialProvider
       }
     })
@@ -93,7 +92,7 @@ export const signUp = (
   username: string,
   email: string,
   socialProvider: string,
-  profileImg: string | null
+  profileImg: string
 ) => {
   return (dispatch: any) => {
     axios({
@@ -153,7 +152,7 @@ export const actionCreators = {
 export interface IUserState {
   email: string;
   username: string | null;
-  profileImg: string | null;
+  profileImg: string;
   socialProvider: string;
   message?: string;
   goToSignUpPage?: boolean;
@@ -163,7 +162,7 @@ export interface IUserState {
 const initialState: IUserState = {
   email: '',
   username: '',
-  profileImg: null,
+  profileImg: '',
   socialProvider: '',
   goToSignUpPage: false,
   code: null

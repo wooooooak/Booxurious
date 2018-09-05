@@ -2,6 +2,8 @@ import * as React from 'react';
 import styled from 'styled-components';
 import styledTS from 'styled-components-ts';
 
+import { Rate } from 'antd';
+
 import { device } from '../../styled/device';
 import { Comment } from 'styled-icons/fa-regular/Comment';
 import { Heart } from 'styled-icons/octicons/Heart';
@@ -14,6 +16,7 @@ interface Datum {
   postAuthor: string;
   commentCount: number;
   like: number;
+  rate: number;
 }
 
 // Array of images with captions
@@ -26,7 +29,8 @@ const datas: Datum[] = [
     subTitle: '책을 읽고 나서',
     postAuthor: 'wooooooak',
     commentCount: 5,
-    like: 3
+    like: 3,
+    rate: 3
   },
   {
     source:
@@ -36,7 +40,8 @@ const datas: Datum[] = [
     subTitle: '알로하를 읽고 나서',
     postAuthor: 'miss go',
     commentCount: 2,
-    like: 2
+    like: 2,
+    rate: 5
   },
   {
     source:
@@ -46,7 +51,8 @@ const datas: Datum[] = [
     subTitle: '모든 순간이 너였다를 읽고 나서',
     postAuthor: 'miss go',
     commentCount: 8,
-    like: 13
+    like: 13,
+    rate: 5
   },
   {
     source: 'http://www.iusm.co.kr/news/photo/201801/785331_359093_1115.jpg ',
@@ -55,7 +61,8 @@ const datas: Datum[] = [
     subTitle: '기쁘다!',
     postAuthor: 'miss lee',
     commentCount: 51,
-    like: 55
+    like: 55,
+    rate: 4
   },
   {
     source:
@@ -65,7 +72,8 @@ const datas: Datum[] = [
     subTitle: '수업이 왜 이렇게 많아?',
     postAuthor: 'hello',
     commentCount: 2,
-    like: 3
+    like: 3,
+    rate: 4
   },
   {
     source:
@@ -75,7 +83,8 @@ const datas: Datum[] = [
     subTitle: '힘도 좋다',
     postAuthor: 'formula',
     commentCount: 11,
-    like: 6
+    like: 6,
+    rate: 2
   },
   {
     source:
@@ -85,7 +94,8 @@ const datas: Datum[] = [
     subTitle: '응.',
     postAuthor: 'auto red',
     commentCount: 7,
-    like: 22
+    like: 22,
+    rate: 3
   },
   {
     source:
@@ -95,7 +105,8 @@ const datas: Datum[] = [
     subTitle: '이건 사진이 왜이래',
     postAuthor: 'elecoder',
     commentCount: 16,
-    like: 50
+    like: 50,
+    rate: 1
   },
   {
     source:
@@ -105,7 +116,8 @@ const datas: Datum[] = [
     subTitle: '홍차 좋지',
     postAuthor: 'elebooks manager',
     commentCount: 24,
-    like: 66
+    like: 66,
+    rate: 5
   }
 ];
 
@@ -211,6 +223,8 @@ const CountNumber = styled.span`
   margin-right: 10px;
 `;
 
+const Title = styled.h2`margin-top: 1.2em;`;
+const SubTitle = styled.div`margin-bottom: 1.3em;`;
 const H1 = styled.h1`
   @import url('https://fonts.googleapis.com/css?family=Crete+Round');
   font-family: 'Crete Round', serif;
@@ -226,8 +240,9 @@ class IntroTwo extends React.Component<IProps, IState> {
           <TopArea>
             <Img imgSource={data.source} />
             <TextAreaInTopArea>
-              <h2>{data.title}</h2>
-              <div>{data.subTitle}</div>
+              <Title>{data.title}</Title>
+              <SubTitle>{data.subTitle}</SubTitle>
+              <Rate disabled={true} defaultValue={data.rate} />
               <AuthorName>by {data.postAuthor}</AuthorName>
             </TextAreaInTopArea>
           </TopArea>

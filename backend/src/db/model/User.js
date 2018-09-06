@@ -1,8 +1,6 @@
 import Sequelize from 'sequelize';
 import { sequelize } from '..';
 
-import { Post } from './';
-
 const User = sequelize.define(
   'user',
   {

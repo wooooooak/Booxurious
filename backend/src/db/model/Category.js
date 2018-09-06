@@ -25,14 +25,14 @@ const Category = sequelize.define(
 Category.associate = function associate () {
   // Post도 belongsToMay Category이기 때문에
   // 자동으로 posts_categories 라는 테이블이 생긴다.
-  Category.belongsToMany(Post, {
-    onDelete: 'CASCADE',
-    onUpdate: 'restrict',
-    through: {
-      model: 'posts_categories'
-    },
-    foreignKey: 'fk_category_id'
-  });
+  // Category.belongsToMany(Post, {
+  //   onDelete: 'CASCADE',
+  //   onUpdate: 'restrict',
+  //   through: {
+  //     model: 'posts_categories'
+  //   },
+  //   foreignKey: 'fk_category_id'
+  // });
   // Category.belongsToMany(Work, {
   //   onDelete: 'CASCADE',
   //   onUpdate: 'restrict',

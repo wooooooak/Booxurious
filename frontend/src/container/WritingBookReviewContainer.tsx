@@ -62,8 +62,10 @@ class WrtingBookReviewContainer extends React.Component<Props, State> {
     editorState: '',
     postTitle: '',
     subTitle: '',
+    category: '',
     bookCoverImg: null,
-    uploadingImg: false
+    uploadingImg: false,
+    rate: 0
   };
   private quill: typeof Quill;
 
@@ -177,8 +179,10 @@ export default connect<StoreProps, DispatchProps, OwnProps>(
     editorState: Post.editorState,
     postTitle: Post.postTitle,
     subTitle: Post.subTitle,
+    category: Post.category,
     bookCoverImg: Post.bookCoverImg,
-    uploadingImg: Post.uploadingImg
+    uploadingImg: Post.uploadingImg,
+    rate: Post.rate
   }),
   (dispatch: any) => ({
     postAction: bindActionCreators(postActionCreator, dispatch)

@@ -14,6 +14,8 @@ export interface PostState {
   editorState: string;
   postTitle: string;
   subTitle: string;
+  rate: number;
+  category: string;
   bookCoverImg: string | null;
   uploadingImg?: boolean;
 }
@@ -77,6 +79,8 @@ const initialState: PostState = {
   editorState: '',
   postTitle: '',
   subTitle: '',
+  category: '',
+  rate: 0,
   bookCoverImg: null,
   uploadingImg: false
 };

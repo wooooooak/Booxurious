@@ -11,7 +11,6 @@ export const createAccount = async (req, res) => {
       return res.status(422).json({ errors: errors.mapped() });
     }
     const { username, email, socialProvider, profileImg } = matchedData(req);
-    dumper(req.body);
     const user = await User.create({
       email,
       username,
@@ -49,10 +48,6 @@ export const loginSocailAccount = async (req, res) => {
       res.json({ socialProvider, email, code: 2 });
     }
   } catch (err) {
-    console.log('eeerrrrr' + err);
+    res.json(err);
   }
-};
-
-export const test = (req, res) => {
-  res.send('test success');
 };

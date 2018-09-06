@@ -12,7 +12,6 @@ const Post = sequelize.define(
       primaryKey: true
     },
     postTitle: Sequelize.STRING,
-    fk_user_id: Sequelize.UUID,
     subTitle: Sequelize.TEXT,
     editorState: Sequelize.TEXT,
     bookCoverImg: Sequelize.STRING,
@@ -20,7 +19,7 @@ const Post = sequelize.define(
       type: Sequelize.INTEGER,
       defaultValue: 0
     },
-    starRating: {
+    rate: {
       type: Sequelize.INTEGER,
       defaultValue: 0
     }
@@ -37,13 +36,10 @@ Post.associate = function associate () {
     onDelete: 'CASCADE',
     onUpdate: 'restrict'
   });
-  Post.belongsToMany(Category, {
+  Post.belongsTo(Category, {
+    foreignKey: 'fk_category_id',
     onDelete: 'CASCADE',
-    onUpdate: 'restrict',
-    through: {
-      model: 'posts_categories'
-    },
-    foreignKey: 'fk_post_id'
+    onUpdate: 'restrict'
   });
   Post.belongsToMany(Tag, {
     onDelete: 'CASCADE',

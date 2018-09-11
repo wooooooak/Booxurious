@@ -10,12 +10,16 @@ import { PostState } from '../store/modules/Post';
 
 import Cover from '../component/Write/Cover';
 import ImageUploader from '../component/Write/ImageUploader';
+import Modal from '../component/Write/Modal';
 import EditorBox from '../component/Write/EditorBox';
-import SendButton from '../component/Write/SendButton';
+// import SendButton from '../component/Write/SendButton';
 
 import 'react-quill/dist/quill.snow.css';
 
-interface State extends PostState {}
+interface State {
+  reviewData: PostState;
+  modalState: boolean;
+}
 
 type StoreProps = PostState;
 
@@ -55,18 +59,25 @@ const formats = [
 
 class WrtingBookReviewContainer extends React.Component<Props, State> {
   static getDerivedStateFromProps (nextProps: Props) {
-    return nextProps;
+    console.log(nextProps);
+    return {
+      reviewData: nextProps
+    };
   }
 
   state = {
-    editorState: '',
-    postTitle: '',
-    subTitle: '',
-    category: '',
-    bookCoverImg: null,
-    uploadingImg: false,
-    rate: 0
+    reviewData: {
+      editorState: '',
+      postTitle: '',
+      subTitle: '',
+      category: '문학',
+      bookCoverImg: null,
+      uploadingImg: false,
+      rate: 2.5
+    },
+    modalState: false
   };
+
   private quill: typeof Quill;
 
   constructor (props: any) {
@@ -85,10 +96,13 @@ class WrtingBookReviewContainer extends React.Component<Props, State> {
     };
     const { postTitle, subTitle, editorState, bookCoverImg } = this.props;
     this.setState({
-      postTitle,
-      subTitle,
-      editorState,
-      bookCoverImg
+      reviewData: {
+        ...this.state.reviewData,
+        postTitle,
+        subTitle,
+        editorState,
+        bookCoverImg
+      }
     });
   }
 
@@ -131,6 +145,7 @@ class WrtingBookReviewContainer extends React.Component<Props, State> {
   onChangeTitle = (e: React.FormEvent<HTMLInputElement>) => {
     this.props.postAction.onChangePostTitle(e.currentTarget.value);
   };
+
   onChangeSubTitle = (e: React.FormEvent<HTMLTextAreaElement>) => {
     this.props.postAction.onChangeSubTitle(e.currentTarget.value);
   };
@@ -140,35 +155,67 @@ class WrtingBookReviewContainer extends React.Component<Props, State> {
   };
 
   onClickWritePost = () => {
-    this.props.postAction.writePost(this.state);
+    this.props.postAction.writePost(this.state.reviewData);
+    this.setState({
+      modalState: false
+    });
+  };
+
+  onChangeRate = (rate: number) => {
+    this.props.postAction.onChangeRate(rate);
+  };
+  onChangeCategory = (category: string) => {
+    this.props.postAction.onChangeCategory(category);
+  };
+
+  onClickModalCancle = () => {
+    this.setState({
+      modalState: false
+    });
+  };
+
+  onClickModalButton = () => {
+    this.setState({
+      modalState: true
+    });
   };
 
   render () {
+    const { rate, category } = this.state.reviewData;
     return (
       <React.Fragment>
         <Cover
-          postTitle={this.state.postTitle}
+          postTitle={this.state.reviewData.postTitle}
           onChangeTitle={this.onChangeTitle}
-          subTitle={this.state.subTitle}
+          subTitle={this.state.reviewData.subTitle}
           onChangeSubTitle={this.onChangeSubTitle}
         >
           <ImageUploader
             fileChangedHandler={this.bookCoverImageChangedHandler}
-            bookCoverImg={this.state.bookCoverImg}
-            uploadingImg={this.state.uploadingImg}
+            bookCoverImg={this.state.reviewData.bookCoverImg}
+            uploadingImg={this.state.reviewData.uploadingImg}
           />
         </Cover>
         <EditorBox>
           <Quill
             ref={this.quill}
             theme="snow"
-            value={this.state.editorState}
+            value={this.state.reviewData.editorState}
             onChange={this.onChangeContent}
             modules={modules}
             formats={formats}
           />
         </EditorBox>
-        <SendButton onClickSubmit={this.onClickWritePost} />
+        <Modal
+          modalState={this.state.modalState}
+          rate={rate}
+          category={category}
+          onClickModalOk={this.onClickWritePost}
+          onClickModalCancle={this.onClickModalCancle}
+          onChangeRate={this.onChangeRate}
+          onChangeCategory={this.onChangeCategory}
+          onClickModalButton={this.onClickModalButton}
+        />
       </React.Fragment>
     );
   }

@@ -6,6 +6,8 @@ const WRITE_FAIL = 'post/WriteFail';
 const ON_CHANGE_POST_CONTENT = 'post/OnChangePostContent';
 const ON_CHANGE_POST_TITLE = 'post/OnChangePostTitle';
 const ON_CHANGE_SUB_TITLE = 'post/OnChangeSubTitle';
+const ON_CHANGE_RATE = 'post/OnChangeRage';
+const ON_CHANGE_CATEGORY = 'post/OnChangeCategory';
 const ON_CHANGE_BOOK_COVER_IMG_PENDING = 'post/OnChangeBookCoverImgPeding';
 const ON_CHANGE_BOOK_COVER_IMG_SUCCESS = 'post/OnChangeBookCoverImgSuccess';
 const ON_CHANGE_BOOK_COVER_IMG_FAIL = 'post/OnChangeBookCoverImgFail';
@@ -67,6 +69,8 @@ export const actionCreators = {
   writeSuccess: createAction<PostState>(WRITE_SUCCESS),
   writeFail: createAction<PostState>(WRITE_FAIL),
   onChangePostContent: createAction<string>(ON_CHANGE_POST_CONTENT),
+  onChangeRate: createAction<number>(ON_CHANGE_RATE),
+  onChangeCategory: createAction<string>(ON_CHANGE_CATEGORY),
   onChangePostTitle: createAction<string>(ON_CHANGE_POST_TITLE),
   onChangeSubTitle: createAction<string>(ON_CHANGE_SUB_TITLE),
   OnChangeBookCoverImg,
@@ -80,7 +84,7 @@ const initialState: PostState = {
   postTitle: '',
   subTitle: '',
   category: '',
-  rate: 0,
+  rate: 2.5,
   bookCoverImg: null,
   uploadingImg: false
 };
@@ -111,6 +115,19 @@ export default handleActions<PostState, any>(
       return {
         ...state,
         subTitle: action.payload
+      };
+    },
+    [ON_CHANGE_RATE]: (state, action): PostState => {
+      console.log(action);
+      return {
+        ...state,
+        rate: action.payload
+      };
+    },
+    [ON_CHANGE_CATEGORY]: (state, action): PostState => {
+      return {
+        ...state,
+        category: action.payload
       };
     },
     [ON_CHANGE_BOOK_COVER_IMG_SUCCESS]: (state, action): PostState => {

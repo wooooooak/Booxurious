@@ -1,7 +1,6 @@
 import Post from '../../db/model/Post';
 import User from '../../db/model/User';
 import Category from '../../db/model/Category';
-import { dumper } from 'dumper';
 
 export const uploadBookCoverImage = (req, res) => {
   let imgFile = req.file;
@@ -13,10 +12,8 @@ export const uploadImageInContent = (req, res) => {
 };
 
 export const write = async (req, res) => {
-  // const { postTitle, subTitle, category, editorState, bookCoverImg, rate } = req.body;
   const { category } = req.body;
   const { userId: fk_user_id } = req.decodedUser;
-  // const postData = { postTitle, subTitle, editorState, bookCoverImg, rate };
   try {
     const machedCategory = await Category.findOrCreate({ where: { name: category } });
     const user = await User.find({ where: { id: fk_user_id } });

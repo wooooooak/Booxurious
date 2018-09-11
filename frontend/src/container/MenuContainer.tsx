@@ -131,11 +131,11 @@ class MenuContainer extends React.Component<Props, IState> {
     const { userAction } = this.props;
     userAction.logout();
     message.config({
-      top: 100
+      top: 100,
+      duration: 2
     });
-    message.success('로그아웃 되었습니다.');
-    message.destroy();
     this.props.history.push('/');
+    message.success('로그아웃 되었습니다.');
     this.setState({
       showSideBar: false
     });
@@ -170,10 +170,7 @@ class MenuContainer extends React.Component<Props, IState> {
           />
           <LinkItems username={username} profileImg={profileImg} />
           {localStorage.getItem('token') ? (
-            <LogoutButton
-              // socialProvider={socialProvider}
-              onLogoutSuccess={this.onClickLogout}
-            />
+            <LogoutButton onLogoutSuccess={this.onClickLogout} />
           ) : (
             <SignInButton />
           )}

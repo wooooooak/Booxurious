@@ -7,7 +7,6 @@ import { IStoreState } from '../store/modules';
 import { actionCreators as userActionCreator } from '../store/modules/User';
 
 import SignIn from '../component/SignIn';
-import { KakaoLoginResponseV2 } from 'react-kakao-login';
 
 interface StoreProps {
   email: string;
@@ -44,7 +43,6 @@ class SignInContainer extends React.Component<ContainerProps, IState> {
         );
         break;
       case 'kakao':
-        console.log(response.response as KakaoLoginResponseV2);
         const { profile } = response.response;
         let profileImage = '';
         if (profile.profile_image) {

@@ -9,7 +9,7 @@ export const ItemConatiner = styled.div`
 `;
 
 export const Item = styled(Link)`
-  margin-top: 30px;
+  margin-top: 10px;
   text-decoration: none;
   color: black;
 `;

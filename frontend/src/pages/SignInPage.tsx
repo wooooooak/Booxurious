@@ -1,15 +1,21 @@
 import * as React from 'react';
+import styled from 'styled-components';
 
 import MenuContainer from '../container/MenuContainer';
 import SignInContainer from '../container/SignInContainer';
 
-const SignUpPage: React.SFC<{}> = () => {
+export const Div = styled.div`
+  background: url('https://cdn.pixabay.com/photo/2015/09/02/12/28/pencil-918449_960_720.jpg')
+    center/cover;
+`;
+
+const SignInPage: React.SFC<{}> = () => {
   return (
-    <React.Fragment>
+    <Div>
       <MenuContainer />
       <SignInContainer />
-    </React.Fragment>
+    </Div>
   );
 };
 
-export default SignUpPage;
+export default SignInPage;

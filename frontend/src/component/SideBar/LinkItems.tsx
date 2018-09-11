@@ -1,4 +1,5 @@
 import * as React from 'react';
+// import styled from "styled-components";
 import { Avatar } from 'antd';
 
 import { ItemConatiner, Item } from './style';
@@ -30,11 +31,12 @@ const LinkItems: React.SFC<Props> = ({ username, profileImg }) => {
           />
         )}
         <Item to="/">홈</Item>
-        <Item to="/writingBookReview">독후감 쓰기</Item>
-        <Item to="/choiceFolderOrWriting">내 글 연재하기</Item>
-        <Item to="/">작품 발굴하기</Item>
-        <Item to="/">나의 팔로우들</Item>
-        <Item to="/">설정</Item>
+        <Item to="/writingBookReview">독후감 쓰기(개발중)</Item>
+        <Item to="/choiceFolderOrWriting">내 글 연재하기(개발중)</Item>
+        <Item to="/">작품 발굴하기(아직)</Item>
+        <Item to="/">나의 팔로우들(아직)</Item>
+        <Item to="/">일주일 프로젝트(아직)</Item>
+        <Item to="/">설정(이것도아직)</Item>
       </ItemConatiner>
     );
   } else {

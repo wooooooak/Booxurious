@@ -15,9 +15,10 @@ export const ContentBackground = styled.div`
   left: 50%;
   z-index: 1;
   transform: translate(-50%, -50%);
-  background-color: #1f2124;
+  background-color: white;
+  /* box-shadow: 1px 1px 20px black; */
   border-radius: 20px;
-  height: 400px;
+  height: 430px;
   width: 400px;
   padding: 20px 50px;
 `;
@@ -39,26 +40,42 @@ export const Content = styled.div`
 `;
 
 export const Input = styled.input`
-  width: 300px;
+  /* width: 300px; */
   height: 40px;
-  padding-left: 15px;
-  background-color: #2c3a47;
+  text-align: center;
+  /* padding-left: 15px; */
+  background-color: transparent;
   border-radius: 15px;
   margin-bottom: 10px;
+  margin-top: 30px;
   outline: none;
   font-size: 1.2rem;
-  color: white;
-  border-color: transparent;
+  /* color: white; */
+  border: none;
 `;
 export const LogoContainer = styled.div`
   text-align: center;
-  margin-bottom: 50px;
-  margin-top: 20px;
+  margin-bottom: 60px;
+  margin-top: -20px;
+`;
+
+export const Hr = styled.div`
+  width: 100%;
+  height: 1px;
+  background: black;
 `;
 
 export const Text = styled.div`
   margin-top: 50px;
   text-align: center;
   font-size: 1.1rem;
-  color: #fffff3;
+  color: black;
+  @import url('https://fonts.googleapis.com/css?family=Noto+Sans+KR');
+  font-family: 'Noto Sans KR', sans-serif;
+  /* color: #fffff3; */
+`;
+
+export const GoogleLoginText = styled.span`
+  font-size: 1.1em;
+  font-weight: bold;
 `;

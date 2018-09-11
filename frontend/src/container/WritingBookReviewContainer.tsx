@@ -59,7 +59,6 @@ const formats = [
 
 class WrtingBookReviewContainer extends React.Component<Props, State> {
   static getDerivedStateFromProps (nextProps: Props) {
-    console.log(nextProps);
     return {
       reviewData: nextProps
     };

@@ -4,6 +4,7 @@ import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { IStoreState } from '../store/modules';
 import { actionCreators as userActionCreator } from '../store/modules/User';
+import { message } from 'antd';
 
 import SignUp from '../component/SignUp';
 import { IUserState } from '../store/modules/User';
@@ -28,6 +29,10 @@ class SignUpContainer extends React.Component<ContainerProps, IState> {
     const { email, socialProvider, profileImg } = this.props;
     const { userAction } = this.props;
     userAction.signUp(this.state.username, email, socialProvider, profileImg);
+    message.config({
+      duration: 2
+    });
+    message.success(`반갑습니다. ${this.state.username}님!`);
   };
 
   onChangeUserName = (e: React.FormEvent<HTMLInputElement>): void => {
@@ -39,6 +44,7 @@ class SignUpContainer extends React.Component<ContainerProps, IState> {
   render () {
     if (this.props.code === 422) {
       console.log('username 중복');
+      message.error('누군가 사용중인 닉네임입니다 :( ');
     }
     if (this.props.code === 200) {
       return <Redirect to="/" />;

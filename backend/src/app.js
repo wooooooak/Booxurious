@@ -13,6 +13,7 @@ app.use(cors());
 api.use(bodyParser.json());
 api.use(bodyParser.urlencoded({ extended: true }));
 api.use(awsServerlessExpressMiddleware.eventContext());
+
 sequelize.authenticate().then(() => {
   sync();
 });

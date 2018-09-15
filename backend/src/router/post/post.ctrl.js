@@ -3,12 +3,12 @@ import User from '../../db/model/User';
 import Category from '../../db/model/Category';
 
 export const uploadBookCoverImage = (req, res) => {
-  console.log('here');
   console.log(JSON.stringify(req.headers, null, 4));
   console.log(req.apiGateway);
   let imgFile = req.file;
   res.json(imgFile);
 };
+
 export const uploadImageInContent = (req, res) => {
   let imgFile = req.file;
   res.status(200).json(imgFile);

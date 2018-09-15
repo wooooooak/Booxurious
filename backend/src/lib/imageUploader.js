@@ -5,8 +5,8 @@ import path from 'path';
 
 import { aws_config } from '../config';
 
-AWS.config.accessKeyId = 'AKIAI4SU4P7XTCFCTB5A';
-AWS.config.secretAccessKey = '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';
+AWS.config.accessKeyId = process.env.AWS_KEY;
+AWS.config.secretAccessKey = process.env.AWS_SECRET;
 AWS.config.region = 'ap-northeast-2';
 
 const s3 = new AWS.S3();

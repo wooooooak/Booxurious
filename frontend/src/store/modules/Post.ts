@@ -32,14 +32,11 @@ export const writePost = (post: PostState) => {
       headers: { 'Auth-Header': token }
     })
       .then((res) => {
-        if (res.status === 200) {
-          dispatch(actionCreators.writeSuccess(res.data));
-        } else {
-          console.log(res);
-        }
+        console.dir(res);
+        dispatch(actionCreators.writeSuccess(res.data));
       })
       .catch((error) => {
-        console.log(error);
+        console.dir(error);
       });
   };
 };
@@ -51,14 +48,19 @@ export const OnChangeBookCoverImg = (files: FileList) => {
   return (dispatch: any) => {
     axios
       .post(`${process.env.REACT_APP_DOMAIN}/post/bookCoverImage`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        },
         onUploadProgress: (progressEvent) => {
           dispatch(actionCreators.OnChangeBookCoverImgPending());
         }
       })
       .then((result) => {
+        console.log(result);
         dispatch(actionCreators.OnChangeBookCoverImgSuccess(result.data.location));
       })
       .catch((err) => {
+        console.dir(err);
         dispatch(actionCreators.OnChangeBookCoverImgFail());
       });
   };
@@ -118,7 +120,6 @@ export default handleActions<PostState, any>(
       };
     },
     [ON_CHANGE_RATE]: (state, action): PostState => {
-      console.log(action);
       return {
         ...state,
         rate: action.payload

@@ -3,6 +3,9 @@ import User from '../../db/model/User';
 import Category from '../../db/model/Category';
 
 export const uploadBookCoverImage = (req, res) => {
+  console.log('here');
+  console.log(JSON.stringify(req.headers, null, 4));
+  console.log(req.apiGateway);
   let imgFile = req.file;
   res.json(imgFile);
 };
@@ -24,4 +27,10 @@ export const write = async (req, res) => {
   } catch (error) {
     res.status(500).json(error);
   }
+};
+
+export const test = (req, res) => {
+  res.status(200).json({
+    key: process.env.AWS_KEY
+  });
 };

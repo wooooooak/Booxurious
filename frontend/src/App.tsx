@@ -58,16 +58,8 @@ class App extends React.Component<Props, IState> {
             <Route exact={true} path="/" component={IntroPage} />
             <Route exact={true} path="/signIn" component={SignInPage} />
             <Route exact={true} path="/signUp" component={SignUpPage} />
-            <Route
-              exact={true}
-              path="/choiceFolderOrWriting"
-              component={ChoiceFolderOrWritingPage}
-            />
-            <Route
-              exact={true}
-              path="/writingBookReview"
-              component={WritingBookReviewPage}
-            />
+            <Route exact={true} path="/folder" component={ChoiceFolderOrWritingPage} />
+            <Route exact={true} path="/write_review" component={WritingBookReviewPage} />
           </Switch>
         </React.Fragment>
       </BrowserRouter>

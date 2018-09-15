@@ -31,8 +31,8 @@ const LinkItems: React.SFC<Props> = ({ username, profileImg }) => {
           />
         )}
         <Item to="/">홈</Item>
-        <Item to="/writingBookReview">독후감 쓰기(개발중)</Item>
-        <Item to="/choiceFolderOrWriting">내 글 연재하기(개발중)</Item>
+        <Item to="/write_review">독후감 쓰기(개발중)</Item>
+        <Item to="/folder">내 책 연재하기(개발중)</Item>
         <Item to="/">작품 발굴하기(아직)</Item>
         <Item to="/">나의 팔로우들(아직)</Item>
         <Item to="/">일주일 프로젝트(아직)</Item>

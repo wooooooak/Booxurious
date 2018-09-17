@@ -50,33 +50,25 @@ const SubTitle = styled.textarea.attrs({
   resize: none;
   `;
 
-export interface CoverProps {
+export interface Props {
   postTitle: string;
   subTitle?: string;
-
   onChangeTitle(e: React.FormEvent<HTMLInputElement>): void;
   onChangeSubTitle(e: React.FormEvent<HTMLTextAreaElement>): void;
 }
 
-const Cover: React.SFC<CoverProps> = ({
-  postTitle,
-  subTitle,
-  onChangeTitle,
-  onChangeSubTitle,
-  children
-}) => {
-  return (
+export type Ref = HTMLDivElement;
+
+const Cover = React.forwardRef<Ref, Props>((props, ref) => (
+  <div ref={ref}>
     <Layout>
-      <LeftSideLyout>
-        {/* <Img /> */}
-        {children}
-      </LeftSideLyout>
+      <LeftSideLyout>{props.children}</LeftSideLyout>
       <RightSideLayout>
-        <Title onChange={onChangeTitle} value={postTitle} />
-        <SubTitle onChange={onChangeSubTitle} value={subTitle} />
+        <Title onChange={props.onChangeTitle} value={props.postTitle} />
+        <SubTitle onChange={props.onChangeSubTitle} value={props.subTitle} />
       </RightSideLayout>
     </Layout>
-  );
-};
+  </div>
+));
 
 export default Cover;

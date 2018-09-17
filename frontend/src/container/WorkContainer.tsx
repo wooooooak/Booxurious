@@ -31,6 +31,7 @@ interface State {
   workList: WorkState[];
   isAddWorkMode: boolean;
   currentWork: WorkState;
+  isAffixToolbar: boolean;
 }
 
 const Quill = ReactQuill as any;
@@ -73,7 +74,8 @@ class WorkContainer extends React.Component<Props, State> {
       id: null,
       content: '',
       title: ''
-    }
+    },
+    isAffixToolbar: false
   };
 
   private quill: typeof Quill;
@@ -88,8 +90,23 @@ class WorkContainer extends React.Component<Props, State> {
         container: toolbarContainer
       }
     };
+    this.onDetectScroll();
     this.fetchWorkList(this.props.currentFolder.id);
   }
+
+  onDetectScroll = () => {
+    window.addEventListener('scroll', (): void => {
+      if (window.pageYOffset > 140) {
+        this.setState({
+          isAffixToolbar: true
+        });
+      } else {
+        this.setState({
+          isAffixToolbar: false
+        });
+      }
+    });
+  };
 
   fetchWorkList = async (id: string | null) => {
     const result = await axios({
@@ -200,7 +217,14 @@ class WorkContainer extends React.Component<Props, State> {
     });
   };
 
+  componentWillUnmount () {
+    window.removeEventListener('scroll', () => {
+      return null;
+    });
+  }
+
   render () {
+    const { isAffixToolbar } = this.state;
     return (
       <div
         style={{
@@ -218,7 +242,7 @@ class WorkContainer extends React.Component<Props, State> {
           onClickAddWorkButton={this.onClickAddWorkButton}
           onClickChoiceFolder={this.props.onClickChoiceFolder}
         />
-        <QuillStyle>
+        <QuillStyle isAffixToolbar={isAffixToolbar}>
           <WorkWriter
             onChangeWorkTitle={this.onChangeWorkTitle}
             title={this.state.currentWork.title}

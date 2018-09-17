@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import { device } from '../../styled/device';
+import styledTS from 'styled-components-ts';
+// import { device } from '../../styled/device';
 
 // export const BoxShadowing = keyframes`
 //   0%{
@@ -9,6 +10,10 @@ import { device } from '../../styled/device';
 //     box-shadow: 2px 2px 50px black;
 //   }
 // `;
+
+interface Props {
+  isAffixToolbar: boolean;
+}
 
 export const Title = styled.div`
   display: flex;
@@ -48,16 +53,19 @@ export const LayoutRightBox = styled.div`
   }
 `;
 
-export const QuillStyle = styled.div`
+export const QuillStyle = styledTS<Props>(styled.div)`
   width: 700px;
   margin: 0 auto;
-  /* margin-left: 600px; */
   .ql-container.ql-snow {
     font-size: 1.2em;
     border: none;
   }
 
-  /* @media ${device.laptopL} {
-    margin-left: 450px;
-  } */
+  .ql-toolbar {
+    z-index: 999;
+    position: ${(props) => (props.isAffixToolbar ? 'fixed' : 'static')};
+    top: 70px;
+    background: ${(props) => (props.isAffixToolbar ? '#F0E5DE' : '')}
+  }
+
 `;

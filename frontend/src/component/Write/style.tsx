@@ -1,6 +1,11 @@
 import styled from 'styled-components';
+import styledTS from 'styled-components-ts';
 
-export const EditorBoxLayout = styled.div`
+interface Props {
+  isAffixToolbar: boolean;
+}
+
+export const EditorBoxLayout = styledTS<Props>(styled.div)`
   margin-top: 30px;
   min-width: 600px;
   box-sizing: border-box;
@@ -24,10 +29,10 @@ export const EditorBoxLayout = styled.div`
   }
 
   .ql-toolbar {
-    /* background-color: red; */
-    /* position: fixed;
-    z-index: 998;
-    top: 70px; */
+    z-index: 999;
+    position: ${(props) => (props.isAffixToolbar ? 'fixed' : 'static')};
+    top: 70px;
+    background: ${(props) => (props.isAffixToolbar ? '#F0E5DE' : '')}
   }
 
   .ql-container.ql-snow {

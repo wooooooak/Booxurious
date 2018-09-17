@@ -19,6 +19,8 @@ import 'react-quill/dist/quill.snow.css';
 interface State {
   reviewData: PostState;
   modalState: boolean;
+  isAffixToolbar: boolean;
+  coverBottomOffset: number;
 }
 
 type StoreProps = PostState;
@@ -74,17 +76,21 @@ class WrtingBookReviewContainer extends React.Component<Props, State> {
       uploadingImg: false,
       rate: 2.5
     },
-    modalState: false
+    modalState: false,
+    isAffixToolbar: false,
+    coverBottomOffset: 570
   };
 
   private quill: typeof Quill;
-
+  private coverRef = React.createRef<HTMLDivElement>();
   constructor (props: any) {
     super(props);
     this.quill = React.createRef();
   }
 
   componentDidMount () {
+    this.onDetectScroll();
+    const coverBottomOffset = this.getCoverBottomOffset(this.coverRef);
     modules = {
       toolbar: {
         container: toolbarContainer,
@@ -101,9 +107,20 @@ class WrtingBookReviewContainer extends React.Component<Props, State> {
         subTitle,
         editorState,
         bookCoverImg
-      }
+      },
+      coverBottomOffset
     });
   }
+
+  getCoverBottomOffset = (coverElement: React.RefObject<HTMLDivElement>): number => {
+    let coverBottomOffset = 570;
+    if (this.coverRef.current) {
+      const coverHeight = this.coverRef.current.offsetHeight;
+      const offset = this.coverRef.current.offsetTop;
+      coverBottomOffset = coverHeight + offset;
+    }
+    return coverBottomOffset;
+  };
 
   imageHandler = async () => {
     const input = document.createElement('input');
@@ -163,6 +180,7 @@ class WrtingBookReviewContainer extends React.Component<Props, State> {
   onChangeRate = (rate: number) => {
     this.props.postAction.onChangeRate(rate);
   };
+
   onChangeCategory = (category: string) => {
     this.props.postAction.onChangeCategory(category);
   };
@@ -179,13 +197,34 @@ class WrtingBookReviewContainer extends React.Component<Props, State> {
     });
   };
 
+  onDetectScroll = () => {
+    window.addEventListener('scroll', (): void => {
+      if (window.pageYOffset > this.state.coverBottomOffset) {
+        this.setState({
+          isAffixToolbar: true
+        });
+      } else {
+        this.setState({
+          isAffixToolbar: false
+        });
+      }
+    });
+  };
+
+  componentWillUnmount () {
+    window.removeEventListener('scroll', () => {
+      return null;
+    });
+  }
+
   render () {
+    const { isAffixToolbar } = this.state;
     const { rate, category } = this.state.reviewData;
-    console.log('render');
-    console.log(this.state.reviewData);
+    console.log(this.state);
     return (
       <React.Fragment>
         <Cover
+          ref={this.coverRef}
           postTitle={this.state.reviewData.postTitle}
           onChangeTitle={this.onChangeTitle}
           subTitle={this.state.reviewData.subTitle}
@@ -197,7 +236,7 @@ class WrtingBookReviewContainer extends React.Component<Props, State> {
             uploadingImg={this.state.reviewData.uploadingImg}
           />
         </Cover>
-        <EditorBox>
+        <EditorBox isAffixToolbar={isAffixToolbar}>
           <Quill
             ref={this.quill}
             theme="snow"

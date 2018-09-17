@@ -23,14 +23,12 @@ provider:
   stage: dev
   region: ap-northeast-2
   environment: ${file(./env.yml):${opt:stage, self:provider.stage}}
-    
-    
-    # ASSETS_URL: "https://s3.ap-northeast-2.amazonaws.com/ele-${opt:stage}"
+  # ASSETS_URL: "https://s3.ap-northeast-2.amazonaws.com/ele-${opt:stage}"
 
-# custom:
-#   s3Sync:
-#     - bucketName: ele-${opt:stage}
-#       localDir: /dist
+custom:
+  apigwBinary:
+    types:           #list of mime-types 
+      - '*/*'
 
 
 # you can add statements to the Lambda function's IAM Role here
@@ -135,4 +133,4 @@ functions:
 #               Principal: "*"
 
 plugins:
-  # - serverless-s3-sync
+ - serverless-apigw-binary

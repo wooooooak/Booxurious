@@ -220,7 +220,6 @@ class WrtingBookReviewContainer extends React.Component<Props, State> {
   render () {
     const { isAffixToolbar } = this.state;
     const { rate, category } = this.state.reviewData;
-    console.log(this.state);
     return (
       <React.Fragment>
         <Cover

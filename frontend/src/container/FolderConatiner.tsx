@@ -140,7 +140,8 @@ class FolderContainer extends React.Component<Props, State> {
     });
     const myFolderList: FolderState[] = result.data;
     this.setState({
-      myFolderList
+      myFolderList,
+      goToWritePage: false
     });
   };
 
@@ -152,9 +153,10 @@ class FolderContainer extends React.Component<Props, State> {
   };
 
   onClickChoiceFolder = () => {
-    this.setState({
-      goToWritePage: false
-    });
+    // this.setState({
+    //   goToWritePage: false
+    // });
+    this.fetchFolders();
   };
 
   render () {

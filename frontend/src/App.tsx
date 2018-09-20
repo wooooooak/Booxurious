@@ -9,9 +9,9 @@ import { actionCreators as userActionCreator } from './store/modules/User';
 import IntroPage from './pages/IntroPage';
 import SignInPage from './pages/SignInPage';
 import SignUpPage from './pages/SignUpPage';
-// import WritingWorkPage from './pages/WritingWorkPage';
 import ChoiceFolderOrWritingPage from './pages/ChoiceFolderOrWrtingPage';
 import WritingBookReviewPage from './pages/WritingBookReviewPage';
+import UserPage from './pages/UserPage';
 
 injectGlobal`
   
@@ -52,13 +52,13 @@ class App extends React.Component<Props, IState> {
     return (
       <BrowserRouter>
         <React.Fragment>
-          {/* <MenuContainer /> */}
           <Switch>
             <Route exact={true} path="/" component={IntroPage} />
             <Route exact={true} path="/signIn" component={SignInPage} />
             <Route exact={true} path="/signUp" component={SignUpPage} />
             <Route exact={true} path="/folder" component={ChoiceFolderOrWritingPage} />
             <Route exact={true} path="/write_review" component={WritingBookReviewPage} />
+            <Route exact={true} path="/user" component={UserPage} />
           </Switch>
         </React.Fragment>
       </BrowserRouter>

@@ -36,7 +36,7 @@ const LinkItems: React.SFC<Props> = ({ username, profileImg }) => {
         <Item to="/">작품 발굴하기(아직)</Item>
         <Item to="/">나의 팔로우들(아직)</Item>
         <Item to="/">일주일 프로젝트(아직)</Item>
-        <Item to="/">설정(이것도아직)</Item>
+        <Item to="/user">설정(이것도아직)</Item>
       </ItemConatiner>
     );
   } else {

@@ -16,7 +16,7 @@ import SideBar from '../component/SideBar';
 import OuterToToggleSideBar from '../component/SideBar/OuterToToggleSideBar';
 import LogoutButton from '../component/SideBar/LogoutButton';
 import SignInButton from '../component/SideBar/SignInButton';
-import Tags from '../component/Menu/Tags';
+// import Tags from '../component/Menu/Tags';
 import LinkItems from '../component/SideBar/LinkItems';
 
 interface StoreProps {
@@ -143,7 +143,7 @@ class MenuContainer extends React.Component<Props, IState> {
 
   render () {
     const { menuLayoutColor, showInputBox, showSideBar } = this.state;
-    const { username, profileImg } = this.props;
+    const { username, profileImg, children } = this.props;
     return (
       <React.Fragment>
         <MenuBarLayout backgroundColor={menuLayoutColor} showSideBar={showSideBar}>
@@ -153,7 +153,7 @@ class MenuContainer extends React.Component<Props, IState> {
             color="#1F2124"
           />
           <Logo marginLeft="50px" fontSize={'1.3rem'} />
-          {showInputBox ? null : <Tags />}
+          {showInputBox ? null : children}
           <SearchForm
             showInputBox={showInputBox}
             onClickSearchIcon={this.onClickSearchIcon}
@@ -190,7 +190,6 @@ export default withRouter<any>(
       email: User.email,
       username: User.username,
       profileImg: User.profileImg
-      // socialProvider: User.socialProvider
     }),
     (dispatch: any) => ({
       userAction: bindActionCreators(userActionCreator, dispatch)

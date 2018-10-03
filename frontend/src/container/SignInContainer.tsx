@@ -18,14 +18,14 @@ interface DispatchProps {
   userAction: typeof userActionCreator;
 }
 
-type ContainerProps = StoreProps & DispatchProps;
+type Props = StoreProps & DispatchProps;
 
 interface IState {
   email: string | null;
   password: string | null;
 }
 
-class SignInContainer extends React.Component<ContainerProps, IState> {
+class SignInContainer extends React.Component<Props, IState> {
   state = {
     email: '',
     password: ''
@@ -35,7 +35,6 @@ class SignInContainer extends React.Component<ContainerProps, IState> {
     const { userAction } = this.props;
     switch (response.socialProvider) {
       case 'google':
-        console.log(response);
         userAction.socialLoginAsync(
           response.response.profileObj.email,
           response.response.profileObj.imageUrl,
@@ -57,14 +56,11 @@ class SignInContainer extends React.Component<ContainerProps, IState> {
       default:
         break;
     }
-    // 카카오면 다르게 해줘야 할듯
-    // 받아오는 response 형태가 다르기 때문.
   };
 
   render () {
     const { goToSignUpPage } = this.props;
     if (localStorage.getItem('token') !== null) {
-      console.log(localStorage.getItem('token'));
       return <Redirect to="/" />;
     }
     if (goToSignUpPage) {

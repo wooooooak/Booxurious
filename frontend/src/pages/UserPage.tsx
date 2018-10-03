@@ -1,23 +1,25 @@
 import * as React from 'react';
 import styled from 'styled-components';
+import { withRouter, RouteComponentProps } from 'react-router';
 
 import MenuContainer from '../container/MenuContainer';
+import UserProfileContainer from '../container/UserProfileContainer';
 
-import Tag from '../component/Menu/Tags';
+export const Div = styled.div`background: white;`;
 
-export const Div = styled.div`
-  background: url('https://cdn.pixabay.com/photo/2015/09/02/12/28/pencil-918449_960_720.jpg')
-    center/cover;
-`;
+interface RouterProps {
+  username: string;
+}
 
-const UserPage: React.SFC<{}> = () => {
+const UserPage: React.SFC<RouteComponentProps<RouterProps>> = ({ match }) => {
   return (
-    <Div>
-      <MenuContainer>
-        <Tag />
-      </MenuContainer>
-    </Div>
+    <React.Fragment>
+      <MenuContainer>{match.params.username}</MenuContainer>
+      <Div>
+        <UserProfileContainer matchedName={match.params.username} />
+      </Div>
+    </React.Fragment>
   );
 };
 
-export default UserPage;
+export default withRouter<any>(UserPage);

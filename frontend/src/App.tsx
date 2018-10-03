@@ -14,7 +14,6 @@ import WritingBookReviewPage from './pages/WritingBookReviewPage';
 import UserPage from './pages/UserPage';
 
 injectGlobal`
-  
   body {
     margin: 0;
     background-color: #f2f5f7 !important;
@@ -58,7 +57,7 @@ class App extends React.Component<Props, IState> {
             <Route exact={true} path="/signUp" component={SignUpPage} />
             <Route exact={true} path="/folder" component={ChoiceFolderOrWritingPage} />
             <Route exact={true} path="/write_review" component={WritingBookReviewPage} />
-            <Route exact={true} path="/user" component={UserPage} />
+            <Route exact={true} path="/user/:username" component={UserPage} />
           </Switch>
         </React.Fragment>
       </BrowserRouter>

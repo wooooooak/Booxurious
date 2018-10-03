@@ -16,7 +16,6 @@ import SideBar from '../component/SideBar';
 import OuterToToggleSideBar from '../component/SideBar/OuterToToggleSideBar';
 import LogoutButton from '../component/SideBar/LogoutButton';
 import SignInButton from '../component/SideBar/SignInButton';
-// import Tags from '../component/Menu/Tags';
 import LinkItems from '../component/SideBar/LinkItems';
 
 interface StoreProps {
@@ -153,7 +152,9 @@ class MenuContainer extends React.Component<Props, IState> {
             color="#1F2124"
           />
           <Logo marginLeft="50px" fontSize={'1.3rem'} />
-          {showInputBox ? null : children}
+          {showInputBox ? null : (
+            <div style={{ textAlign: 'center', width: '77%' }}>{children}</div>
+          )}
           <SearchForm
             showInputBox={showInputBox}
             onClickSearchIcon={this.onClickSearchIcon}

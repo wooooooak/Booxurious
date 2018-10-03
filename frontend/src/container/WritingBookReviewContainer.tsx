@@ -12,7 +12,6 @@ import Cover from '../component/Write/Cover';
 import ImageUploader from '../component/Write/ImageUploader';
 import Modal from '../component/Write/Modal';
 import EditorBox from '../component/Write/EditorBox';
-// import SendButton from '../component/Write/SendButton';
 
 import 'react-quill/dist/quill.snow.css';
 

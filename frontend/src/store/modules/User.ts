@@ -1,6 +1,5 @@
 import { createAction, handleActions } from 'redux-actions';
 import axios from 'axios';
-// import produce from 'immer';
 
 const SOCIAL_LOGIN_SUCCESS = 'user/SocailLogin';
 const SOCIAL_LOGIN_FAIL = 'user/SocialLoginFail';
@@ -48,9 +47,7 @@ export const socialLoginAsync = (
   return async (dispatch: any) => {
     axios({
       method: 'post',
-      url:
-        // 'https://2bu3ko5b6j.execute-api.ap-northeast-2.amazonaws.com/dev/auth/login/social',
-        `${process.env.REACT_APP_DOMAIN}/auth/login/social`,
+      url: `${process.env.REACT_APP_DOMAIN}/auth/login/social`,
       data: {
         email: socialEmail,
         socialProvider

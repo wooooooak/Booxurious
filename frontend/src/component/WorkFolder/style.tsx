@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import styledTS from 'styled-components-ts';
+import styled from "styled-components";
+import styledTS from "styled-components-ts";
 // import { device } from '../../styled/device';
 
 // export const BoxShadowing = keyframes`
@@ -30,7 +30,7 @@ export const LayoutLeftBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-image: url('https://cdn.pixabay.com/photo/2016/03/27/19/32/blur-1283865__340.jpg');
+  background-image: url('https://s3.ap-northeast-2.amazonaws.com/elebooks-image/writer-1421099_1920.jpg');
   background-size: cover;
   transition: 1s;
   :hover {
@@ -44,7 +44,7 @@ export const LayoutRightBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-image: url('https://cdn.pixabay.com/photo/2015/09/02/12/33/books-918521__340.jpg');
+  background-image: url('https://s3.ap-northeast-2.amazonaws.com/elebooks-image/pencil-918449_1920.jpg');
   background-size: cover;
   background-position: center;
   transition: 1s;
@@ -63,9 +63,9 @@ export const QuillStyle = styledTS<Props>(styled.div)`
 
   .ql-toolbar {
     z-index: 999;
-    position: ${(props) => (props.isAffixToolbar ? 'fixed' : 'static')};
+    position: ${(props) => (props.isAffixToolbar ? "fixed" : "static")};
     top: 70px;
-    background: ${(props) => (props.isAffixToolbar ? '#F0E5DE' : '')}
+    background: ${(props) => (props.isAffixToolbar ? "#F0E5DE" : "")}
   }
 
 `;

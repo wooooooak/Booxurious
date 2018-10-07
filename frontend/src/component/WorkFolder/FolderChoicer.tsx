@@ -1,8 +1,8 @@
-import * as React from 'react';
-import styled from 'styled-components';
-import styledTS from 'styled-components-ts';
-import { LayoutRightBox, Title } from './style';
-import { FolderState } from '../../store/modules/Work';
+import * as React from "react";
+import styled from "styled-components";
+import styledTS from "styled-components-ts";
+import { LayoutRightBox, Title } from "./style";
+import { FolderState } from "../../store/modules/Work";
 
 const FolderContainer = styled.div`
   height: 100%;
@@ -27,8 +27,10 @@ const Folder = styled.div`
   cursor: pointer;
   margin-top: 15px;
   transition: background-color 0.5s 0s linear;
+  background-color: #eaeaea;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
   :hover {
-    background-color: white;
     h3 {
       color: black;
     }
@@ -76,11 +78,7 @@ const FolderCoicer: React.SFC<Props> = ({ folderList, onClickExistFolder }) => {
     <LayoutRightBox>
       <Title>기존 폴더에서 작업하기</Title>
       <FolderContainer>
-        {folderList ? (
-          mapFolderListToCard(folderList, onClickExistFolder)
-        ) : (
-          <h2>첫 작품을 담을 폴더를 생성해보세요</h2>
-        )}
+        {folderList ? mapFolderListToCard(folderList, onClickExistFolder) : <h2>첫 작품을 담을 폴더를 생성해보세요</h2>}
       </FolderContainer>
     </LayoutRightBox>
   );

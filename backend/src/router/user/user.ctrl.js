@@ -1,11 +1,17 @@
-import User from '../../db/model/User';
-import { decodeToken } from '../../lib/jwt';
+import User from "../../db/model/User";
+import { decodeToken } from "../../lib/jwt";
+import { dumper } from "dumper";
 
 export const fetchUserData = async (req, res) => {
-  const token = req.headers['auth-header'];
+  const token = req.headers["auth-header"];
   const decodedToken = await decodeToken(token);
-  const { email, username, socialProvider, profileImg } = decodedToken;
-  res.json({ email, username, socialProvider, profileImg });
+  try {
+    const user = await User.findOne({ where: { id: decodedToken.userId } });
+    const { id, email, username, socialProvider, profileImg } = user;
+    res.json({ id, email, username, socialProvider, profileImg });
+  } catch (error) {
+    dumper(error);
+  }
 };
 
 export const updateUser = async (req, res) => {

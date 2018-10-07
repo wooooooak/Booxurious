@@ -1,13 +1,13 @@
-import * as React from 'react';
-import { bindActionCreators } from 'redux';
-import { Redirect } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { IStoreState } from '../store/modules';
-import { actionCreators as userActionCreator } from '../store/modules/User';
-import { message } from 'antd';
+import * as React from "react";
+import { bindActionCreators } from "redux";
+import { Redirect } from "react-router-dom";
+import { connect } from "react-redux";
+import { IStoreState } from "../store/modules";
+import { actionCreators as userActionCreator } from "../store/modules/User";
+import { message } from "antd";
 
-import SignUp from '../component/SignUp';
-import { IUserState } from '../store/modules/User';
+import SignUp from "../component/SignUp";
+import { IUserState } from "../store/modules/User";
 
 type StoreProps = IUserState;
 interface DispatchProps {
@@ -22,7 +22,7 @@ interface IState {
 
 class SignUpContainer extends React.Component<ContainerProps, IState> {
   state = {
-    username: ''
+    username: ""
   };
 
   onSubmitSignUp = () => {
@@ -43,18 +43,15 @@ class SignUpContainer extends React.Component<ContainerProps, IState> {
 
   render () {
     if (this.props.code === 422) {
-      console.log('username 중복');
-      message.error('누군가 사용중인 닉네임입니다 :( ');
+      console.log("username 중복");
+      message.error("누군가 사용중인 닉네임입니다 :( ");
     }
     if (this.props.code === 200) {
       return <Redirect to="/" />;
     }
     return (
       <div>
-        <SignUp
-          onSubmitSignUp={this.onSubmitSignUp}
-          onChangeUserName={this.onChangeUserName}
-        />
+        <SignUp onSubmitSignUp={this.onSubmitSignUp} onChangeUserName={this.onChangeUserName} />
       </div>
     );
   }
@@ -62,6 +59,7 @@ class SignUpContainer extends React.Component<ContainerProps, IState> {
 
 export default connect<StoreProps, DispatchProps>(
   ({ User }: IStoreState) => ({
+    id: User.id,
     email: User.email,
     username: User.username,
     profileImg: User.profileImg,

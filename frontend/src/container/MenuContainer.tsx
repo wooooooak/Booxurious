@@ -1,24 +1,25 @@
-import * as React from 'react';
-import * as feather from 'styled-icons/feather';
-import { connect } from 'react-redux';
-import { withRouter, RouteComponentProps } from 'react-router';
-import { bindActionCreators } from 'redux';
-import { message } from 'antd';
+import * as React from "react";
+import * as feather from "styled-icons/feather";
+import { connect } from "react-redux";
+import { withRouter, RouteComponentProps } from "react-router";
+import { bindActionCreators } from "redux";
+import { message } from "antd";
 
-import { actionCreators as userActionCreator } from '../store/modules/User';
-import { IStoreState } from '../store/modules';
-import { IUserState } from '../store/modules/User';
+import { actionCreators as userActionCreator } from "../store/modules/User";
+import { IStoreState } from "../store/modules";
+import { IUserState } from "../store/modules/User";
 
-import Logo from '../component/Menu/Logo';
-import MenuBarLayout from '../component/Menu/MenuBarLayout';
-import SearchForm from '../component/Menu/Search';
-import SideBar from '../component/SideBar';
-import OuterToToggleSideBar from '../component/SideBar/OuterToToggleSideBar';
-import LogoutButton from '../component/SideBar/LogoutButton';
-import SignInButton from '../component/SideBar/SignInButton';
-import LinkItems from '../component/SideBar/LinkItems';
+import Logo from "../component/Menu/Logo";
+import MenuBarLayout from "../component/Menu/MenuBarLayout";
+import SearchForm from "../component/Menu/Search";
+import SideBar from "../component/SideBar";
+import OuterToToggleSideBar from "../component/SideBar/OuterToToggleSideBar";
+import LogoutButton from "../component/SideBar/LogoutButton";
+import SignInButton from "../component/SideBar/SignInButton";
+import LinkItems from "../component/SideBar/LinkItems";
 
 interface StoreProps {
+  id: string;
   username: string | null;
   email: string;
   profileImg: string;
@@ -49,15 +50,16 @@ type Props = StoreProps & DispatchProps & RouteComponentProps<OwnProps>;
 class MenuContainer extends React.Component<Props, IState> {
   state: IState = {
     prevYOffset: 0,
-    menuLayoutColor: 'transparent',
+    menuLayoutColor: "transparent",
     showInputBox: false,
     showSideBar: false,
     user: {
-      email: '',
+      id: "",
+      email: "",
       username: this.props.username ? this.props.username : null,
       code: null,
-      profileImg: '',
-      socialProvider: ''
+      profileImg: "",
+      socialProvider: ""
     }
   };
 
@@ -89,14 +91,14 @@ class MenuContainer extends React.Component<Props, IState> {
   }
 
   componentDidMount (): void {
-    window.addEventListener('scroll', (): void => {
+    window.addEventListener("scroll", (): void => {
       if (window.pageYOffset === 0) {
         this.setState({
-          menuLayoutColor: 'transparent'
+          menuLayoutColor: "transparent"
         });
       } else {
         this.setState({
-          menuLayoutColor: '#f8f4f3'
+          menuLayoutColor: "#f8f4f3"
           // menuLayoutColor: '#95807F'
         });
       }
@@ -133,8 +135,8 @@ class MenuContainer extends React.Component<Props, IState> {
       top: 100,
       duration: 2
     });
-    this.props.history.push('/');
-    message.success('로그아웃 되었습니다.');
+    this.props.history.push("/");
+    message.success("로그아웃 되었습니다.");
     this.setState({
       showSideBar: false
     });
@@ -143,18 +145,13 @@ class MenuContainer extends React.Component<Props, IState> {
   render () {
     const { menuLayoutColor, showInputBox, showSideBar } = this.state;
     const { username, profileImg, children } = this.props;
+    console.log("MenuContainer : ", username);
     return (
       <React.Fragment>
         <MenuBarLayout backgroundColor={menuLayoutColor} showSideBar={showSideBar}>
-          <HambergerIcon
-            size="48"
-            onClick={this.onClickHambergerButton}
-            color="#1F2124"
-          />
-          <Logo marginLeft="50px" fontSize={'1.3rem'} />
-          {showInputBox ? null : (
-            <div style={{ textAlign: 'center', width: '77%' }}>{children}</div>
-          )}
+          <HambergerIcon size="48" onClick={this.onClickHambergerButton} color="#1F2124" />
+          <Logo marginLeft="50px" fontSize={"1.3rem"} />
+          {showInputBox ? null : <div style={{ textAlign: "center", width: "77%" }}>{children}</div>}
           <SearchForm
             showInputBox={showInputBox}
             onClickSearchIcon={this.onClickSearchIcon}
@@ -167,19 +164,16 @@ class MenuContainer extends React.Component<Props, IState> {
             size="48"
             color="#534847"
             onClick={this.onClickHambergerButton}
-            style={{ marginLeft: '-1px' }}
+            style={{ marginLeft: "-1px" }}
           />
           <LinkItems username={username} profileImg={profileImg} />
-          {localStorage.getItem('token') ? (
+          {localStorage.getItem("token") ? (
             <LogoutButton onLogoutSuccess={this.onClickLogout} />
           ) : (
             <SignInButton />
           )}
         </SideBar>
-        <OuterToToggleSideBar
-          showSideBar={showSideBar}
-          onClickEmptySpace={this.onClickEmptySpace}
-        />
+        <OuterToToggleSideBar showSideBar={showSideBar} onClickEmptySpace={this.onClickEmptySpace} />
       </React.Fragment>
     );
   }
@@ -188,6 +182,7 @@ class MenuContainer extends React.Component<Props, IState> {
 export default withRouter<any>(
   connect<StoreProps, DispatchProps, OwnProps>(
     ({ User }: IStoreState): StoreProps => ({
+      id: User.id,
       email: User.email,
       username: User.username,
       profileImg: User.profileImg

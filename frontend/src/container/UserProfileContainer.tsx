@@ -7,12 +7,13 @@ import { IStoreState } from "../store/modules";
 import { actionCreators as userActionCreator } from "../store/modules/User";
 
 import InputForm from "../component/Profile/InputForm";
+import Modal from "../component/Profile/Modal";
 import { PostState } from "../store/modules/Post";
 import { WorkState } from "../store/modules/Work";
-import { Modal } from "antd";
 import axios from "axios";
 
 interface StoreProps {
+  id: string;
   email: string;
   username: string | null;
   profileImg: string;
@@ -30,49 +31,53 @@ type Props = StoreProps & DispatchProps & OwnProps;
 
 interface State {
   userInfo: {
+    id: string;
     username: string;
     followerCount: number;
-    profileImage: string;
+    profileImg: string;
+    email: string;
     reviews: PostState[];
     works: WorkState[];
   };
-  isMe: boolean;
   modalVisible: boolean;
 }
 
 class UserProfileContainer extends React.Component<Props, State> {
-  static getDerivedStateFromProps (nextProps: Props, prevState: Props) {
-    if (nextProps.username === nextProps.matchedName) {
-      return {
-        isMe: true
-      };
-    } else {
-      return {
-        isMe: false
-      };
-    }
-  }
-
   state = {
     userInfo: {
+      id: "",
       username: "",
       followerCount: 0,
-      profileImage: "",
+      profileImg: "",
+      email: "",
       reviews: [],
       works: []
     },
-    isMe: false,
     modalVisible: false
   };
 
   componentDidMount () {
     const { matchedName } = this.props;
+    // let isMe:boolean = false;
+    // if (username === matchedName) {
+    //   isMe = true
+    // }
+    console.log(this.state);
     axios({
       method: "get",
       url: `${process.env.REACT_APP_DOMAIN}/user/${matchedName}`
     })
       .then((result) => {
-        console.log(result);
+        const { id, username, email, profileImg } = result.data;
+        this.setState({
+          userInfo: {
+            ...this.state.userInfo,
+            id,
+            username,
+            email,
+            profileImg
+          }
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -84,32 +89,58 @@ class UserProfileContainer extends React.Component<Props, State> {
       modalVisible: true
     });
   };
+
   onClickSettingCancle = (): void => {
     this.setState({
       modalVisible: false
     });
   };
 
+  onClickModalOk = async (username: string) => {
+    try {
+      const token: string = localStorage.getItem("token") || "";
+      await axios({
+        method: "put",
+        url: `${process.env.REACT_APP_DOMAIN}/user`,
+        headers: { "Auth-Header": token },
+        data: { username }
+      });
+      this.setState({
+        userInfo: {
+          ...this.state.userInfo,
+          username
+        },
+        modalVisible: false
+      });
+      this.props.userAction.fetchUserData(token);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   render () {
-    const { username, profileImg } = this.props;
-    const { isMe, modalVisible } = this.state;
+    const { username, profileImg } = this.state.userInfo;
+    const { modalVisible } = this.state;
+    let Me = false;
+    if (this.props.id === this.state.userInfo.id) {
+      Me = true;
+    }
     return (
       <React.Fragment>
         <InputForm
           username={username}
           profileImg={profileImg}
-          isMe={isMe}
+          isMe={Me}
           onClickSettingButton={this.onClickSettingButton}
         />
         <Modal
           title="프로필 수정"
           visible={modalVisible}
-          // onOk={this.handleOk}
+          username={username}
+          onOk={this.onClickModalOk}
           // confirmLoading={confirmLoading}
           onCancel={this.onClickSettingCancle}
-        >
-          <p>modify</p>
-        </Modal>
+        />
       </React.Fragment>
     );
   }
@@ -117,6 +148,7 @@ class UserProfileContainer extends React.Component<Props, State> {
 
 export default connect<StoreProps, DispatchProps, OwnProps>(
   ({ User }: IStoreState): StoreProps => ({
+    id: User.id,
     email: User.email,
     username: User.username,
     profileImg: User.profileImg

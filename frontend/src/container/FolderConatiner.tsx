@@ -1,17 +1,17 @@
-import * as React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import axios from 'axios';
-import Select from 'react-select';
+import * as React from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import axios from "axios";
+import Select from "react-select";
 
-import { actionCreators as folderActionCreator } from '../store/modules/Work';
-import { FolderState, CurrentWorkAndFolderState } from '../store/modules/Work';
-import { IStoreState } from '../store/modules';
+import { actionCreators as folderActionCreator } from "../store/modules/Work";
+import { FolderState, CurrentWorkAndFolderState } from "../store/modules/Work";
+import { IStoreState } from "../store/modules";
 
-import WorkContainer from './WorkContainer';
+import WorkContainer from "./WorkContainer";
 
-import MakingForm from '../component/WorkFolder/MakingForm';
-import FolderChoicer from '../component/WorkFolder/FolderChoicer';
+import MakingForm from "../component/WorkFolder/MakingForm";
+import FolderChoicer from "../component/WorkFolder/FolderChoicer";
 
 interface DispatchProps {
   folderAction: typeof folderActionCreator;
@@ -28,14 +28,14 @@ interface State {
 const selectorStyle = {
   control: (styles: any) => ({
     ...styles,
-    background: 'transparent',
-    width: '180px',
-    marginTop: '15px',
-    borderColor: 'black'
+    background: "transparent",
+    width: "180px",
+    marginTop: "15px",
+    borderColor: "black"
   }),
-  input: (styles: any) => ({ ...styles, color: 'black' }),
-  placeholder: (styles: object) => ({ ...styles, color: 'black' }),
-  singleValue: (styles: any) => ({ ...styles, color: 'black' })
+  input: (styles: any) => ({ ...styles, color: "black" }),
+  placeholder: (styles: object) => ({ ...styles, color: "black" }),
+  singleValue: (styles: any) => ({ ...styles, color: "black" })
 };
 
 interface Category {
@@ -44,49 +44,49 @@ interface Category {
 }
 
 const categories: Category[] = [
-  { value: '문학', label: '문학' },
-  { value: '소설', label: '소설' },
-  { value: '자기계발', label: '자기계발' },
-  { value: 'IT서적', label: 'IT서적' },
-  { value: '경영', label: '경영' },
-  { value: '경제', label: '경제' },
-  { value: '여행', label: '여행' },
-  { value: '수험서', label: '수험서' },
-  { value: '자격증', label: '자격증' },
-  { value: '외국어', label: '외국어' },
-  { value: '시', label: '시' },
-  { value: '에세이', label: '에세이' }
+  { value: "문학", label: "문학" },
+  { value: "소설", label: "소설" },
+  { value: "자기계발", label: "자기계발" },
+  { value: "IT서적", label: "IT서적" },
+  { value: "경영", label: "경영" },
+  { value: "경제", label: "경제" },
+  { value: "여행", label: "여행" },
+  { value: "수험서", label: "수험서" },
+  { value: "자격증", label: "자격증" },
+  { value: "외국어", label: "외국어" },
+  { value: "시", label: "시" },
+  { value: "에세이", label: "에세이" }
 ];
 
 class FolderContainer extends React.Component<Props, State> {
   state = {
     folder: {
-      folderCoverImage:
-        'https://cdn.pixabay.com/photo/2018/08/03/11/48/skyline-3581739__340.jpg',
-      folderName: '',
-      category: '',
+      folderCoverImage: "",
+      folderName: "",
+      category: "",
       id: null
     },
     currentChapter: 1,
     content: null,
-    author: '',
+    author: "",
     goToWritePage: false,
     myFolderList: null
   };
 
   onChangeCoverImgHandler = async (files: FileList) => {
     const file: File | null = files[0];
+    console.log(file);
     const formData = new FormData();
-    formData.append('imgFile', file, file.name);
-    const token: string | null = localStorage.getItem('token');
+    formData.append("imgFile", file, file.name);
+    const token: string | null = localStorage.getItem("token");
     try {
       const result = await axios({
-        method: 'post',
+        method: "post",
         url: `${process.env.REACT_APP_DOMAIN}/folder/folderCoverImage`,
         data: formData,
-        headers: { 'Auth-Header': token },
+        headers: { "Auth-Header": token },
         onUploadProgress: () => {
-          console.log('로딩 중입니다');
+          console.log("로딩 중입니다");
         }
       });
       this.setState({
@@ -132,11 +132,11 @@ class FolderContainer extends React.Component<Props, State> {
   }
 
   fetchFolders = async () => {
-    const token: string | null = localStorage.getItem('token');
+    const token: string | null = localStorage.getItem("token");
     const result = await axios({
-      method: 'get',
+      method: "get",
       url: `${process.env.REACT_APP_DOMAIN}/folder/myList`,
-      headers: { 'Auth-Header': token }
+      headers: { "Auth-Header": token }
     });
     const myFolderList: FolderState[] = result.data;
     this.setState({
@@ -185,10 +185,7 @@ class FolderContainer extends React.Component<Props, State> {
               defaultValue={categories[0]}
             />
           </MakingForm>
-          <FolderChoicer
-            folderList={this.state.myFolderList}
-            onClickExistFolder={this.onClickExistFolder}
-          />
+          <FolderChoicer folderList={this.state.myFolderList} onClickExistFolder={this.onClickExistFolder} />
         </React.Fragment>
       );
     }

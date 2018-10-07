@@ -1,9 +1,9 @@
-import * as React from 'react';
-import styled, { keyframes } from 'styled-components';
-import styledTS from 'styled-components-ts';
+import * as React from "react";
+import styled, { keyframes } from "styled-components";
+import styledTS from "styled-components-ts";
 
-import { LayoutLeftBox, Title } from './style';
-import { Upload } from 'styled-icons/feather/Upload';
+import { LayoutLeftBox, Title } from "./style";
+import { Upload } from "styled-icons/feather/Upload";
 
 interface FolderCoverProps {
   source: string | null;
@@ -11,7 +11,7 @@ interface FolderCoverProps {
 
 const FolderCoverArea = styledTS<FolderCoverProps>(styled.div)`
   width: 700px;
-  height: 300px;
+  height: 250px;
   background-image: url('${(props) => props.source}');
   background-position: center;
   background-size: cover;
@@ -19,10 +19,12 @@ const FolderCoverArea = styledTS<FolderCoverProps>(styled.div)`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  border-radius: 5px;
+  border: 2px solid white;
 `;
 
 const FileUploaderButton = styled.input.attrs({
-  type: 'file'
+  type: "file"
 })`
   position: absolute;
   width: 700px;
@@ -43,7 +45,7 @@ const FormArea = styled.div`
 `;
 
 const Input = styled.input.attrs({
-  placeholder: '책 제목'
+  placeholder: "책 제목"
 })`
   height: 1.5em;
   background: transparent;

@@ -1,14 +1,14 @@
-import { createAction, handleActions } from 'redux-actions';
-import axios from 'axios';
+import { createAction, handleActions } from "redux-actions";
+import axios from "axios";
 
-const SOCIAL_LOGIN_SUCCESS = 'user/SocailLogin';
-const SOCIAL_LOGIN_FAIL = 'user/SocialLoginFail';
-const FETCH_USER_DATA_SUCCESS = 'user/FetchUserDataSuccess';
-const FETCH_USER_DATA_FAIL = 'user/FetchUserDataFail';
-const GO_TO_SIGN_IN_PAGE = 'user/goToSignInPage';
-const SIGN_UP_SUCCESS = 'user/signUpSuccess';
-const SIGN_UP_FAIL = 'user/signUpFail';
-const LOGOUT = 'user/logout';
+const SOCIAL_LOGIN_SUCCESS = "user/SocailLogin";
+const SOCIAL_LOGIN_FAIL = "user/SocialLoginFail";
+const FETCH_USER_DATA_SUCCESS = "user/FetchUserDataSuccess";
+const FETCH_USER_DATA_FAIL = "user/FetchUserDataFail";
+const GO_TO_SIGN_IN_PAGE = "user/goToSignInPage";
+const SIGN_UP_SUCCESS = "user/signUpSuccess";
+const SIGN_UP_FAIL = "user/signUpFail";
+const LOGOUT = "user/logout";
 
 const isUserExist = (result: any): boolean => {
   return result.data.code === 1 ? true : false;
@@ -17,14 +17,16 @@ const isUserExist = (result: any): boolean => {
 export const fetchUserData = (token: string) => {
   return (dispatch: any) => {
     axios({
-      method: 'get',
+      method: "get",
       url: `${process.env.REACT_APP_DOMAIN}/user/token`,
-      headers: { 'Auth-Header': token }
+      headers: { "Auth-Header": token }
     })
       .then((res) => {
-        const { email, username, socialProvider, profileImg } = res.data;
+        console.log(res);
+        const { id, email, username, socialProvider, profileImg } = res.data;
         dispatch(
           actionCreators.fetchUserDataSuccess({
+            id,
             email,
             username,
             socialProvider,
@@ -39,14 +41,10 @@ export const fetchUserData = (token: string) => {
   };
 };
 
-export const socialLoginAsync = (
-  socialEmail: string,
-  profileImge: string,
-  socialProvider: string
-) => {
+export const socialLoginAsync = (socialEmail: string, profileImge: string, socialProvider: string) => {
   return async (dispatch: any) => {
     axios({
-      method: 'post',
+      method: "post",
       url: `${process.env.REACT_APP_DOMAIN}/auth/login/social`,
       data: {
         email: socialEmail,
@@ -56,9 +54,10 @@ export const socialLoginAsync = (
       .then((res) => {
         // email이 존재해서 바로 로그인 된다면
         if (isUserExist(res)) {
-          localStorage.setItem('token', res.data.token);
+          localStorage.setItem("token", res.data.token);
           dispatch(
             actionCreators.socialLoginSuccess({
+              id: res.data.user.id,
               email: socialEmail,
               profileImg: profileImge,
               username: res.data.user.username,
@@ -69,12 +68,13 @@ export const socialLoginAsync = (
         } else {
           dispatch(
             actionCreators.socialLoginFail({
+              id: res.data.user.id,
               socialProvider,
               profileImg: profileImge,
               email: res.data.email,
               goToSignUpPage: true,
               code: 500,
-              username: ''
+              username: ""
             })
           );
         }
@@ -85,15 +85,10 @@ export const socialLoginAsync = (
   };
 };
 
-export const signUp = (
-  username: string,
-  email: string,
-  socialProvider: string,
-  profileImg: string
-) => {
+export const signUp = (username: string, email: string, socialProvider: string, profileImg: string) => {
   return (dispatch: any) => {
     axios({
-      method: 'post',
+      method: "post",
       url: `${process.env.REACT_APP_DOMAIN}/auth/register/social`,
       data: {
         email,
@@ -103,9 +98,10 @@ export const signUp = (
       }
     })
       .then((res) => {
-        localStorage.setItem('token', res.data.token);
+        localStorage.setItem("token", res.data.token);
         dispatch(
           actionCreators.signUpSuccess({
+            id: res.data.user.id,
             username,
             email,
             profileImg,
@@ -118,6 +114,7 @@ export const signUp = (
         if (err.response.status === 422 || err.status === 422) {
           dispatch(
             actionCreators.signUpFail({
+              id: "",
               email,
               code: 422,
               profileImg,
@@ -147,6 +144,7 @@ export const actionCreators = {
 };
 
 export interface IUserState {
+  id: string;
   email: string;
   username: string | null;
   profileImg: string;
@@ -157,10 +155,11 @@ export interface IUserState {
 }
 
 const initialState: IUserState = {
-  email: '',
-  username: '',
-  profileImg: '',
-  socialProvider: '',
+  id: "",
+  email: "",
+  username: "",
+  profileImg: "",
+  socialProvider: "",
   goToSignUpPage: false,
   code: null
 };
@@ -169,8 +168,9 @@ const initialState: IUserState = {
 export default handleActions<IUserState, any>(
   {
     [SOCIAL_LOGIN_SUCCESS]: (state, action): IUserState => {
-      const { email, username, profileImg, code, socialProvider } = action.payload;
+      const { id, email, username, profileImg, code, socialProvider } = action.payload;
       return {
+        id,
         email,
         username,
         profileImg,
@@ -190,9 +190,10 @@ export default handleActions<IUserState, any>(
       };
     },
     [FETCH_USER_DATA_SUCCESS]: (state, action): IUserState => {
-      const { email, username, code, socialProvider, profileImg } = action.payload;
+      const { id, email, username, code, socialProvider, profileImg } = action.payload;
       return {
         ...state,
+        id,
         email,
         username,
         profileImg,
@@ -212,9 +213,10 @@ export default handleActions<IUserState, any>(
       };
     },
     [SIGN_UP_SUCCESS]: (state, action): IUserState => {
-      const { email, username, code } = action.payload;
+      const { id, email, username, code } = action.payload;
       return {
         ...state,
+        id,
         username,
         email,
         code
@@ -229,7 +231,7 @@ export default handleActions<IUserState, any>(
       };
     },
     [LOGOUT]: (state, action): IUserState => {
-      localStorage.removeItem('token');
+      localStorage.removeItem("token");
       return {
         ...initialState
       };

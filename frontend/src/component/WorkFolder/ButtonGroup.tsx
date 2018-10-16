@@ -1,6 +1,6 @@
-import * as React from 'react';
-import styled from 'styled-components';
-import { Button } from 'antd';
+import * as React from "react";
+import styled from "styled-components";
+import { Button, Icon } from "antd";
 
 const Layout = styled.div`
   display: flex;
@@ -18,17 +18,13 @@ interface Props {
   onClickDeleteButton(workId: string | null): void;
 }
 
-const ButtonGroup: React.SFC<Props> = ({
-  onClickSaveWork,
-  onClickDeleteButton,
-  workId
-}) => (
+const ButtonGroup: React.SFC<Props> = ({ onClickSaveWork, onClickDeleteButton, workId }) => (
   <Layout>
     <Button type="primary" onClick={onClickSaveWork}>
-      저장
+      <Icon type="upload" />저장
     </Button>
     <Button type="danger" onClick={() => onClickDeleteButton(workId)}>
-      삭제
+      <Icon type="delete" />삭제
     </Button>
   </Layout>
 );

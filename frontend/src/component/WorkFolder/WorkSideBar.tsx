@@ -7,6 +7,8 @@ import { AngleLeft } from "styled-icons/fa-solid/AngleLeft";
 import { AngleRight } from "styled-icons/fa-solid/AngleRight";
 import { WorkState } from "../../store/modules/Work";
 
+import { Button, Icon } from "antd";
+
 interface ContainerProps {
   showSideBarState: boolean;
 }
@@ -19,6 +21,7 @@ const Container = styledTS<ContainerProps>(styled.div)`
   left: ${(props) => (props.showSideBarState ? "0px" : "-390px")};
   top: 70px;
   height: 100%;
+  // overflow: scroll;
   
   @media ${device.laptopL} {
     left: ${(props) => (props.showSideBarState ? "0px" : "-350px")};
@@ -36,6 +39,7 @@ const BarLayout = styled.div`
     width: 350px;
   }
 `;
+
 const ButtonLine = styled.div`
   width: 30px;
   height: 100%;
@@ -59,6 +63,12 @@ const Img = styledTS<ImgProps>(styled.div)`
 const FolderName = styled.h1`color: black;`;
 
 const Ul = styled.ul`margin-bottom: 1.5em;`;
+
+const ButtonGroup = styled.div`
+  margin: 1.3em 0;
+  display: flex;
+  justify-content: space-between;
+`;
 
 const WorkListTitle = styled.li`
   @import url('https://fonts.googleapis.com/css?family=Nanum+Gothic');
@@ -140,25 +150,37 @@ class WorkSideBar extends React.Component<Props, State> {
     });
   };
 
+  isWorkListEmpty = (workList: WorkState[]): boolean => {
+    return workList.length !== 0 ? true : false;
+  };
+
   render () {
-    console.log(this.state.activeMakerOffset);
     return (
       <Container showSideBarState={this.state.showSidebarState}>
         <BarLayout>
           <Img image={this.props.image} />
+          <ButtonGroup>
+            <Button type="primary" onClick={this.props.onClickAddWorkButton}>
+              <Icon type="file-add" /> 추가하기
+            </Button>
+            <Button onClick={this.props.onClickChoiceFolder}>
+              <Icon type="folder-open" />뒤로가기
+            </Button>
+          </ButtonGroup>
           <FolderName>{this.props.folderName}</FolderName>
-          {this.props.workList.length !== 0 ? (
+          {this.isWorkListEmpty(this.props.workList) ? (
             <React.Fragment>
               <ListWrapper>
                 <ActiveMaker offset={this.state.activeMakerOffset} />
                 <Ul>{this.mapWorkListToChapterli(this.props.workList)}</Ul>
               </ListWrapper>
-              <button onClick={this.props.onClickAddWorkButton}>추가하기</button>
             </React.Fragment>
           ) : (
-            <p>오른쪽 에디터에서 첫 원고를 작성해 보세요!</p>
+            <React.Fragment>
+              <p>오른쪽 에디터에서 첫 원고를 작성해 보세요!</p>
+              <Button onClick={this.props.onClickChoiceFolder}>뒤로가기</Button>
+            </React.Fragment>
           )}
-          <button onClick={this.props.onClickChoiceFolder}>돌아가기</button>
         </BarLayout>
         <ButtonLine>
           {this.state.showSidebarState ? (

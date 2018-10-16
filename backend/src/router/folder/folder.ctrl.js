@@ -1,7 +1,7 @@
-import Folder from '../../db/model/Folder';
-import Category from '../../db/model/Category';
-import User from '../../db/model/User';
-import { dumper } from 'dumper';
+import Folder from "../../db/model/Folder";
+import Category from "../../db/model/Category";
+import User from "../../db/model/User";
+import { dumper } from "dumper";
 
 export const uploadCoverImage = (req, res) => {
   let imgFile = req.file;
@@ -32,4 +32,8 @@ export const myFolderList = async (req, res) => {
   } catch (error) {
     res.status(500).json(error);
   }
+};
+
+export const deleteFolder = async (req, res) => {
+  const { userId } = req.decodedUser;
 };

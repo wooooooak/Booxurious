@@ -12,7 +12,6 @@ const FolderContainer = styled.div`
   overflow: scroll;
   margin-top: 20px;
   justify-content: space-around;
-  /* overflow-x: hidden; */
   ::-webkit-scrollbar {
     display: none;
   }
@@ -25,11 +24,11 @@ const Folder = styled.div`
   flex-direction: column;
   align-items: center;
   cursor: pointer;
+  margin: 0 1em;
   margin-top: 15px;
   transition: background-color 0.5s 0s linear;
   background-color: #eaeaea;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
+  border-radius: 10px;
   :hover {
     h3 {
       color: black;
@@ -47,6 +46,8 @@ const FolderImage = styledTS<FolderImageProps>(styled.div)`
   background-image: url(${(props) => props.image});
   background-position: center;
   background-size: cover;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
 `;
 
 const FolderName = styled.h3`

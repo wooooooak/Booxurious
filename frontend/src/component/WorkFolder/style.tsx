@@ -2,15 +2,6 @@ import styled from "styled-components";
 import styledTS from "styled-components-ts";
 // import { device } from '../../styled/device';
 
-// export const BoxShadowing = keyframes`
-//   0%{
-//     box-shadow: 0px 0px 0px transparent;
-//   }
-//   100% {
-//     box-shadow: 2px 2px 50px black;
-//   }
-// `;
-
 interface Props {
   isAffixToolbar: boolean;
 }

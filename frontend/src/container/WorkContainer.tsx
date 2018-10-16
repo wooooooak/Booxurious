@@ -1,19 +1,19 @@
-import * as React from 'react';
-import * as ReactQuill from 'react-quill';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import axios from 'axios';
-import { message } from 'antd';
+import * as React from "react";
+import * as ReactQuill from "react-quill";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import axios from "axios";
+import { message } from "antd";
 
-import { CurrentWorkAndFolderState } from '../store/modules/Work';
-import { actionCreators as workActionCreator } from '../store/modules/Work';
-import { IStoreState } from '../store/modules';
+import { CurrentWorkAndFolderState } from "../store/modules/Work";
+import { actionCreators as workActionCreator } from "../store/modules/Work";
+import { IStoreState } from "../store/modules";
 
-import WorkSideBar from '../component/WorkFolder/WorkSideBar';
-import { WorkState } from '../store/modules/Work';
-import { QuillStyle } from '../component/WorkFolder/style';
-import ButtonGroup from '../component/WorkFolder/ButtonGroup';
-import WorkWriter from '../component/WorkFolder/WorkWriter';
+import WorkSideBar from "../component/WorkFolder/WorkSideBar";
+import { WorkState } from "../store/modules/Work";
+import { QuillStyle } from "../component/WorkFolder/style";
+import ButtonGroup from "../component/WorkFolder/ButtonGroup";
+import WorkWriter from "../component/WorkFolder/WorkWriter";
 
 type StoreProps = CurrentWorkAndFolderState;
 
@@ -32,33 +32,34 @@ interface State {
   isAddWorkMode: boolean;
   currentWork: WorkState;
   isAffixToolbar: boolean;
+  currentWorkTitleOffset: number;
 }
 
 const Quill = ReactQuill as any;
 
 let modules: object = {};
 const toolbarContainer: any[] = [
-  [ { font: [ 'miraza', 'roboto', 'amam' ] } ],
+  [ { font: [ "miraza", "roboto", "amam" ] } ],
   [ { header: [ 1, 2, false ] } ],
-  [ 'bold', 'italic', 'underline', 'strike', 'blockquote' ],
-  [ { list: 'ordered' }, { list: 'bullet' } ],
-  [ 'link', 'image' ],
+  [ "bold", "italic", "underline", "strike", "blockquote" ],
+  [ { list: "ordered" }, { list: "bullet" } ],
+  [ "link", "image" ],
   [ { align: [] } ],
-  [ 'clean' ]
+  [ "clean" ]
 ];
 const formats = [
-  'font',
-  'header',
-  'bold',
-  'italic',
-  'underline',
-  'strike',
-  'blockquote',
-  'list',
-  'bullet',
-  'link',
-  'image',
-  'align'
+  "font",
+  "header",
+  "bold",
+  "italic",
+  "underline",
+  "strike",
+  "blockquote",
+  "list",
+  "bullet",
+  "link",
+  "image",
+  "align"
 ];
 
 // todos
@@ -72,10 +73,11 @@ class WorkContainer extends React.Component<Props, State> {
     isAddWorkMode: false,
     currentWork: {
       id: null,
-      content: '',
-      title: ''
+      content: "",
+      title: ""
     },
-    isAffixToolbar: false
+    isAffixToolbar: false,
+    currentWorkTitleOffset: 0
   };
 
   private quill: typeof Quill;
@@ -95,7 +97,7 @@ class WorkContainer extends React.Component<Props, State> {
   }
 
   onDetectScroll = () => {
-    window.addEventListener('scroll', (): void => {
+    window.addEventListener("scroll", (): void => {
       if (window.pageYOffset > 140) {
         this.setState({
           isAffixToolbar: true
@@ -109,24 +111,27 @@ class WorkContainer extends React.Component<Props, State> {
   };
 
   fetchWorkList = async (id: string | null) => {
-    const result = await axios({
-      method: 'get',
+    const { data } = await axios({
+      method: "get",
       url: `${process.env.REACT_APP_DOMAIN}/work/list`,
       params: { id }
     });
-    if (this.isWorkExist(result.data)) {
+    console.log(data);
+    const markOffsetGap: number = (data.length - 1) * 25;
+    if (this.isWorkExist(data)) {
       this.setState({
-        workList: result.data,
-        currentWork: result.data[result.data.length - 1]
+        workList: data,
+        currentWork: data[data.length - 1],
+        currentWorkTitleOffset: markOffsetGap
       });
-      this.props.workAndFolderAction.changeWork(result.data[result.data.length - 1]);
+      this.props.workAndFolderAction.changeWork(data[data.length - 1]);
     } else {
       this.setState({
         workList: [] as WorkState[],
         currentWork: {
           id: null,
-          content: '',
-          title: ''
+          content: "",
+          title: ""
         }
       });
     }
@@ -136,9 +141,10 @@ class WorkContainer extends React.Component<Props, State> {
     return workList[0] ? true : false;
   };
 
-  onClickOtherChapter = (chapterNumber: number) => {
+  onClickOtherChapter = (chapterNumber: number, offset: number) => {
     this.setState({
-      currentWork: this.state.workList[chapterNumber]
+      currentWork: this.state.workList[chapterNumber],
+      currentWorkTitleOffset: offset
     });
   };
 
@@ -162,7 +168,7 @@ class WorkContainer extends React.Component<Props, State> {
   };
 
   onClickSaveWork = async () => {
-    const token: string | null = localStorage.getItem('token');
+    const token: string | null = localStorage.getItem("token");
     const folderId: string | null = this.props.currentFolder.id;
     const workId: string | null = this.state.currentWork.id;
     const toBeSendData = {
@@ -171,40 +177,40 @@ class WorkContainer extends React.Component<Props, State> {
       workId
     };
     await axios({
-      method: 'post',
+      method: "post",
       url: `${process.env.REACT_APP_DOMAIN}/work`,
       data: toBeSendData,
-      headers: { 'Auth-Header': token }
+      headers: { "Auth-Header": token }
     });
-    message.success('저장 완료!');
+    message.success("저장 완료!");
     this.fetchWorkList(this.props.currentFolder.id);
   };
 
   onClickDeleteButton = async (workId: string) => {
-    const token: string | null = localStorage.getItem('token');
+    const token: string | null = localStorage.getItem("token");
     await axios({
-      method: 'delete',
+      method: "delete",
       url: `${process.env.REACT_APP_DOMAIN}/work/`,
       data: { workId },
-      headers: { 'Auth-Header': token }
+      headers: { "Auth-Header": token }
     });
     this.fetchWorkList(this.props.currentFolder.id);
   };
 
-  onClickAddWorkButton = async () => {
-    const token: string | null = localStorage.getItem('token');
+  onClickAddWorkButton = async (titleOffset: number) => {
+    const token: string | null = localStorage.getItem("token");
     const workList: WorkState[] = this.state.workList;
     const newWork = {
       folderId: this.props.currentFolder.id,
       workId: null,
-      content: '',
-      title: ''
+      content: "",
+      title: "제목을 작성해 주세요!"
     };
     const result = await axios({
-      method: 'post',
+      method: "post",
       url: `${process.env.REACT_APP_DOMAIN}/work`,
       data: newWork,
-      headers: { 'Auth-Header': token }
+      headers: { "Auth-Header": token }
     });
     workList.push(result.data);
     this.setState({
@@ -212,13 +218,14 @@ class WorkContainer extends React.Component<Props, State> {
       currentWork: {
         id: result.data.id as string,
         content: result.data.content as string,
-        title: result.data.title as string
-      }
+        title: newWork.title
+      },
+      currentWorkTitleOffset: titleOffset
     });
   };
 
   componentWillUnmount () {
-    window.removeEventListener('scroll', () => {
+    window.removeEventListener("scroll", () => {
       return null;
     });
   }
@@ -228,10 +235,10 @@ class WorkContainer extends React.Component<Props, State> {
     return (
       <div
         style={{
-          display: 'flex',
-          height: '100vh',
-          width: '100vw',
-          marginTop: '80px'
+          display: "flex",
+          height: "100vh",
+          width: "100vw",
+          marginTop: "80px"
         }}
       >
         <WorkSideBar
@@ -241,12 +248,10 @@ class WorkContainer extends React.Component<Props, State> {
           onClickOtherChapter={this.onClickOtherChapter}
           onClickAddWorkButton={this.onClickAddWorkButton}
           onClickChoiceFolder={this.props.onClickChoiceFolder}
+          currentWorkTitleOffset={this.state.currentWorkTitleOffset}
         />
         <QuillStyle isAffixToolbar={isAffixToolbar}>
-          <WorkWriter
-            onChangeWorkTitle={this.onChangeWorkTitle}
-            title={this.state.currentWork.title}
-          >
+          <WorkWriter onChangeWorkTitle={this.onChangeWorkTitle} title={this.state.currentWork.title}>
             <Quill
               ref={this.quill}
               theme="snow"

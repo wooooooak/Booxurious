@@ -21,7 +21,6 @@ const Container = styledTS<ContainerProps>(styled.div)`
   left: ${(props) => (props.showSideBarState ? "0px" : "-390px")};
   top: 70px;
   height: 100%;
-  // overflow: scroll;
   
   @media ${device.laptopL} {
     left: ${(props) => (props.showSideBarState ? "0px" : "-350px")};
@@ -105,20 +104,27 @@ interface Props {
   folderName: string;
   image: string;
   workList: WorkState[];
-  onClickOtherChapter(chapterNumber: number): void;
-  onClickAddWorkButton(): void;
+  currentWorkTitleOffset: number;
+  onClickOtherChapter(chapterNumber: number, offset: number): void;
+  onClickAddWorkButton(titleOffset: number): void;
   onClickChoiceFolder(): void;
 }
 
 interface State {
   showSidebarState: boolean;
-  activeMakerOffset: number;
+  // activeMakerOffset: number;
 }
 
 class WorkSideBar extends React.Component<Props, State> {
+  static getDerivedStateFromProps (nextProps: any, prevState: any) {
+    return {
+      ...prevState,
+      currentWorkTitleOffset: nextProps.currentWorkTitleOffset
+    };
+  }
+
   state = {
-    showSidebarState: true,
-    activeMakerOffset: 0
+    showSidebarState: true
   };
 
   onClickToggleSideBar = () => {
@@ -130,14 +136,16 @@ class WorkSideBar extends React.Component<Props, State> {
   togleActive = (e: React.MouseEvent<HTMLElement>, index: number) => {
     e.preventDefault();
     const offset: number = this.getItemOffset(e.currentTarget);
-    this.setState({
-      activeMakerOffset: offset
-    });
-    this.props.onClickOtherChapter(index);
+
+    this.props.onClickOtherChapter(index, offset);
   };
 
   getItemOffset = (item: EventTarget & HTMLElement): number => {
     return item.offsetTop;
+  };
+
+  getLastItemOffset = (): number => {
+    return 0;
   };
 
   mapWorkListToChapterli = (workList: WorkState[]) => {
@@ -154,13 +162,20 @@ class WorkSideBar extends React.Component<Props, State> {
     return workList.length !== 0 ? true : false;
   };
 
+  // onClickAddWorkButton = () => {
+  //   const offset: number = this.props.workList.length * 25;
+  // };
+
   render () {
     return (
       <Container showSideBarState={this.state.showSidebarState}>
         <BarLayout>
           <Img image={this.props.image} />
           <ButtonGroup>
-            <Button type="primary" onClick={this.props.onClickAddWorkButton}>
+            <Button
+              type="primary"
+              onClick={() => this.props.onClickAddWorkButton(this.props.workList.length * 25)}
+            >
               <Icon type="file-add" /> 추가하기
             </Button>
             <Button onClick={this.props.onClickChoiceFolder}>
@@ -171,7 +186,7 @@ class WorkSideBar extends React.Component<Props, State> {
           {this.isWorkListEmpty(this.props.workList) ? (
             <React.Fragment>
               <ListWrapper>
-                <ActiveMaker offset={this.state.activeMakerOffset} />
+                <ActiveMaker offset={this.props.currentWorkTitleOffset} />
                 <Ul>{this.mapWorkListToChapterli(this.props.workList)}</Ul>
               </ListWrapper>
             </React.Fragment>

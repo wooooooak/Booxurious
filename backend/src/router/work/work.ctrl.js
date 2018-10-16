@@ -1,14 +1,14 @@
-import Folder from '../../db/model/Folder';
-import Work from '../../db/model/Work';
-import { dumper } from 'dumper';
-import { User } from '../../db/model';
+import Folder from "../../db/model/Folder";
+import Work from "../../db/model/Work";
+import { dumper } from "dumper";
+import { User } from "../../db/model";
 
 export const getWorkListRelatedFolder = async (req, res) => {
   const { id } = req.query;
   try {
     const workList = await Work.findAll({
       where: { fk_folder_id: id },
-      order: [ [ 'createdAt', 'ASC' ] ]
+      order: [ [ "createdAt", "ASC" ] ]
     });
     res.status(200).json(workList);
   } catch (error) {
@@ -18,6 +18,7 @@ export const getWorkListRelatedFolder = async (req, res) => {
 
 export const createWork = async (req, res) => {
   const { content, title, folderId, workId } = req.body;
+  console.log(workId, "work Id");
   const { userId } = req.decodedUser;
 
   try {
@@ -51,7 +52,7 @@ export const deleteWork = async (req, res) => {
         id: workId
       }
     });
-    res.status(200).json({ message: 'delete work successfully' });
+    res.status(200).json({ message: "delete work successfully" });
   } catch (error) {
     res.status(500).json(error);
   }

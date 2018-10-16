@@ -1,19 +1,19 @@
-import * as React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import axios from 'axios';
-import * as ReactQuill from 'react-quill';
+import * as React from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import axios from "axios";
+import * as ReactQuill from "react-quill";
 
-import { IStoreState } from '../store/modules';
-import { actionCreators as postActionCreator } from '../store/modules/Post';
-import { PostState } from '../store/modules/Post';
+import { IStoreState } from "../store/modules";
+import { actionCreators as postActionCreator } from "../store/modules/Post";
+import { PostState } from "../store/modules/Post";
 
-import Cover from '../component/Write/Cover';
-import ImageUploader from '../component/Write/ImageUploader';
-import Modal from '../component/Write/Modal';
-import EditorBox from '../component/Write/EditorBox';
+import Cover from "../component/Write/Cover";
+import ImageUploader from "../component/Write/ImageUploader";
+import Modal from "../component/Write/Modal";
+import EditorBox from "../component/Write/EditorBox";
 
-import 'react-quill/dist/quill.snow.css';
+import "react-quill/dist/quill.snow.css";
 
 interface State {
   reviewData: PostState;
@@ -35,27 +35,27 @@ const Quill = ReactQuill as any;
 
 let modules: object = {};
 const toolbarContainer: any[] = [
-  [ { font: [ 'miraza', 'roboto', 'amam' ] } ],
+  [ { font: [ "miraza", "roboto", "amam" ] } ],
   [ { header: [ 1, 2, false ] } ],
-  [ 'bold', 'italic', 'underline', 'strike', 'blockquote' ],
-  [ { list: 'ordered' }, { list: 'bullet' } ],
-  [ 'link', 'image' ],
+  [ "bold", "italic", "underline", "strike", "blockquote" ],
+  [ { list: "ordered" }, { list: "bullet" } ],
+  [ "link", "image" ],
   [ { align: [] } ],
-  [ 'clean' ]
+  [ "clean" ]
 ];
 const formats = [
-  'font',
-  'header',
-  'bold',
-  'italic',
-  'underline',
-  'strike',
-  'blockquote',
-  'list',
-  'bullet',
-  'link',
-  'image',
-  'align'
+  "font",
+  "header",
+  "bold",
+  "italic",
+  "underline",
+  "strike",
+  "blockquote",
+  "list",
+  "bullet",
+  "link",
+  "image",
+  "align"
 ];
 
 class WrtingBookReviewContainer extends React.Component<Props, State> {
@@ -67,10 +67,10 @@ class WrtingBookReviewContainer extends React.Component<Props, State> {
 
   state = {
     reviewData: {
-      editorState: '',
-      postTitle: '',
-      subTitle: '',
-      category: '문학',
+      editorState: "",
+      postTitle: "",
+      subTitle: "",
+      category: "문학",
       bookCoverImg: null,
       uploadingImg: false,
       rate: 2.5
@@ -89,7 +89,7 @@ class WrtingBookReviewContainer extends React.Component<Props, State> {
 
   componentDidMount () {
     this.onDetectScroll();
-    const coverBottomOffset = this.getCoverBottomOffset(this.coverRef);
+    const coverBottomOffset = this.getCoverBottomOffset();
     modules = {
       toolbar: {
         container: toolbarContainer,
@@ -111,7 +111,7 @@ class WrtingBookReviewContainer extends React.Component<Props, State> {
     });
   }
 
-  getCoverBottomOffset = (coverElement: React.RefObject<HTMLDivElement>): number => {
+  getCoverBottomOffset = (): number => {
     let coverBottomOffset = 570;
     if (this.coverRef.current) {
       const coverHeight = this.coverRef.current.offsetHeight;
@@ -122,30 +122,30 @@ class WrtingBookReviewContainer extends React.Component<Props, State> {
   };
 
   imageHandler = async () => {
-    const input = document.createElement('input');
-    input.setAttribute('type', 'file');
-    input.setAttribute('accept', 'image/*');
+    const input = document.createElement("input");
+    input.setAttribute("type", "file");
+    input.setAttribute("accept", "image/*");
     input.click();
     input.onchange = async () => {
-      const token: string | null = localStorage.getItem('token');
+      const token: string | null = localStorage.getItem("token");
       const quill = this.quill.current.getEditor();
       try {
         if (input.files) {
           const file: File | null = input.files[0];
           const formData = new FormData();
-          formData.append('imgFile', file, file.name);
+          formData.append("imgFile", file, file.name);
           const result = await axios({
-            method: 'post',
+            method: "post",
             url: `${process.env.REACT_APP_DOMAIN}/post/contentImage`,
             data: formData,
-            headers: { 'Auth-Header': token },
+            headers: { "Auth-Header": token },
             onUploadProgress: () => {
-              console.log('로딩 중입니다');
+              console.log("로딩 중입니다");
             }
           });
           const source: string = result.data.location;
           const range = quill.getSelection();
-          quill.insertEmbed(range.index, 'image', source);
+          quill.insertEmbed(range.index, "image", source);
         }
       } catch (error) {
         alert(error);
@@ -197,7 +197,7 @@ class WrtingBookReviewContainer extends React.Component<Props, State> {
   };
 
   onDetectScroll = () => {
-    window.addEventListener('scroll', (): void => {
+    window.addEventListener("scroll", (): void => {
       if (window.pageYOffset > this.state.coverBottomOffset) {
         this.setState({
           isAffixToolbar: true
@@ -211,7 +211,7 @@ class WrtingBookReviewContainer extends React.Component<Props, State> {
   };
 
   componentWillUnmount () {
-    window.removeEventListener('scroll', () => {
+    window.removeEventListener("scroll", () => {
       return null;
     });
   }

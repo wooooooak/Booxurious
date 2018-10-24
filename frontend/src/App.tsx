@@ -1,17 +1,18 @@
-import * as React from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { injectGlobal } from 'styled-components';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import { IStoreState } from './store/modules';
-import { actionCreators as userActionCreator } from './store/modules/User';
+import * as React from "react";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { injectGlobal } from "styled-components";
+import { bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import { IStoreState } from "./store/modules";
+import { actionCreators as userActionCreator } from "./store/modules/User";
 
-import IntroPage from './pages/IntroPage';
-import SignInPage from './pages/SignInPage';
-import SignUpPage from './pages/SignUpPage';
-import ChoiceFolderOrWritingPage from './pages/ChoiceFolderOrWrtingPage';
-import WritingBookReviewPage from './pages/WritingBookReviewPage';
-import UserPage from './pages/UserPage';
+import IntroPage from "./pages/IntroPage";
+import SignInPage from "./pages/SignInPage";
+import SignUpPage from "./pages/SignUpPage";
+import ChoiceFolderOrWritingPage from "./pages/ChoiceFolderOrWrtingPage";
+import WritingBookReviewPage from "./pages/WritingBookReviewPage";
+import UserPage from "./pages/UserPage";
+import PlanPage from "./pages/PlanPage";
 
 injectGlobal`
   body {
@@ -58,6 +59,7 @@ class App extends React.Component<Props, IState> {
             <Route exact={true} path="/folder" component={ChoiceFolderOrWritingPage} />
             <Route exact={true} path="/write_review" component={WritingBookReviewPage} />
             <Route exact={true} path="/user/:username" component={UserPage} />
+            <Route exact={true} path="/plan" component={PlanPage} />
           </Switch>
         </React.Fragment>
       </BrowserRouter>

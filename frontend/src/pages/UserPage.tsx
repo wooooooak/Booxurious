@@ -1,11 +1,11 @@
-import * as React from 'react';
-import styled from 'styled-components';
-import { withRouter, RouteComponentProps } from 'react-router';
+import * as React from "react";
+import styled from "styled-components";
+import { withRouter, RouteComponentProps } from "react-router";
 
-import MenuContainer from '../container/MenuContainer';
-import UserProfileContainer from '../container/UserProfileContainer';
+import MenuContainer from "../container/MenuContainer";
+import UserProfileContainer from "../container/UserProfileContainer";
 
-export const Div = styled.div`background: white;`;
+export const Div = styled.div``;
 
 interface RouterProps {
   username: string;

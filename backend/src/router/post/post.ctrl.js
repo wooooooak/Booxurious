@@ -1,6 +1,6 @@
-import Post from '../../db/model/Post';
-import User from '../../db/model/User';
-import Category from '../../db/model/Category';
+import Post from "../../db/model/Post";
+import User from "../../db/model/User";
+import Category from "../../db/model/Category";
 
 export const uploadBookCoverImage = (req, res) => {
   console.log(JSON.stringify(req.headers, null, 4));
@@ -33,4 +33,10 @@ export const test = (req, res) => {
   res.status(200).json({
     key: process.env.AWS_KEY
   });
+};
+
+export const getData = async (req, res) => {
+  const { userId } = req.query;
+  const posts = await Post.findAll({ where: { fk_user_id: userId } });
+  res.status(200).json(posts);
 };

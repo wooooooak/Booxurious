@@ -1,18 +1,14 @@
-import express from 'express';
+import express from "express";
 
-import { authMiddleware } from '../../middleware/auth';
-import { bookCoverUploader, contentImageUploader } from '../../lib/imageUploader';
-import { uploadBookCoverImage, uploadImageInContent, write, test } from './post.ctrl';
+import { authMiddleware } from "../../middleware/auth";
+import { bookCoverUploader, contentImageUploader } from "../../lib/imageUploader";
+import { uploadBookCoverImage, uploadImageInContent, write, getData } from "./post.ctrl";
 
 const router = express.Router();
 
-router.post('/bookCoverImage', bookCoverUploader.single('imgFile'), uploadBookCoverImage);
-router.post(
-  '/contentImage',
-  contentImageUploader.single('imgFile'),
-  uploadImageInContent
-);
-router.post('/', authMiddleware, write);
-router.get('/test', authMiddleware, test);
+router.post("/bookCoverImage", bookCoverUploader.single("imgFile"), uploadBookCoverImage);
+router.post("/contentImage", contentImageUploader.single("imgFile"), uploadImageInContent);
+router.post("/", authMiddleware, write);
+router.get("/", getData);
 
 export default router;

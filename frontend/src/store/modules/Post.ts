@@ -1,16 +1,16 @@
-import { createAction, handleActions } from 'redux-actions';
-import axios from 'axios';
+import { createAction, handleActions } from "redux-actions";
+import axios from "axios";
 
-const WRITE_SUCCESS = 'post/WriteSuccess';
-const WRITE_FAIL = 'post/WriteFail';
-const ON_CHANGE_POST_CONTENT = 'post/OnChangePostContent';
-const ON_CHANGE_POST_TITLE = 'post/OnChangePostTitle';
-const ON_CHANGE_SUB_TITLE = 'post/OnChangeSubTitle';
-const ON_CHANGE_RATE = 'post/OnChangeRage';
-const ON_CHANGE_CATEGORY = 'post/OnChangeCategory';
-const ON_CHANGE_BOOK_COVER_IMG_PENDING = 'post/OnChangeBookCoverImgPeding';
-const ON_CHANGE_BOOK_COVER_IMG_SUCCESS = 'post/OnChangeBookCoverImgSuccess';
-const ON_CHANGE_BOOK_COVER_IMG_FAIL = 'post/OnChangeBookCoverImgFail';
+const WRITE_SUCCESS = "post/WriteSuccess";
+const WRITE_FAIL = "post/WriteFail";
+const ON_CHANGE_POST_CONTENT = "post/OnChangePostContent";
+const ON_CHANGE_POST_TITLE = "post/OnChangePostTitle";
+const ON_CHANGE_SUB_TITLE = "post/OnChangeSubTitle";
+const ON_CHANGE_RATE = "post/OnChangeRage";
+const ON_CHANGE_CATEGORY = "post/OnChangeCategory";
+const ON_CHANGE_BOOK_COVER_IMG_PENDING = "post/OnChangeBookCoverImgPeding";
+const ON_CHANGE_BOOK_COVER_IMG_SUCCESS = "post/OnChangeBookCoverImgSuccess";
+const ON_CHANGE_BOOK_COVER_IMG_FAIL = "post/OnChangeBookCoverImgFail";
 
 export interface PostState {
   editorState: string;
@@ -23,13 +23,13 @@ export interface PostState {
 }
 
 export const writePost = (post: PostState) => {
-  const token: string | null = localStorage.getItem('token');
+  const token: string | null = localStorage.getItem("token");
   return (dispatch: any) => {
     axios({
-      method: 'post',
+      method: "post",
       url: `${process.env.REACT_APP_DOMAIN}/post`,
       data: post,
-      headers: { 'Auth-Header': token }
+      headers: { "Auth-Header": token }
     })
       .then((res) => {
         console.dir(res);
@@ -44,12 +44,12 @@ export const writePost = (post: PostState) => {
 export const OnChangeBookCoverImg = (files: FileList) => {
   const file = files[0];
   const formData = new FormData();
-  formData.append('imgFile', file, file.name);
+  formData.append("imgFile", file, file.name);
   return (dispatch: any) => {
     axios
       .post(`${process.env.REACT_APP_DOMAIN}/post/bookCoverImage`, formData, {
         headers: {
-          'Content-Type': 'multipart/form-data'
+          "Content-Type": "multipart/form-data"
         },
         onUploadProgress: (progressEvent) => {
           dispatch(actionCreators.OnChangeBookCoverImgPending());
@@ -65,6 +65,22 @@ export const OnChangeBookCoverImg = (files: FileList) => {
       });
   };
 };
+
+// export const fetchAllPosts = (id: string) => {
+//   return (dispatch: any) => {
+//     axios({
+//       method: "get",
+//       url: `${process.env.REACT_APP_DOMAIN}/post`,
+//       params: id
+//     })
+//       .then((result) => {
+//         console.log(result);
+//       })
+//       .catch((err) => {
+//         console.log(err);
+//       });
+//   };
+// };
 
 export const actionCreators = {
   writePost,
@@ -82,10 +98,10 @@ export const actionCreators = {
 };
 
 const initialState: PostState = {
-  editorState: '',
-  postTitle: '',
-  subTitle: '',
-  category: '',
+  editorState: "",
+  postTitle: "",
+  subTitle: "",
+  category: "",
   rate: 2.5,
   bookCoverImg: null,
   uploadingImg: false

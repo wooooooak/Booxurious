@@ -8,6 +8,8 @@ import { actionCreators as userActionCreator } from "../store/modules/User";
 
 import InputForm from "../component/Profile/InputForm";
 import Modal from "../component/Profile/Modal";
+// import ProfileWrapper from "../component/Profile/ProfileWrapper";
+// import TimeLine from "../component/Profile/TimeLine";
 import { PostState } from "../store/modules/Post";
 import { WorkState } from "../store/modules/Work";
 import axios from "axios";
@@ -58,25 +60,27 @@ class UserProfileContainer extends React.Component<Props, State> {
 
   componentDidMount () {
     const { matchedName } = this.props;
-    // let isMe:boolean = false;
-    // if (username === matchedName) {
-    //   isMe = true
-    // }
-    console.log(this.state);
     axios({
       method: "get",
       url: `${process.env.REACT_APP_DOMAIN}/user/${matchedName}`
     })
       .then((result) => {
         const { id, username, email, profileImg } = result.data;
-        this.setState({
-          userInfo: {
-            ...this.state.userInfo,
-            id,
-            username,
-            email,
-            profileImg
-          }
+        axios({
+          method: "get",
+          url: `${process.env.REACT_APP_DOMAIN}/post`,
+          params: { userId: id }
+        }).then((result) => {
+          console.log(result);
+          this.setState({
+            userInfo: {
+              ...this.state.userInfo,
+              id,
+              username,
+              email,
+              profileImg
+            }
+          });
         });
       })
       .catch((err) => {
@@ -141,6 +145,7 @@ class UserProfileContainer extends React.Component<Props, State> {
           // confirmLoading={confirmLoading}
           onCancel={this.onClickSettingCancle}
         />
+        {/* <ProfileWrapper></ProfileWrapper> */}
       </React.Fragment>
     );
   }

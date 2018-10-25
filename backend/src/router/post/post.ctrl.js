@@ -37,6 +37,6 @@ export const test = (req, res) => {
 
 export const getData = async (req, res) => {
   const { userId } = req.query;
-  const posts = await Post.findAll({ where: { fk_user_id: userId } });
+  const posts = await Post.findAll({ where: { fk_user_id: userId }, order: [ [ "createdAt", "DESC" ] ] });
   res.status(200).json(posts);
 };

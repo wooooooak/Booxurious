@@ -8,8 +8,8 @@ import { actionCreators as userActionCreator } from "../store/modules/User";
 
 import InputForm from "../component/Profile/InputForm";
 import Modal from "../component/Profile/Modal";
-// import ProfileWrapper from "../component/Profile/ProfileWrapper";
-// import TimeLine from "../component/Profile/TimeLine";
+import ProfileWrapper from "../component/Profile/ProfileWrapper";
+
 import { PostState } from "../store/modules/Post";
 import { WorkState } from "../store/modules/Work";
 import axios from "axios";
@@ -58,35 +58,50 @@ class UserProfileContainer extends React.Component<Props, State> {
     modalVisible: false
   };
 
-  componentDidMount () {
+  async componentDidMount () {
     const { matchedName } = this.props;
-    axios({
-      method: "get",
-      url: `${process.env.REACT_APP_DOMAIN}/user/${matchedName}`
-    })
-      .then((result) => {
-        const { id, username, email, profileImg } = result.data;
-        axios({
-          method: "get",
-          url: `${process.env.REACT_APP_DOMAIN}/post`,
-          params: { userId: id }
-        }).then((result) => {
-          console.log(result);
-          this.setState({
-            userInfo: {
-              ...this.state.userInfo,
-              id,
-              username,
-              email,
-              profileImg
-            }
-          });
-        });
-      })
-      .catch((err) => {
-        console.log(err);
+    try {
+      const { data } = await axios({
+        method: "get",
+        url: `${process.env.REACT_APP_DOMAIN}/user/${matchedName}`
       });
+      const { id, username, email, profileImg } = data;
+      const postResult = await axios({
+        method: "get",
+        url: `${process.env.REACT_APP_DOMAIN}/post`,
+        params: { userId: id }
+      });
+      this.setState({
+        userInfo: {
+          ...this.state.userInfo,
+          id,
+          username,
+          email,
+          reviews: this.mapPostsToPostFormat(postResult.data) as PostState[],
+          profileImg
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
+
+  mapPostsToPostFormat = (posts: any): PostState[] => {
+    return posts.map((el: any) => {
+      return {
+        editoState: el.editorState,
+        authorId: el.fk_user_id,
+        postTitle: el.postTitle,
+        subTitle: el.subTitle,
+        rate: el.rate,
+        category: el.category,
+        bookCoverImg: el.bookCoverImg,
+        uploadingImg: el.uploadingImg,
+        createdAt: el.createdAt,
+        like: el.like
+      };
+    });
+  };
 
   onClickSettingButton = (): void => {
     this.setState({
@@ -123,7 +138,8 @@ class UserProfileContainer extends React.Component<Props, State> {
   };
 
   render () {
-    const { username, profileImg } = this.state.userInfo;
+    console.log(this.state);
+    const { username, profileImg, reviews } = this.state.userInfo;
     const { modalVisible } = this.state;
     let Me = false;
     if (this.props.id === this.state.userInfo.id) {
@@ -145,7 +161,7 @@ class UserProfileContainer extends React.Component<Props, State> {
           // confirmLoading={confirmLoading}
           onCancel={this.onClickSettingCancle}
         />
-        {/* <ProfileWrapper></ProfileWrapper> */}
+        <ProfileWrapper postDatas={reviews} />
       </React.Fragment>
     );
   }

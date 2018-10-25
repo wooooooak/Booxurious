@@ -14,12 +14,15 @@ const ON_CHANGE_BOOK_COVER_IMG_FAIL = "post/OnChangeBookCoverImgFail";
 
 export interface PostState {
   editorState: string;
+  authorId: string;
   postTitle: string;
   subTitle: string;
+  createdAt: string;
   rate: number;
   category: string;
   bookCoverImg: string | null;
   uploadingImg?: boolean;
+  like: number;
 }
 
 export const writePost = (post: PostState) => {
@@ -32,7 +35,6 @@ export const writePost = (post: PostState) => {
       headers: { "Auth-Header": token }
     })
       .then((res) => {
-        console.dir(res);
         dispatch(actionCreators.writeSuccess(res.data));
       })
       .catch((error) => {
@@ -56,11 +58,9 @@ export const OnChangeBookCoverImg = (files: FileList) => {
         }
       })
       .then((result) => {
-        console.log(result);
         dispatch(actionCreators.OnChangeBookCoverImgSuccess(result.data.location));
       })
       .catch((err) => {
-        console.dir(err);
         dispatch(actionCreators.OnChangeBookCoverImgFail());
       });
   };
@@ -99,10 +99,13 @@ export const actionCreators = {
 
 const initialState: PostState = {
   editorState: "",
+  authorId: "",
   postTitle: "",
   subTitle: "",
   category: "",
+  createdAt: "",
   rate: 2.5,
+  like: 0,
   bookCoverImg: null,
   uploadingImg: false
 };

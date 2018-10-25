@@ -70,9 +70,12 @@ class WrtingBookReviewContainer extends React.Component<Props, State> {
       editorState: "",
       postTitle: "",
       subTitle: "",
+      authorId: "",
       category: "문학",
       bookCoverImg: null,
       uploadingImg: false,
+      createdAt: "",
+      like: 0,
       rate: 2.5
     },
     modalState: false,
@@ -267,7 +270,10 @@ export default connect<StoreProps, DispatchProps, OwnProps>(
     category: Post.category,
     bookCoverImg: Post.bookCoverImg,
     uploadingImg: Post.uploadingImg,
-    rate: Post.rate
+    rate: Post.rate,
+    like: Post.like,
+    authorId: Post.authorId,
+    createdAt: Post.createdAt
   }),
   (dispatch: any) => ({
     postAction: bindActionCreators(postActionCreator, dispatch)

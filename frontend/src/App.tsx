@@ -12,6 +12,7 @@ import SignUpPage from "./pages/SignUpPage";
 import ChoiceFolderOrWritingPage from "./pages/ChoiceFolderOrWrtingPage";
 import WritingBookReviewPage from "./pages/WritingBookReviewPage";
 import UserPage from "./pages/UserPage";
+import ReadingBookReviewPage from "./pages/ReadingBookReviewPage";
 import PlanPage from "./pages/PlanPage";
 
 injectGlobal`
@@ -59,6 +60,7 @@ class App extends React.Component<Props, IState> {
             <Route exact={true} path="/folder" component={ChoiceFolderOrWritingPage} />
             <Route exact={true} path="/write_review" component={WritingBookReviewPage} />
             <Route exact={true} path="/user/:username" component={UserPage} />
+            <Route exact={true} path="/review/:id" component={ReadingBookReviewPage} />
             <Route exact={true} path="/plan" component={PlanPage} />
           </Switch>
         </React.Fragment>

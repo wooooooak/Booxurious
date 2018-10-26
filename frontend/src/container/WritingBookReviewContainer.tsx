@@ -67,14 +67,17 @@ class WrtingBookReviewContainer extends React.Component<Props, State> {
 
   state = {
     reviewData: {
+      id: "",
       editorState: "",
       postTitle: "",
       subTitle: "",
-      authorId: "",
+      fk_user_id: "",
+      fk_category_id: "",
       category: "문학",
       bookCoverImg: null,
       uploadingImg: false,
       createdAt: "",
+      updatedAt: "",
       like: 0,
       rate: 2.5
     },
@@ -226,12 +229,14 @@ class WrtingBookReviewContainer extends React.Component<Props, State> {
       <React.Fragment>
         <Cover
           ref={this.coverRef}
+          type="write"
           postTitle={this.state.reviewData.postTitle}
           onChangeTitle={this.onChangeTitle}
           subTitle={this.state.reviewData.subTitle}
           onChangeSubTitle={this.onChangeSubTitle}
         >
           <ImageUploader
+            type="write"
             fileChangedHandler={this.bookCoverImageChangedHandler}
             bookCoverImg={this.state.reviewData.bookCoverImg}
             uploadingImg={this.state.reviewData.uploadingImg}
@@ -264,6 +269,7 @@ class WrtingBookReviewContainer extends React.Component<Props, State> {
 
 export default connect<StoreProps, DispatchProps, OwnProps>(
   ({ Post }: IStoreState): StoreProps => ({
+    id: Post.id,
     editorState: Post.editorState,
     postTitle: Post.postTitle,
     subTitle: Post.subTitle,
@@ -272,8 +278,10 @@ export default connect<StoreProps, DispatchProps, OwnProps>(
     uploadingImg: Post.uploadingImg,
     rate: Post.rate,
     like: Post.like,
-    authorId: Post.authorId,
-    createdAt: Post.createdAt
+    fk_category_id: Post.fk_category_id,
+    fk_user_id: Post.fk_user_id,
+    createdAt: Post.createdAt,
+    updatedAt: Post.updatedAt
   }),
   (dispatch: any) => ({
     postAction: bindActionCreators(postActionCreator, dispatch)

@@ -1,8 +1,8 @@
-import * as React from 'react';
-import styled, { keyframes } from 'styled-components';
-import styledTS from 'styled-components-ts';
-import { Upload } from 'styled-icons/feather/Upload';
-import { Loader } from 'styled-icons/feather/Loader';
+import * as React from "react";
+import styled, { keyframes } from "styled-components";
+import styledTS from "styled-components-ts";
+import { Upload } from "styled-icons/feather/Upload";
+import { Loader } from "styled-icons/feather/Loader";
 
 const Conatiner = styled.div`
   width: 180px;
@@ -16,7 +16,7 @@ interface ImgProps {
 
 const Img = styledTS<ImgProps>(styled.div)`
   position: absolute;
-  background-color: #f8f4f3;
+  background-color: ${(props) => (props.bookCoverImge ? null : "transparent")};
   background-image: url('${(props) => props.bookCoverImge}');
   background-repeat: no-repeat;
   background-size: cover;
@@ -24,8 +24,8 @@ const Img = styledTS<ImgProps>(styled.div)`
   width: 180px;
   /* margin-left: auto; */
   border-radius: 10px;
-  box-shadow: 5px 5px 5px grey;
-  cursor: pointer;
+  box-shadow: ${(props) => (props.bookCoverImge ? "5px 5px 5px grey" : "transparent")};
+  cursor: ${(props) => (props.bookCoverImge ? "pointer" : null)};
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -33,7 +33,7 @@ const Img = styledTS<ImgProps>(styled.div)`
 `;
 
 const FileUploaderButton = styled.input.attrs({
-  type: 'file'
+  type: "file"
 })`
   position: absolute;
   height: 280px;
@@ -56,16 +56,14 @@ const lodingAnimation = keyframes`
 const Loding = Loader.extend`animation: ${lodingAnimation} 2s linear infinite;`;
 
 interface Props {
+  type: "write" | "read";
   bookCoverImg: string | null;
   uploadingImg: boolean;
-  fileChangedHandler(e: FileList | null): void;
+  fileChangedHandler?(e: FileList | null): void;
 }
 
-const ImageUploader: React.SFC<Props> = ({
-  bookCoverImg,
-  uploadingImg,
-  fileChangedHandler
-}) => {
+const ImageUploader: React.SFC<Props> = ({ bookCoverImg, uploadingImg, fileChangedHandler, type }) => {
+  console.log(bookCoverImg);
   return (
     <Conatiner>
       <Img bookCoverImge={bookCoverImg}>
@@ -76,12 +74,18 @@ const ImageUploader: React.SFC<Props> = ({
           </React.Fragment>
         ) : (
           <React.Fragment>
-            <Upload size={40} />
-            <p>Book Cover Image</p>
+            {type === "write" ? (
+              <React.Fragment>
+                <Upload size={40} />
+                <p>Book Cover Image</p>
+              </React.Fragment>
+            ) : null}
           </React.Fragment>
         )}
       </Img>
-      <FileUploaderButton onChange={(e) => fileChangedHandler(e.target.files)} />
+      {fileChangedHandler ? (
+        <FileUploaderButton onChange={(e) => fileChangedHandler(e.target.files)} />
+      ) : null}
     </Conatiner>
   );
 };

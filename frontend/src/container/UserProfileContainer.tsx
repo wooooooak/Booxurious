@@ -68,7 +68,7 @@ class UserProfileContainer extends React.Component<Props, State> {
       const { id, username, email, profileImg } = data;
       const postResult = await axios({
         method: "get",
-        url: `${process.env.REACT_APP_DOMAIN}/post`,
+        url: `${process.env.REACT_APP_DOMAIN}/post/user_id`,
         params: { userId: id }
       });
       this.setState({
@@ -77,7 +77,7 @@ class UserProfileContainer extends React.Component<Props, State> {
           id,
           username,
           email,
-          reviews: this.mapPostsToPostFormat(postResult.data) as PostState[],
+          reviews: postResult.data,
           profileImg
         }
       });
@@ -86,22 +86,23 @@ class UserProfileContainer extends React.Component<Props, State> {
     }
   }
 
-  mapPostsToPostFormat = (posts: any): PostState[] => {
-    return posts.map((el: any) => {
-      return {
-        editoState: el.editorState,
-        authorId: el.fk_user_id,
-        postTitle: el.postTitle,
-        subTitle: el.subTitle,
-        rate: el.rate,
-        category: el.category,
-        bookCoverImg: el.bookCoverImg,
-        uploadingImg: el.uploadingImg,
-        createdAt: el.createdAt,
-        like: el.like
-      };
-    });
-  };
+  // mapPostsToPostFormat = (posts: any): PostState[] => {
+  //   return posts.map((el: any) => {
+  //     return {
+  //       editoState: el.editorState,
+  //       authorId: el.fk_user_id,
+  //       postTitle: el.postTitle,
+  //       subTitle: el.subTitle,
+  //       rate: el.rate,
+  //       category: el.category,
+  //       bookCoverImg: el.bookCoverImg,
+  //       uploadingImg: el.uploadingImg,
+  //       createdAt: el.createdAt,
+  //       like: el.like,
+  //       id: el.id
+  //     };
+  //   });
+  // };
 
   onClickSettingButton = (): void => {
     this.setState({

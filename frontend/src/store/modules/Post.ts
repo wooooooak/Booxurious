@@ -13,11 +13,14 @@ const ON_CHANGE_BOOK_COVER_IMG_SUCCESS = "post/OnChangeBookCoverImgSuccess";
 const ON_CHANGE_BOOK_COVER_IMG_FAIL = "post/OnChangeBookCoverImgFail";
 
 export interface PostState {
+  id: string;
   editorState: string;
-  authorId: string;
   postTitle: string;
   subTitle: string;
   createdAt: string;
+  updatedAt: string;
+  fk_user_id: string;
+  fk_category_id: string;
   rate: number;
   category: string;
   bookCoverImg: string | null;
@@ -27,11 +30,12 @@ export interface PostState {
 
 export const writePost = (post: PostState) => {
   const token: string | null = localStorage.getItem("token");
+  const { id, ...newData } = post;
   return (dispatch: any) => {
     axios({
       method: "post",
       url: `${process.env.REACT_APP_DOMAIN}/post`,
-      data: post,
+      data: newData,
       headers: { "Auth-Header": token }
     })
       .then((res) => {
@@ -98,12 +102,15 @@ export const actionCreators = {
 };
 
 const initialState: PostState = {
+  id: "",
   editorState: "",
-  authorId: "",
+  fk_user_id: "",
+  fk_category_id: "",
   postTitle: "",
   subTitle: "",
   category: "",
   createdAt: "",
+  updatedAt: "",
   rate: 2.5,
   like: 0,
   bookCoverImg: null,

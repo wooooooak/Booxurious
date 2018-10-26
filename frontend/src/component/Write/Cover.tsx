@@ -1,5 +1,5 @@
-import * as React from 'react';
-import styled from 'styled-components';
+import * as React from "react";
+import styled from "styled-components";
 
 const Layout = styled.div`
   width: 100vw;
@@ -31,7 +31,7 @@ const RightSideLayout = styled.div`
 `;
 
 const Title = styled.input.attrs({
-  placeholder: '제목을 입력하세요'
+  placeholder: "제목을 입력하세요"
 })`
   font-size: 3em;
   margin-bottom: 50px;
@@ -40,7 +40,7 @@ const Title = styled.input.attrs({
   
 `;
 const SubTitle = styled.textarea.attrs({
-  placeholder: '소제목을 입력하세요'
+  placeholder: "소제목을 입력하세요"
 })`
   font-size: 1.7em;
   background-color: transparent;
@@ -51,24 +51,36 @@ const SubTitle = styled.textarea.attrs({
   `;
 
 export interface Props {
+  type: "write" | "read";
   postTitle: string;
   subTitle?: string;
-  onChangeTitle(e: React.FormEvent<HTMLInputElement>): void;
-  onChangeSubTitle(e: React.FormEvent<HTMLTextAreaElement>): void;
+  onChangeTitle?(e: React.FormEvent<HTMLInputElement>): void;
+  onChangeSubTitle?(e: React.FormEvent<HTMLTextAreaElement>): void;
 }
 
 export type Ref = HTMLDivElement;
 
-const Cover = React.forwardRef<Ref, Props>((props, ref) => (
-  <div ref={ref}>
-    <Layout>
-      <LeftSideLyout>{props.children}</LeftSideLyout>
-      <RightSideLayout>
-        <Title onChange={props.onChangeTitle} value={props.postTitle} />
-        <SubTitle onChange={props.onChangeSubTitle} value={props.subTitle} />
-      </RightSideLayout>
-    </Layout>
-  </div>
-));
+const Cover = React.forwardRef<Ref, Props>(
+  (props, ref) =>
+    props.type === "write" ? (
+      <div ref={ref}>
+        <Layout>
+          <LeftSideLyout>{props.children}</LeftSideLyout>
+          <RightSideLayout>
+            <Title onChange={props.onChangeTitle} value={props.postTitle} />
+            <SubTitle onChange={props.onChangeSubTitle} value={props.subTitle} />
+          </RightSideLayout>
+        </Layout>
+      </div>
+    ) : (
+      <Layout>
+        <LeftSideLyout>{props.children}</LeftSideLyout>
+        <RightSideLayout>
+          <Title value={props.postTitle} />
+          <SubTitle value={props.subTitle} />
+        </RightSideLayout>
+      </Layout>
+    )
+);
 
 export default Cover;

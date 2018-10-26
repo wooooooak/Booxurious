@@ -34,7 +34,7 @@ const mapPostsToTimeLine = (posts: PostState[]) => {
     return (
       <Timeline.Item key={index}>
         <PostInfo>
-          <a href="#">{el.postTitle}</a>
+          <a href={`/review/${el.id}`}>{el.postTitle}</a>
           <span>{el.createdAt.substring(0, 10)}</span>
         </PostInfo>
       </Timeline.Item>

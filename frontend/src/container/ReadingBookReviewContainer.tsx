@@ -4,6 +4,7 @@ import Cover from "../component/Write/Cover";
 import ImageUploader from "../component/Write/ImageUploader";
 import { PostState } from "../store/modules/Post";
 import axios from "axios";
+import { EditorBoxLayout } from "src/component/Write/style";
 
 type State = PostState;
 
@@ -45,7 +46,9 @@ class ReadingBookReviewContainer extends React.Component<Props, State> {
         <Cover type="read" postTitle={postTitle} subTitle={subTitle}>
           <ImageUploader bookCoverImg={bookCoverImg} uploadingImg={false} type="read" />
         </Cover>
-        {editorState}
+        <EditorBoxLayout isAffixToolbar={false}>
+          <div dangerouslySetInnerHTML={{ __html: editorState }} />
+        </EditorBoxLayout>
       </React.Fragment>
     );
   }

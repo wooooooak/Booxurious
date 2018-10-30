@@ -3,8 +3,6 @@ import User from "../../db/model/User";
 import Category from "../../db/model/Category";
 
 export const uploadBookCoverImage = (req, res) => {
-  console.log(JSON.stringify(req.headers, null, 4));
-  console.log(req.apiGateway);
   let imgFile = req.file;
   res.json(imgFile);
 };
@@ -17,14 +15,13 @@ export const uploadImageInContent = (req, res) => {
 export const write = async (req, res) => {
   const { category } = req.body;
   const { userId: fk_user_id } = req.decodedUser;
-  console.log(req.body);
   try {
     const machedCategory = await Category.findOrCreate({ where: { name: category } });
     const user = await User.find({ where: { id: fk_user_id } });
     const post = await Post.create(req.body);
-    console.log("-=-=-=-=-=--==-0-=0-=0=-0-=0-==-");
     await post.setUser(user);
     await post.setCategory(machedCategory[0]);
+    post.save();
     res.status(200).json(post);
   } catch (error) {
     res.status(500).json(error);

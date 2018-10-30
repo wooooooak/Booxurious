@@ -1,8 +1,8 @@
-import * as React from 'react';
-import styled from 'styled-components';
+import * as React from "react";
+import styled from "styled-components";
 
-import MenuContainer from '../container/MenuContainer';
-import WritingBookReviewContainer from '../container/WritingBookReviewContainer';
+import MenuContainer from "../container/MenuContainer";
+import WritingBookReviewContainer from "../container/WritingBookReviewContainer";
 
 const PageLayout = styled.div`
   padding: 70px 300px;

@@ -1,21 +1,21 @@
-import styled from 'styled-components';
-import styledTS from 'styled-components-ts';
+import styled from "styled-components";
+import styledTS from "styled-components-ts";
 
 interface Props {
   isAffixToolbar: boolean;
 }
 
 export const EditorBoxLayout = styledTS<Props>(styled.div)`
-  margin-top: 30px;
+  margin: 30px auto;
   min-width: 600px;
+  max-width: 700px;
   box-sizing: border-box;
-  /* border: 1px solid #ddd; */
   cursor: text;
   padding: 16px;
   border-radius: 2px;
   margin-bottom: 2em;
-  /* box-shadow: inset 0px 1px 8px -3px #ababab; */
   background: transparent;
+  font-size: 1.5em;
   @import url('https://fonts.googleapis.com/css?family=Mirza');
 
   .quill {
@@ -30,9 +30,9 @@ export const EditorBoxLayout = styledTS<Props>(styled.div)`
 
   .ql-toolbar {
     z-index: 999;
-    position: ${(props) => (props.isAffixToolbar ? 'fixed' : 'static')};
+    position: ${(props) => (props.isAffixToolbar ? "fixed" : "static")};
     top: 70px;
-    background: ${(props) => (props.isAffixToolbar ? '#F0E5DE' : '')}
+    background: ${(props) => (props.isAffixToolbar ? "#F0E5DE" : "")}
   }
 
   .ql-container.ql-snow {

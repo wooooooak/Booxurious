@@ -86,24 +86,6 @@ class UserProfileContainer extends React.Component<Props, State> {
     }
   }
 
-  // mapPostsToPostFormat = (posts: any): PostState[] => {
-  //   return posts.map((el: any) => {
-  //     return {
-  //       editoState: el.editorState,
-  //       authorId: el.fk_user_id,
-  //       postTitle: el.postTitle,
-  //       subTitle: el.subTitle,
-  //       rate: el.rate,
-  //       category: el.category,
-  //       bookCoverImg: el.bookCoverImg,
-  //       uploadingImg: el.uploadingImg,
-  //       createdAt: el.createdAt,
-  //       like: el.like,
-  //       id: el.id
-  //     };
-  //   });
-  // };
-
   onClickSettingButton = (): void => {
     this.setState({
       modalVisible: true

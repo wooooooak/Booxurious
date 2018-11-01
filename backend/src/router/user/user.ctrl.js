@@ -4,13 +4,14 @@ import { dumper } from "dumper";
 
 export const fetchUserData = async (req, res) => {
   const token = req.headers["auth-header"];
-  const decodedToken = await decodeToken(token);
   try {
+    const decodedToken = await decodeToken(token);
     const user = await User.findOne({ where: { id: decodedToken.userId } });
     const { id, email, username, socialProvider, profileImg } = user;
-    res.json({ id, email, username, socialProvider, profileImg });
+    res.status(200).json({ id, email, username, socialProvider, profileImg });
   } catch (error) {
     dumper(error);
+    res.status(403).json(error);
   }
 };
 

@@ -1,8 +1,7 @@
-import { validationResult } from 'express-validator/check';
-import { dumper } from 'dumper';
-import { matchedData } from 'express-validator/filter';
-import User from '../../db/model/User';
-import { generate, decodeToken } from '../../lib/jwt';
+import { validationResult } from "express-validator/check";
+import { matchedData } from "express-validator/filter";
+import User from "../../db/model/User";
+import { generate, decodeToken } from "../../lib/jwt";
 
 export const createAccount = async (req, res) => {
   try {
@@ -34,7 +33,7 @@ export const loginSocailAccount = async (req, res) => {
   try {
     const { email, socialProvider } = req.body;
     const user = await User.findOne({ where: { email: email } });
-    let token = '';
+    let token = "";
     if (user) {
       token = await generate({
         socialProvider,

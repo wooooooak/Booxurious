@@ -1,7 +1,6 @@
 import Folder from "../../db/model/Folder";
 import Category from "../../db/model/Category";
 import User from "../../db/model/User";
-import { dumper } from "dumper";
 
 export const uploadCoverImage = (req, res) => {
   let imgFile = req.file;

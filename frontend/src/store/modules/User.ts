@@ -37,6 +37,8 @@ export const fetchUserData = (token: string) => {
       })
       .catch((err) => {
         console.dir(err);
+        alert("token 값이 만료되었습니다. 다시 로그인해주세요.");
+        dispatch(actionCreators.logout());
       });
   };
 };
@@ -133,7 +135,7 @@ export const actionCreators = {
   socialLoginSuccess: createAction<IUserState>(SOCIAL_LOGIN_SUCCESS),
   socialLoginFail: createAction<IUserState>(SOCIAL_LOGIN_FAIL),
   fetchUserDataSuccess: createAction<IUserState>(FETCH_USER_DATA_SUCCESS),
-  fetchUserDataFail: createAction<IUserState>(FETCH_USER_DATA_FAIL),
+  fetchUserDataFail: createAction(FETCH_USER_DATA_FAIL),
   signUpSuccess: createAction<IUserState>(SIGN_UP_SUCCESS),
   signUpFail: createAction<IUserState>(SIGN_UP_FAIL),
   logout: createAction(LOGOUT),
@@ -203,7 +205,7 @@ export default handleActions<IUserState, any>(
     },
     [FETCH_USER_DATA_FAIL]: (state, action): IUserState => {
       return {
-        ...state
+        ...initialState
       };
     },
     [GO_TO_SIGN_IN_PAGE]: (state, action): IUserState => {

@@ -15,32 +15,50 @@ const isUserExist = (result: any): boolean => {
 };
 
 export const fetchUserData = (token: string) => {
-  return (dispatch: any) => {
-    axios({
-      method: "get",
-      url: `${process.env.REACT_APP_DOMAIN}/user/token`,
-      headers: { "Auth-Header": token }
-    })
-      .then((res) => {
-        console.log(res);
-        const { id, email, username, socialProvider, profileImg } = res.data;
-        dispatch(
-          actionCreators.fetchUserDataSuccess({
-            id,
-            email,
-            username,
-            socialProvider,
-            profileImg,
-            code: 200
-          })
-        );
-      })
-      .catch((err) => {
-        console.dir(err);
-        alert("token 값이 만료되었습니다. 다시 로그인해주세요.");
-        dispatch(actionCreators.logout());
+  return async (dispatch: any) => {
+    try {
+      const { data } = await axios({
+        method: "get",
+        url: `${process.env.REACT_APP_DOMAIN}/user/token`,
+        headers: { "Auth-Header": token }
       });
+      dispatch(
+        actionCreators.fetchUserDataSuccess({
+          ...data,
+          code: 200
+        })
+      );
+    } catch (error) {
+      alert("token 값이 만료되었습니다. 다시 로그인해주세요.");
+      dispatch(actionCreators.logout());
+    }
   };
+  // return (dispatch: any) => {
+  //   axios({
+  //     method: "get",
+  //     url: `${process.env.REACT_APP_DOMAIN}/user/token`,
+  //     headers: { "Auth-Header": token }
+  //   })
+  //     .then((res) => {
+  //       console.log(res);
+  //       const { id, email, username, socialProvider, profileImg } = res.data;
+  //       dispatch(
+  //         actionCreators.fetchUserDataSuccess({
+  //           id,
+  //           email,
+  //           username,
+  //           socialProvider,
+  //           profileImg,
+  //           code: 200
+  //         })
+  //       );
+  //     })
+  //     .catch((err) => {
+  //       console.dir(err);
+  //       alert("token 값이 만료되었습니다. 다시 로그인해주세요.");
+  //       dispatch(actionCreators.logout());
+  //     });
+  // };
 };
 
 export const socialLoginAsync = (socialEmail: string, profileImge: string, socialProvider: string) => {

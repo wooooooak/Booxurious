@@ -7,11 +7,11 @@ import UserProfileContainer from "../container/UserProfileContainer";
 
 export const Div = styled.div``;
 
-interface RouterProps {
+interface MatchParams {
   username: string;
 }
 
-const UserPage: React.SFC<RouteComponentProps<RouterProps>> = ({ match }) => {
+const UserPage: React.SFC<RouteComponentProps<MatchParams>> = ({ match }) => {
   return (
     <React.Fragment>
       <MenuContainer>{match.params.username}</MenuContainer>
@@ -22,4 +22,4 @@ const UserPage: React.SFC<RouteComponentProps<RouterProps>> = ({ match }) => {
   );
 };
 
-export default withRouter<any>(UserPage);
+export default withRouter(UserPage);

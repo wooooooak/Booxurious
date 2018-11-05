@@ -1,5 +1,5 @@
 import * as React from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route } from "react-router-dom";
 import { injectGlobal } from "styled-components";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
@@ -38,9 +38,7 @@ interface OwnProps {}
 
 type Props = StateProps & DispatchProps & OwnProps;
 
-interface IState {}
-
-class App extends React.Component<Props, IState> {
+class App extends React.Component<Props, {}> {
   constructor (props: Props) {
     super(props);
     if (localStorage.token !== undefined) {
@@ -53,16 +51,14 @@ class App extends React.Component<Props, IState> {
     return (
       <BrowserRouter>
         <React.Fragment>
-          <Switch>
-            <Route exact={true} path="/" component={IntroPage} />
-            <Route exact={true} path="/signIn" component={SignInPage} />
-            <Route exact={true} path="/signUp" component={SignUpPage} />
-            <Route exact={true} path="/folder" component={ChoiceFolderOrWritingPage} />
-            <Route exact={true} path="/write_review" component={WritingBookReviewPage} />
-            <Route exact={true} path="/user/:username" component={UserPage} />
-            <Route exact={true} path="/review/:id" component={ReadingBookReviewPage} />
-            <Route exact={true} path="/plan" component={PlanPage} />
-          </Switch>
+          <Route exact={true} path="/" component={IntroPage} />
+          <Route exact={true} path="/signIn" component={SignInPage} />
+          <Route exact={true} path="/signUp" component={SignUpPage} />
+          <Route exact={true} path="/folder" component={ChoiceFolderOrWritingPage} />
+          <Route exact={true} path="/write_review" component={WritingBookReviewPage} />
+          <Route exact={true} path="/user/:username" component={UserPage} />
+          <Route exact={true} path="/review/:id" component={ReadingBookReviewPage} />
+          <Route exact={true} path="/plan" component={PlanPage} />
         </React.Fragment>
       </BrowserRouter>
     );

@@ -2,4 +2,4 @@
 */.serverless
 
 .env.development
-.env.production
+# .env.production

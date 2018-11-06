@@ -1,7 +1,10 @@
 import * as React from "react";
 import styled from "styled-components";
 import styledTS from "styled-components-ts";
+
 import { LayoutRightBox, Title } from "./style";
+import { X } from "styled-icons/octicons/X";
+
 import { FolderState } from "../../store/modules/Work";
 
 const FolderContainer = styled.div`
@@ -33,6 +36,12 @@ const Folder = styled.div`
     h3 {
       color: black;
     }
+    div {
+      span {
+        z-index: 999;
+        display: inline-block;
+      }
+    }
   }
 `;
 
@@ -50,36 +59,67 @@ const FolderImage = styledTS<FolderImageProps>(styled.div)`
   border-top-left-radius: 10px;
 `;
 
-const FolderName = styled.h3`
+const FolderName = styled.div`
+  display: fixed;
+  /* justify-content: center; */
   color: black;
   padding-top: 15px;
+  width: 100%;
+  div {
+    width: 100%;
+    text-align: center;
+    position: relative;
+  }
+  span {
+    display: none;
+    position: relative;
+    right: 2.2em;
+  }
 `;
 
 interface Props {
   folderList: FolderState[] | null;
   onClickExistFolder(folder: FolderState): void;
+  onClickFolderDeleteButton(id: string | null): void;
 }
 
 const mapFolderListToCard = (
   folderList: FolderState[],
-  onClickExistFolder: (folder: FolderState) => void
+  onClickExistFolder: (folder: FolderState) => void,
+  onClickFolderDeleteButton: (id: string | null) => void
 ) => {
   return folderList.map((folder, index) => {
     return (
       <Folder key={index} onClick={() => onClickExistFolder(folder)}>
         <FolderImage image={folder.folderCoverImage} />
-        <FolderName>{folder.folderName}</FolderName>
+        <FolderName>
+          <div>{folder.folderName}</div>
+          <span>
+            <X
+              size={23}
+              color="#566270"
+              onClick={(e) => {
+                e.stopPropagation();
+                onClickFolderDeleteButton(folder.id);
+              }}
+            />
+          </span>
+        </FolderName>
       </Folder>
     );
   });
 };
 
-const FolderCoicer: React.SFC<Props> = ({ folderList, onClickExistFolder }) => {
+const FolderCoicer: React.SFC<Props> = ({ folderList, onClickExistFolder, onClickFolderDeleteButton }) => {
   return (
     <LayoutRightBox>
       <Title>기존 폴더에서 작업하기</Title>
       <FolderContainer>
-        {folderList ? mapFolderListToCard(folderList, onClickExistFolder) : <h2>첫 작품을 담을 폴더를 생성해보세요</h2>}
+        {folderList ? (
+          mapFolderListToCard(folderList, onClickExistFolder, onClickFolderDeleteButton)
+        ) : (
+          <h2>첫 작품을 담을 폴더를 생성해보세요</h2>
+        )}
       </FolderContainer>
     </LayoutRightBox>
   );

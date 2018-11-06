@@ -1,19 +1,20 @@
-import express from 'express';
+import express from "express";
 
-import { authMiddleware } from '../../middleware/auth';
-import { uploadCoverImage, makeNewFolder, myFolderList } from './folder.ctrl';
-import { folderCoverImageUploader } from '../../lib/imageUploader';
+import { authMiddleware } from "../../middleware/auth";
+import { uploadCoverImage, makeNewFolder, myFolderList, deleteFolder } from "./folder.ctrl";
+import { folderCoverImageUploader } from "../../lib/imageUploader";
 
 const folder = express.Router();
 
 folder.post(
-  '/folderCoverImage',
+  "/folderCoverImage",
   authMiddleware,
-  folderCoverImageUploader.single('imgFile'),
+  folderCoverImageUploader.single("imgFile"),
   uploadCoverImage
 );
 
-folder.post('/newFolder', authMiddleware, makeNewFolder);
-folder.get('/myList', authMiddleware, myFolderList);
+folder.post("/newFolder", authMiddleware, makeNewFolder);
+folder.get("/myList", authMiddleware, myFolderList);
+folder.delete("/", authMiddleware, deleteFolder);
 
 export default folder;

@@ -1,6 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import { Modal } from "antd";
 import axios from "axios";
 import Select from "react-select";
 
@@ -22,7 +23,7 @@ type Props = DispatchProps;
 interface State {
   folder: FolderState;
   goToWritePage: boolean;
-  myFolderList: FolderState[] | null;
+  myFolderList: FolderState[];
 }
 
 const selectorStyle = {
@@ -37,6 +38,8 @@ const selectorStyle = {
   placeholder: (styles: object) => ({ ...styles, color: "black" }),
   singleValue: (styles: any) => ({ ...styles, color: "black" })
 };
+
+const confirm = Modal.confirm;
 
 interface Category {
   value: string;
@@ -64,18 +67,17 @@ class FolderContainer extends React.Component<Props, State> {
       folderCoverImage: "",
       folderName: "",
       category: "",
-      id: null
+      id: ""
     },
     currentChapter: 1,
     content: null,
     author: "",
     goToWritePage: false,
-    myFolderList: null
+    myFolderList: []
   };
 
   onChangeCoverImgHandler = async (files: FileList) => {
     const file: File | null = files[0];
-    console.log(file);
     const formData = new FormData();
     formData.append("imgFile", file, file.name);
     const token: string | null = localStorage.getItem("token");
@@ -153,22 +155,45 @@ class FolderContainer extends React.Component<Props, State> {
   };
 
   onClickChoiceFolder = () => {
-    // this.setState({
-    //   goToWritePage: false
-    // });
     this.fetchFolders();
+  };
+
+  onClickFolderDeleteButton = async (id: string) => {
+    const self = this;
+    confirm({
+      title: "정말로 해당 폴더를 삭제하시겠습니까?",
+      content: "삭제하면 되돌릴 수 없습니다.",
+      okText: "예",
+      okType: "danger",
+      cancelText: "아뇨",
+      async onOk () {
+        const token: string | null = localStorage.getItem("token");
+        await axios({
+          method: "delete",
+          url: `${process.env.REACT_APP_DOMAIN}/folder`,
+          headers: { "Auth-Header": token },
+          data: {
+            folderId: id
+          }
+        });
+        const newList = self.state.myFolderList;
+        const removeIndex = newList.findIndex((el: FolderState) => el.id === id);
+        newList.splice(removeIndex, 1);
+        self.setState({
+          myFolderList: newList
+        });
+      },
+      onCancel () {
+        console.log("cancle");
+      }
+    });
   };
 
   render () {
     const { folderCoverImage } = this.state.folder;
     const { goToWritePage } = this.state;
     if (goToWritePage) {
-      return (
-        <WorkContainer
-          // folder={this.state.folder}
-          onClickChoiceFolder={this.onClickChoiceFolder}
-        />
-      );
+      return <WorkContainer onClickChoiceFolder={this.onClickChoiceFolder} />;
     } else {
       return (
         <React.Fragment>
@@ -185,7 +210,11 @@ class FolderContainer extends React.Component<Props, State> {
               defaultValue={categories[0]}
             />
           </MakingForm>
-          <FolderChoicer folderList={this.state.myFolderList} onClickExistFolder={this.onClickExistFolder} />
+          <FolderChoicer
+            folderList={this.state.myFolderList}
+            onClickExistFolder={this.onClickExistFolder}
+            onClickFolderDeleteButton={this.onClickFolderDeleteButton}
+          />
         </React.Fragment>
       );
     }

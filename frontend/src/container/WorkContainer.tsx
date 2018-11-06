@@ -3,7 +3,7 @@ import * as ReactQuill from "react-quill";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import axios from "axios";
-import { message } from "antd";
+import { message, Modal } from "antd";
 
 import { CurrentWorkAndFolderState } from "../store/modules/Work";
 import { actionCreators as workActionCreator } from "../store/modules/Work";
@@ -62,11 +62,8 @@ const formats = [
   "align"
 ];
 
-// todos
-// quill에디터를 붙여서 work쓰기 작업완성하고
-// 사이드바의 챕터를 선택시
-// work의 내용 바뀌게 하기.
-// 사이드바를 누를 경우 현재 작성중인 글을 저장할지 물어보고 이동 시켜야 할듯
+const confirm = Modal.confirm;
+
 class WorkContainer extends React.Component<Props, State> {
   state = {
     workList: [] as WorkState[],
@@ -86,6 +83,35 @@ class WorkContainer extends React.Component<Props, State> {
     super(props);
     this.quill = React.createRef();
   }
+
+  showDeleteConfirm = (workId: string) => {
+    const fetchWorkList = this.fetchWorkList;
+    const id: string | null = this.props.currentFolder.id;
+    confirm({
+      title: "정말로 해당 글을 삭제하시겠습니까?",
+      content: "삭제하면 되돌릴 수 없습니다.",
+      okText: "예",
+      okType: "danger",
+      cancelText: "아뇨",
+      async onOk () {
+        const token: string | null = localStorage.getItem("token");
+        const result = await axios({
+          method: "delete",
+          url: `${process.env.REACT_APP_DOMAIN}/work/`,
+          data: { workId },
+          headers: { "Auth-Header": token }
+        });
+        if (result.status === 200) {
+          message.success("삭제 완료!");
+        }
+        fetchWorkList(id);
+      },
+      onCancel () {
+        console.log("cancle");
+      }
+    });
+  };
+
   componentDidMount () {
     modules = {
       toolbar: {
@@ -116,7 +142,6 @@ class WorkContainer extends React.Component<Props, State> {
       url: `${process.env.REACT_APP_DOMAIN}/work/list`,
       params: { id }
     });
-    console.log(data);
     const markOffsetGap: number = (data.length - 1) * 25;
     if (this.isWorkExist(data)) {
       this.setState({
@@ -183,17 +208,6 @@ class WorkContainer extends React.Component<Props, State> {
       headers: { "Auth-Header": token }
     });
     message.success("저장 완료!");
-    this.fetchWorkList(this.props.currentFolder.id);
-  };
-
-  onClickDeleteButton = async (workId: string) => {
-    const token: string | null = localStorage.getItem("token");
-    await axios({
-      method: "delete",
-      url: `${process.env.REACT_APP_DOMAIN}/work/`,
-      data: { workId },
-      headers: { "Auth-Header": token }
-    });
     this.fetchWorkList(this.props.currentFolder.id);
   };
 
@@ -264,7 +278,7 @@ class WorkContainer extends React.Component<Props, State> {
         </QuillStyle>
         <ButtonGroup
           onClickSaveWork={this.onClickSaveWork}
-          onClickDeleteButton={this.onClickDeleteButton}
+          onClickDeleteButton={this.showDeleteConfirm}
           workId={this.state.currentWork.id}
         />
       </div>

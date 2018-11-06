@@ -18,7 +18,6 @@ export const getWorkListRelatedFolder = async (req, res) => {
 
 export const createWork = async (req, res) => {
   const { content, title, folderId, workId } = req.body;
-  console.log(workId, "work Id");
   const { userId } = req.decodedUser;
 
   try {

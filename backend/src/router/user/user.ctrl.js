@@ -40,9 +40,13 @@ export const destroyUser = async (req, res) => {
 
 export const allAboutUser = async (req, res) => {
   const matchedName = req.params.matchedName;
-  const user = await User.findOne({ where: { username: matchedName } });
-  const data = {
-    username: req.params.matchedName
-  };
-  res.json(user);
+  try {
+    const user = await User.findOne({ where: { username: matchedName } });
+    const data = {
+      username: req.params.matchedName
+    };
+    res.json(user);
+  } catch (error) {
+    res.status(500).json(error);
+  }
 };

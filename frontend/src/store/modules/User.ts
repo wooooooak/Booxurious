@@ -62,7 +62,7 @@ export const fetchUserData = (token: string) => {
 };
 
 export const socialLoginAsync = (socialEmail: string, profileImge: string, socialProvider: string) => {
-  return async (dispatch: any) => {
+  return (dispatch: any) => {
     axios({
       method: "post",
       url: `${process.env.REACT_APP_DOMAIN}/auth/login/social`,

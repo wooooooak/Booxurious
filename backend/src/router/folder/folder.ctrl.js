@@ -35,6 +35,9 @@ export const myFolderList = async (req, res) => {
 
 export const deleteFolder = async (req, res) => {
   const { folderId } = req.body;
+  console.log("========================");
+  console.log(req.body);
+  console.log(folderId);
   try {
     const result = await Folder.destroy({
       where: {

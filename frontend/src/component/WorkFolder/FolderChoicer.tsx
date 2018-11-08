@@ -98,7 +98,7 @@ const mapFolderListToCard = (
             <X
               size={23}
               color="#566270"
-              onClick={(e) => {
+              onClick={(e: React.MouseEvent<SVGSVGElement>) => {
                 e.stopPropagation();
                 onClickFolderDeleteButton(folder.id);
               }}

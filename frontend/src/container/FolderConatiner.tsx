@@ -168,20 +168,25 @@ class FolderContainer extends React.Component<Props, State> {
       cancelText: "아뇨",
       async onOk () {
         const token: string | null = localStorage.getItem("token");
-        await axios({
-          method: "delete",
-          url: `${process.env.REACT_APP_DOMAIN}/folder`,
-          headers: { "Auth-Header": token },
-          data: {
-            folderId: id
-          }
-        });
-        const newList = self.state.myFolderList;
-        const removeIndex = newList.findIndex((el: FolderState) => el.id === id);
-        newList.splice(removeIndex, 1);
-        self.setState({
-          myFolderList: newList
-        });
+        console.log(id);
+        try {
+          await axios({
+            method: "delete",
+            url: `${process.env.REACT_APP_DOMAIN}/folder`,
+            headers: { "Auth-Header": token },
+            data: {
+              folderId: id
+            }
+          });
+          const newList = self.state.myFolderList;
+          const removeIndex = newList.findIndex((el: FolderState) => el.id === id);
+          newList.splice(removeIndex, 1);
+          self.setState({
+            myFolderList: newList
+          });
+        } catch (error) {
+          console.log(error);
+        }
       },
       onCancel () {
         console.log("cancle");

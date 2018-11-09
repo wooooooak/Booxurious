@@ -33,75 +33,47 @@ export const fetchUserData = (token: string) => {
       dispatch(actionCreators.logout());
     }
   };
-  // return (dispatch: any) => {
-  //   axios({
-  //     method: "get",
-  //     url: `${process.env.REACT_APP_DOMAIN}/user/token`,
-  //     headers: { "Auth-Header": token }
-  //   })
-  //     .then((res) => {
-  //       console.log(res);
-  //       const { id, email, username, socialProvider, profileImg } = res.data;
-  //       dispatch(
-  //         actionCreators.fetchUserDataSuccess({
-  //           id,
-  //           email,
-  //           username,
-  //           socialProvider,
-  //           profileImg,
-  //           code: 200
-  //         })
-  //       );
-  //     })
-  //     .catch((err) => {
-  //       console.dir(err);
-  //       alert("token 값이 만료되었습니다. 다시 로그인해주세요.");
-  //       dispatch(actionCreators.logout());
-  //     });
-  // };
 };
 
 export const socialLoginAsync = (socialEmail: string, profileImge: string, socialProvider: string) => {
-  return (dispatch: any) => {
-    axios({
-      method: "post",
-      url: `${process.env.REACT_APP_DOMAIN}/auth/login/social`,
-      data: {
-        email: socialEmail,
-        socialProvider
-      }
-    })
-      .then((res) => {
-        // email이 존재해서 바로 로그인 된다면
-        if (isUserExist(res)) {
-          localStorage.setItem("token", res.data.token);
-          dispatch(
-            actionCreators.socialLoginSuccess({
-              id: res.data.user.id,
-              email: socialEmail,
-              profileImg: profileImge,
-              username: res.data.user.username,
-              socialProvider,
-              code: 200
-            })
-          );
-        } else {
-          dispatch(
-            actionCreators.socialLoginFail({
-              id: res.data.user.id,
-              socialProvider,
-              profileImg: profileImge,
-              email: res.data.email,
-              goToSignUpPage: true,
-              code: 500,
-              username: ""
-            })
-          );
+  return async (dispatch: any) => {
+    try {
+      const res = await axios({
+        method: "post",
+        url: `${process.env.REACT_APP_DOMAIN}/auth/login/social`,
+        data: {
+          email: socialEmail,
+          socialProvider
         }
-      })
-      .catch((err) => {
-        console.log(err);
       });
+      if (isUserExist(res)) {
+        localStorage.setItem("token", res.data.token);
+        dispatch(
+          actionCreators.socialLoginSuccess({
+            id: res.data.user.userId,
+            email: socialEmail,
+            profileImg: profileImge,
+            username: res.data.user.username,
+            socialProvider,
+            code: 200
+          })
+        );
+      } else {
+        dispatch(
+          actionCreators.socialLoginFail({
+            id: "",
+            socialProvider,
+            profileImg: profileImge,
+            email: res.data.email,
+            goToSignUpPage: true,
+            code: 500,
+            username: ""
+          })
+        );
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 };
 

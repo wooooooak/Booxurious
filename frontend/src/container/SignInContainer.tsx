@@ -1,12 +1,12 @@
-import * as React from 'react';
+import * as React from "react";
 // import axios from 'axios';
-import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
-import { bindActionCreators } from 'redux';
-import { IStoreState } from '../store/modules';
-import { actionCreators as userActionCreator } from '../store/modules/User';
+import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
+import { bindActionCreators } from "redux";
+import { IStoreState } from "../store/modules";
+import { actionCreators as userActionCreator } from "../store/modules/User";
 
-import SignIn from '../component/SignIn';
+import SignIn from "../component/SignIn";
 
 interface StoreProps {
   email: string;
@@ -27,23 +27,23 @@ interface IState {
 
 class SignInContainer extends React.Component<Props, IState> {
   state = {
-    email: '',
-    password: ''
+    email: "",
+    password: ""
   };
 
   onClickSocialLogin = (response: any) => {
     const { userAction } = this.props;
     switch (response.socialProvider) {
-      case 'google':
+      case "google":
         userAction.socialLoginAsync(
           response.response.profileObj.email,
           response.response.profileObj.imageUrl,
           response.socialProvider
         );
         break;
-      case 'kakao':
+      case "kakao":
         const { profile } = response.response;
-        let profileImage = '';
+        let profileImage = "";
         if (profile.profile_image) {
           profileImage = profile.profil_image;
         }
@@ -60,7 +60,7 @@ class SignInContainer extends React.Component<Props, IState> {
 
   render () {
     const { goToSignUpPage } = this.props;
-    if (localStorage.getItem('token') !== null) {
+    if (localStorage.getItem("token") !== null) {
       return <Redirect to="/" />;
     }
     if (goToSignUpPage) {

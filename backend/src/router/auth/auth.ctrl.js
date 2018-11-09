@@ -29,11 +29,13 @@ export const createAccount = async (req, res) => {
   }
 };
 
-export const loginSocailAccount = async (req, res) => {
+export const loginSocialAccount = async (req, res) => {
   try {
     const { email, socialProvider } = req.body;
     const user = await User.findOne({ where: { email: email } });
     let token = "";
+    console.log(" login Social");
+    console.log(token);
     if (user) {
       token = await generate({
         socialProvider,

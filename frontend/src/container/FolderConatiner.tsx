@@ -158,6 +158,8 @@ class FolderContainer extends React.Component<Props, State> {
     this.fetchFolders();
   };
 
+  // post로 id를 넘기면 잘된다.
+  // delete로 설정하면 안된다..
   onClickFolderDeleteButton = async (id: string) => {
     const self = this;
     confirm({
@@ -174,7 +176,7 @@ class FolderContainer extends React.Component<Props, State> {
             method: "delete",
             url: `${process.env.REACT_APP_DOMAIN}/folder`,
             headers: { "Auth-Header": token },
-            data: {
+            params: {
               folderId: id
             }
           });

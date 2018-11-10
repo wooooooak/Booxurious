@@ -98,7 +98,7 @@ class WorkContainer extends React.Component<Props, State> {
         const result = await axios({
           method: "delete",
           url: `${process.env.REACT_APP_DOMAIN}/work/`,
-          data: { workId },
+          params: { workId },
           headers: { "Auth-Header": token }
         });
         if (result.status === 200) {

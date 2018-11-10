@@ -44,7 +44,7 @@ const isUpdateRequest = (workId) => {
 };
 
 export const deleteWork = async (req, res) => {
-  const { workId } = req.body;
+  const { workId } = req.query;
   try {
     await Work.destroy({
       where: {

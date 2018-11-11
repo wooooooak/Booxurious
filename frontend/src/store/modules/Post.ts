@@ -31,19 +31,18 @@ export interface PostState {
 export const writePost = (post: PostState) => {
   const token: string | null = localStorage.getItem("token");
   const { id, ...newData } = post;
-  return (dispatch: any) => {
-    axios({
-      method: "post",
-      url: `${process.env.REACT_APP_DOMAIN}/post`,
-      data: newData,
-      headers: { "Auth-Header": token }
-    })
-      .then((res) => {
-        dispatch(actionCreators.writeSuccess(res.data));
-      })
-      .catch((error) => {
-        console.dir(error);
+  return async (dispatch: any) => {
+    try {
+      const { data } = await axios({
+        method: "post",
+        url: `${process.env.REACT_APP_DOMAIN}/post`,
+        data: newData,
+        headers: { "Auth-Header": token }
       });
+      dispatch(actionCreators.writeSuccess(data));
+    } catch (error) {
+      console.dir(error);
+    }
   };
 };
 
@@ -51,40 +50,22 @@ export const OnChangeBookCoverImg = (files: FileList) => {
   const file = files[0];
   const formData = new FormData();
   formData.append("imgFile", file, file.name);
-  return (dispatch: any) => {
-    axios
-      .post(`${process.env.REACT_APP_DOMAIN}/post/bookCoverImage`, formData, {
+  return async (dispatch: any) => {
+    try {
+      const { data } = await axios.post(`${process.env.REACT_APP_DOMAIN}/post/bookCoverImage`, formData, {
         headers: {
           "Content-Type": "multipart/form-data"
         },
         onUploadProgress: (progressEvent) => {
           dispatch(actionCreators.OnChangeBookCoverImgPending());
         }
-      })
-      .then((result) => {
-        dispatch(actionCreators.OnChangeBookCoverImgSuccess(result.data.location));
-      })
-      .catch((err) => {
-        dispatch(actionCreators.OnChangeBookCoverImgFail());
       });
+      dispatch(actionCreators.OnChangeBookCoverImgSuccess(data.location));
+    } catch (error) {
+      dispatch(actionCreators.OnChangeBookCoverImgFail());
+    }
   };
 };
-
-// export const fetchAllPosts = (id: string) => {
-//   return (dispatch: any) => {
-//     axios({
-//       method: "get",
-//       url: `${process.env.REACT_APP_DOMAIN}/post`,
-//       params: id
-//     })
-//       .then((result) => {
-//         console.log(result);
-//       })
-//       .catch((err) => {
-//         console.log(err);
-//       });
-//   };
-// };
 
 export const actionCreators = {
   writePost,

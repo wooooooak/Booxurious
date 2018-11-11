@@ -78,44 +78,43 @@ export const socialLoginAsync = (socialEmail: string, profileImge: string, socia
 };
 
 export const signUp = (username: string, email: string, socialProvider: string, profileImg: string) => {
-  return (dispatch: any) => {
-    axios({
-      method: "post",
-      url: `${process.env.REACT_APP_DOMAIN}/auth/register/social`,
-      data: {
-        email,
-        username,
-        profileImg,
-        socialProvider
-      }
-    })
-      .then((res) => {
-        localStorage.setItem("token", res.data.token);
-        dispatch(
-          actionCreators.signUpSuccess({
-            id: res.data.user.id,
-            username,
-            email,
-            profileImg,
-            socialProvider,
-            code: 200
-          })
-        );
-      })
-      .catch((err) => {
-        if (err.response.status === 422 || err.status === 422) {
-          dispatch(
-            actionCreators.signUpFail({
-              id: "",
-              email,
-              code: 422,
-              profileImg,
-              socialProvider,
-              username
-            })
-          );
+  return async (dispatch: any) => {
+    try {
+      const { data } = await axios({
+        method: "post",
+        url: `${process.env.REACT_APP_DOMAIN}/auth/register/social`,
+        data: {
+          email,
+          username,
+          profileImg,
+          socialProvider
         }
       });
+      localStorage.setItem("token", data.token);
+      dispatch(
+        actionCreators.signUpSuccess({
+          id: data.user.id,
+          username,
+          email,
+          profileImg,
+          socialProvider,
+          code: 200
+        })
+      );
+    } catch (error) {
+      if (error.response.status === 422 || error.status === 422) {
+        dispatch(
+          actionCreators.signUpFail({
+            id: "",
+            email,
+            code: 422,
+            profileImg,
+            socialProvider,
+            username
+          })
+        );
+      }
+    }
   };
 };
 

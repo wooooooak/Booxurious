@@ -1,13 +1,13 @@
-import { createAction, handleActions } from 'redux-actions';
-import axios from 'axios';
+import { createAction, handleActions } from "redux-actions";
+import axios from "axios";
 
 // folder store는 따로 필요없다. 폴더를 선택할 때 마다, 여기 work스토어에서
 // 선택된 folder를 저장해 두면 될듯
-const ON_CHANGE_FOLDER_INFO = 'folder/OnChangeFolderInfo';
-const ADD_NEW_FOLDER_SUCCESS = 'folder/AddNewFolderSucceess';
-const ADD_NEW_FOLDER_FAIL = 'folder/AddNewFolderFail';
-const CHANGE_WORK = 'work/changeWork';
-const ON_CLICK_EXIST_FOLDER = 'folder/onClickExistFolder';
+const ON_CHANGE_FOLDER_INFO = "folder/OnChangeFolderInfo";
+const ADD_NEW_FOLDER_SUCCESS = "folder/AddNewFolderSucceess";
+const ADD_NEW_FOLDER_FAIL = "folder/AddNewFolderFail";
+const CHANGE_WORK = "work/changeWork";
+const ON_CLICK_EXIST_FOLDER = "folder/onClickExistFolder";
 
 export interface FolderState {
   folderName: string;
@@ -30,33 +30,31 @@ export interface CurrentWorkAndFolderState {
 const initialState: CurrentWorkAndFolderState = {
   currentFolder: {
     id: null,
-    folderName: '',
-    folderCoverImage:
-      'https://cdn.pixabay.com/photo/2018/08/03/11/48/skyline-3581739__340.jpg',
-    category: ''
+    folderName: "",
+    folderCoverImage: "https://cdn.pixabay.com/photo/2018/08/03/11/48/skyline-3581739__340.jpg",
+    category: ""
   },
   currentWork: {
     id: null,
     content: null,
-    title: ''
+    title: ""
   }
 };
 
 export const addNewFolder = (folder: FolderState) => {
-  const token: string | null = localStorage.getItem('token');
-  return (disptach: any) => {
-    axios({
-      method: 'post',
-      url: `${process.env.REACT_APP_DOMAIN}/folder/newFolder`,
-      data: folder,
-      headers: { 'Auth-Header': token }
-    })
-      .then((res) => {
-        disptach(actionCreators.addNewFolderSuccess(res.data));
-      })
-      .catch((error) => {
-        console.log(error);
+  const token: string | null = localStorage.getItem("token");
+  return async (disptach: any) => {
+    try {
+      const { data } = await axios({
+        method: "post",
+        url: `${process.env.REACT_APP_DOMAIN}/folder/newFolder`,
+        data: folder,
+        headers: { "Auth-Header": token }
       });
+      disptach(actionCreators.addNewFolderSuccess(data));
+    } catch (error) {
+      console.log(error);
+    }
   };
 };
 

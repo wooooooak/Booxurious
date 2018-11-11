@@ -49,3 +49,20 @@ export const deleteFolder = async (req, res) => {
     res.status(500).json(error);
   }
 };
+
+export const test = (req, res) => {
+  console.log("req.query : ");
+  console.log(req.query);
+  console.log(" ========");
+  console.log("req.params");
+  console.log(req.params);
+  res.json({});
+};
+export const test2 = (req, res) => {
+  console.log("req.query : ");
+  console.log(req.query);
+  console.log(" ========");
+  console.log("req.params");
+  console.log(req.params);
+  res.json({});
+};

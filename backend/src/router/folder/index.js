@@ -16,7 +16,5 @@ folder.post(
 folder.post("/newFolder", authMiddleware, makeNewFolder);
 folder.get("/myList", authMiddleware, myFolderList);
 folder.delete("/", authMiddleware, deleteFolder);
-folder.get("/", test);
-folder.get("/post/:id/:name", test2);
 
 export default folder;

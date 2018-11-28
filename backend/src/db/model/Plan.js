@@ -11,10 +11,10 @@ const Plan = sequelize.define(
 			defaultValue: Sequelize.UUIDV1,
 			primaryKey: true
 		},
-		type: {
-			type: Sequelize.INTEGER,
-			defaultValue: 0
-		},
+		// type: {
+		// 	type: Sequelize.INTEGER,
+		// 	defaultValue: 0
+		// },
 		bookTitle: {
 			type: Sequelize.STRING,
 			allowNull: false

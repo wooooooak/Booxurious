@@ -5,6 +5,7 @@ import auth from './auth';
 import post from './post';
 import folder from './folder';
 import work from './work';
+import plan from './plan';
 
 const router = express.Router();
 
@@ -13,5 +14,6 @@ router.use('/auth', auth);
 router.use('/post', post);
 router.use('/folder', folder);
 router.use('/work', work);
+router.use('/plan', plan);
 
 export default router;

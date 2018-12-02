@@ -19,10 +19,11 @@ export const write = async (req, res) => {
 		const machedCategory = await Category.findOrCreate({
 			where: { name: category }
 		});
-		const user = await User.find({ where: { id: fk_user_id } });
+		const user = await User.findOne({ where: { id: fk_user_id } });
+		// const user = await User.find({ where: { id: fk_user_id } });
 		const post = await Post.create(req.body);
-		// await post.setUser(user);
-		await post.setUser(fk_user_id);
+		await post.setUser(user);
+		// await post.setUser(fk_user_id);
 		await post.setCategory(machedCategory[0]);
 		await post.save();
 		res.status(200).json(post);

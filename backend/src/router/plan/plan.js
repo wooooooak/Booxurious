@@ -25,20 +25,22 @@ export const getPlans = async (req, res) => {
 };
 
 /**
- * req.body :  { term }
+ * req.body :  { term:number, starDate:string }
  * is it end?
  * 
  * response: { isWriter: true, Plans : []}
  */
 export const initializePlan = async (req, res) => {
 	const { userId } = req.decodedUser;
-	const { term } = req.body;
+	const { term, startDate } = req.body;
+	console.log(startDate);
 	try {
 		const user = await User.findOne({
 			where: { id: userId }
 		});
 		const planner = await Planer.create({
-			term
+			term,
+			startDate
 		});
 		console.log(planner);
 		planner.setUser(user, { save: true });

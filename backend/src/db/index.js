@@ -17,5 +17,6 @@ const { database_name, username, password, dialect, host, port } = getDbConfig(
 export const sequelize = new Sequelize(database_name, username, password, {
 	host: host,
 	dialect: dialect,
-	port: port
+	port: port,
+	timezone: '+09:00'
 });

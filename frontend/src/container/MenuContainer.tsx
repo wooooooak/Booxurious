@@ -161,7 +161,7 @@ class MenuContainer extends React.Component<Props, IState> {
 						onClick={this.onClickHambergerButton}
 						color="#1F2124"
 					/>
-					<Logo marginLeft="50px" fontSize={'1.3rem'} />
+					<Logo marginleft="50px" fontSize={'1.3rem'} />
 					{showInputBox ? null : (
 						<div
 							style={{

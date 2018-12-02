@@ -18,6 +18,7 @@ const DAY = {
 
 interface Props {
 	date: Moment;
+	onSetStartDate(startDate: Moment): void;
 }
 
 const Container = styled.div`
@@ -87,15 +88,17 @@ const genDayBox = (day: Moment) => {
 	return boxs;
 };
 
-const daySelector = (date: Moment) => {
-	const day = date.day();
+const daySelector = (date: Moment, onSetStartDate: any) => {
+	const day: number = date.day();
 	if (day === 0) {
 		return (
 			<div>
 				<p>한 주의 시작이군요.</p>
 				<p>그럼 오늘부터 시작하겠습니다.</p>
 				<ButtonGroup>
-					<NextButton>시작!</NextButton>
+					<NextButton onClick={() => onSetStartDate(date)}>
+						시작!
+					</NextButton>
 				</ButtonGroup>
 			</div>
 		);
@@ -105,8 +108,14 @@ const daySelector = (date: Moment) => {
 				<p>한 주가 시작된지 얼마 안됬군요.</p>
 				<p>지난 일요일을 시작 날짜로 할까요? 달력이 깔끔해 져요!</p>
 				<ButtonGroup>
-					<NextButton>네. 그렇게 할래요.</NextButton>
-					<RightButton>오늘부터 할래요.</RightButton>
+					<NextButton
+						onClick={() => onSetStartDate(date.add(-day, 'days'))}
+					>
+						네. 그렇게 할래요.
+					</NextButton>
+					<RightButton onClick={() => onSetStartDate(date)}>
+						오늘부터 할래요.
+					</RightButton>
 				</ButtonGroup>
 			</div>
 		);
@@ -116,8 +125,15 @@ const daySelector = (date: Moment) => {
 				<p>한 주의 절반이 지나갔네요.</p>
 				<p>다음 주 일요일을 시작 날짜로 할까요? 달력이 깔끔해 져요!</p>
 				<ButtonGroup>
-					<NextButton>네. 그렇게 할래요.</NextButton>
-					<RightButton>오늘부터 할래요.</RightButton>
+					<NextButton
+						onClick={() =>
+							onSetStartDate(date.add(7 - day, 'days'))}
+					>
+						네. 그렇게 할래요.
+					</NextButton>
+					<RightButton onClick={() => onSetStartDate(date)}>
+						오늘부터 할래요.
+					</RightButton>
 				</ButtonGroup>
 				<span>클릭하면 끝납니다!</span>
 			</div>
@@ -125,14 +141,14 @@ const daySelector = (date: Moment) => {
 	}
 };
 
-const WeekCalendar: React.SFC<Props> = ({ date }) => {
+const WeekCalendar: React.SFC<Props> = ({ date, onSetStartDate }) => {
 	return (
 		<React.Fragment>
 			<p>
-				오늘은 {date.month()}월 {date.date()}일 {DAY[date.day()]}요일 입니다.
+				오늘은 {date.month() + 1}월 {date.date()}일 {DAY[date.day()]}요일 입니다.
 			</p>
 			<Container>{genDayBox(date)}</Container>
-			{daySelector(date)}
+			{daySelector(date, onSetStartDate)}
 		</React.Fragment>
 	);
 };

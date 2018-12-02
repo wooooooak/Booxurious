@@ -14,6 +14,10 @@ const Planer = sequelize.define(
 		term: {
 			type: Sequelize.INTEGER,
 			allowNull: false
+		},
+		startDate: {
+			type: Sequelize.DATE,
+			allowNull: false
 		}
 	},
 	{

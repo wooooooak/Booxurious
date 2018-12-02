@@ -1,9 +1,9 @@
 import * as React from 'react';
 import styled, { keyframes } from 'styled-components';
+import { Moment } from 'moment';
 import * as moment from 'moment';
 // import { InputNumber } from 'antd';
 import { Select } from 'antd';
-
 import WeekCalendar from '../Plan/WeekCalendar';
 
 const Option = Select.Option;
@@ -59,7 +59,7 @@ const NextButton = styled.div`
 `;
 
 interface Props {
-	settingPlan(term: number): void;
+	settingPlan(term: number | null, startDate: string): void;
 }
 
 interface State {
@@ -94,10 +94,14 @@ class Settings extends React.PureComponent<Props, State> {
 			case 14:
 				return '적당한 선택인 것 같아요';
 			case 30:
-				return '마지노선입니다..';
+				return '충분히 한 권은 읽겠죠?';
 			default:
 				return '';
 		}
+	};
+
+	onSetStartDate = (startDate: Moment): void => {
+		this.props.settingPlan(this.state.term, startDate.toLocaleString());
 	};
 
 	render() {
@@ -124,7 +128,6 @@ class Settings extends React.PureComponent<Props, State> {
 						placeholder="선택하기"
 						optionFilterProp="children"
 						onChange={this.onChangeDay}
-						// defaultValue= {null}
 					>
 						<Option value="3">3일</Option>
 						<Option value="7">일주일</Option>
@@ -142,15 +145,14 @@ class Settings extends React.PureComponent<Props, State> {
 				</Wrapper>
 			);
 		} else if (stage === 2) {
-			// 일주일 짜리 달력을 보여주고 시작날짜를 정하자.
-			// 일반적으로 월요일부터 하는 것을 권장하자
-
 			return (
 				<Wrapper>
-					<WeekCalendar date={moment().add(3, 'days')} />
+					<WeekCalendar
+						date={moment()}
+						onSetStartDate={this.onSetStartDate}
+					/>
 				</Wrapper>
 			);
-			// return <Wrapper onClick={() => this.props.settingPlan(term)} />;
 		} else {
 			return null;
 		}

@@ -13,6 +13,7 @@ interface Plan {
 	rating: number;
 	createdAt: string;
 	updatedAt: string;
+	startDate: string;
 }
 
 interface State {
@@ -38,8 +39,22 @@ class PlanContainer extends React.PureComponent<Props, State> {
 		this.setState(data);
 	}
 
-	settingPlan = (term: number): void => {
-		console.log(term);
+	settingPlan = async (term: number | null, startDate: string) => {
+		try {
+			const token: string = localStorage.getItem('token') || '';
+			const { data } = await axios({
+				method: 'post',
+				url: `${process.env.REACT_APP_DOMAIN}/plan/init`,
+				headers: { 'Auth-Header': token },
+				data: { term, startDate }
+			});
+			console.log(data);
+			this.setState({
+				...data
+			});
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
 	render() {

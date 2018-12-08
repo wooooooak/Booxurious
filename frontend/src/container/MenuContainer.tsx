@@ -47,10 +47,7 @@ const HambergerIcon = feather.Menu.extend`
   cursor: pointer;
 `;
 
-type Props = StoreProps &
-	DispatchProps &
-	RouteComponentProps<OwnProps> &
-	OwnProps;
+type Props = StoreProps & DispatchProps & RouteComponentProps<OwnProps> & OwnProps;
 
 class MenuContainer extends React.Component<Props, IState> {
 	state: IState = {

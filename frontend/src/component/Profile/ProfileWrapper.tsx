@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 import { Timeline } from "antd";
 import { PostState } from "../../store/modules/Post";
+import { Link } from "react-router-dom";
 
 const Div = styled.div`
   display: flex;
@@ -34,7 +35,7 @@ const mapPostsToTimeLine = (posts: PostState[]) => {
     return (
       <Timeline.Item key={index}>
         <PostInfo>
-          <a href={`/review/${el.id}`}>{el.postTitle}</a>
+          <Link to={`/review/${el.id}`}>{el.postTitle}</Link>
           <span>{el.createdAt.substring(0, 10)}</span>
         </PostInfo>
       </Timeline.Item>

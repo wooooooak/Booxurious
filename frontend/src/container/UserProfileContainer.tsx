@@ -1,9 +1,8 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { bindActionCreators, Dispatch } from 'redux';
 
 import { IStoreState } from '../store/modules';
-// import { IUserState } from "../store/modules/User";
 import { actionCreators as userActionCreator } from '../store/modules/User';
 
 import InputForm from '../component/Profile/InputForm';
@@ -124,7 +123,6 @@ class UserProfileContainer extends React.Component<Props, State> {
 		const { username, profileImg, reviews } = this.state.userInfo;
 		const { modalVisible } = this.state;
 		let Me = false;
-		console.log(this.props);
 		if (this.props.id === this.state.userInfo.id) {
 			Me = true;
 		}
@@ -157,7 +155,7 @@ export default connect<StoreProps, DispatchProps, OwnProps>(
 		username: User.username,
 		profileImg: User.profileImg
 	}),
-	(dispatch: any) => ({
+	(dispatch: Dispatch) => ({
 		userAction: bindActionCreators(userActionCreator, dispatch)
 	})
 )(UserProfileContainer);

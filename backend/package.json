@@ -17,6 +17,7 @@
 		"aws-sdk": "^2.292.0",
 		"aws-serverless-express": "^3.2.0",
 		"babel-cli": "^6.26.0",
+		"babel-preset-stage-0": "^6.24.1",
 		"bluebird": "^3.5.2",
 		"body-parser": "^1.18.3",
 		"cookie-parser": "^1.4.3",

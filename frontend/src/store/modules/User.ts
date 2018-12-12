@@ -1,5 +1,6 @@
 import { createAction, handleActions } from 'redux-actions';
 import axios from 'axios';
+import { Dispatch } from 'redux';
 
 const SOCIAL_LOGIN_SUCCESS = 'user/SocailLogin';
 const SOCIAL_LOGIN_FAIL = 'user/SocialLoginFail';
@@ -10,12 +11,12 @@ const SIGN_UP_SUCCESS = 'user/signUpSuccess';
 const SIGN_UP_FAIL = 'user/signUpFail';
 const LOGOUT = 'user/logout';
 
-const isUserExist = (result: any): boolean => {
-	return result.data.code === 1 ? true : false;
+const isUserExist = (data: any): boolean => {
+	return data.code === 1 ? true : false;
 };
 
 export const fetchUserData = (token: string) => {
-	return async (dispatch: any) => {
+	return async (dispatch: Dispatch) => {
 		try {
 			const { data } = await axios({
 				method: 'get',
@@ -50,6 +51,7 @@ export const socialLoginAsync = (
 					socialProvider
 				}
 			});
+			console.log(data);
 			if (isUserExist(data)) {
 				localStorage.setItem('token', data.token);
 				dispatch(

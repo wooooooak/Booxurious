@@ -1,289 +1,302 @@
-import * as React from "react";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import axios from "axios";
-import * as ReactQuill from "react-quill";
+import * as React from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import axios from 'axios';
+import * as ReactQuill from 'react-quill';
 
-import { IStoreState } from "../store/modules";
-import { actionCreators as postActionCreator } from "../store/modules/Post";
-import { PostState } from "../store/modules/Post";
+import { IStoreState } from '../store/modules';
+import { actionCreators as postActionCreator } from '../store/modules/Post';
+import { PostState } from '../store/modules/Post';
 
-import Cover from "../component/Write/Cover";
-import ImageUploader from "../component/Write/ImageUploader";
-import Modal from "../component/Write/Modal";
-import EditorBox from "../component/Write/EditorBox";
+import Cover from '../component/Write/Cover';
+import ImageUploader from '../component/Write/ImageUploader';
+import Modal from '../component/Write/Modal';
+import EditorBox from '../component/Write/EditorBox';
 
-import "react-quill/dist/quill.snow.css";
+import 'react-quill/dist/quill.snow.css';
 
 interface State {
-  reviewData: PostState;
-  modalState: boolean;
-  isAffixToolbar: boolean;
-  coverBottomOffset: number;
+	reviewData: PostState;
+	modalState: boolean;
+	isAffixToolbar: boolean;
+	coverBottomOffset: number;
 }
 
 type StoreProps = PostState;
 
 interface DispatchProps {
-  postAction: typeof postActionCreator;
+	postAction: typeof postActionCreator;
 }
 
-interface OwnProps {}
+interface OwnProps {
+	toBeUpdateId: string;
+}
 
 type Props = StoreProps & DispatchProps & OwnProps;
 const Quill = ReactQuill as any;
 
 let modules: object = {};
 const toolbarContainer: any[] = [
-  [ { font: [ "miraza", "roboto", "amam" ] } ],
-  [ { header: [ 1, 2, false ] } ],
-  [ "bold", "italic", "underline", "strike", "blockquote" ],
-  [ { list: "ordered" }, { list: "bullet" } ],
-  [ "link", "image" ],
-  [ { align: [] } ],
-  [ "clean" ]
+	[ { font: [ 'miraza', 'roboto', 'amam' ] } ],
+	[ { header: [ 1, 2, false ] } ],
+	[ 'bold', 'italic', 'underline', 'strike', 'blockquote' ],
+	[ { list: 'ordered' }, { list: 'bullet' } ],
+	[ 'link', 'image' ],
+	[ { align: [] } ],
+	[ 'clean' ]
 ];
 const formats = [
-  "font",
-  "header",
-  "bold",
-  "italic",
-  "underline",
-  "strike",
-  "blockquote",
-  "list",
-  "bullet",
-  "link",
-  "image",
-  "align"
+	'font',
+	'header',
+	'bold',
+	'italic',
+	'underline',
+	'strike',
+	'blockquote',
+	'list',
+	'bullet',
+	'link',
+	'image',
+	'align'
 ];
 
 class WrtingBookReviewContainer extends React.Component<Props, State> {
-  static getDerivedStateFromProps (nextProps: Props) {
-    return {
-      reviewData: nextProps
-    };
-  }
+	static getDerivedStateFromProps(nextProps: Props) {
+		return {
+			reviewData: nextProps
+		};
+	}
 
-  state = {
-    reviewData: {
-      id: "",
-      editorState: "",
-      postTitle: "",
-      subTitle: "",
-      fk_user_id: "",
-      fk_category_id: "",
-      category: "문학",
-      bookCoverImg: null,
-      uploadingImg: false,
-      createdAt: "",
-      updatedAt: "",
-      like: 0,
-      rate: 2.5
-    },
-    modalState: false,
-    isAffixToolbar: false,
-    coverBottomOffset: 570
-  };
+	state = {
+		reviewData: {
+			id: '',
+			editorState: '',
+			postTitle: '',
+			subTitle: '',
+			fk_user_id: '',
+			fk_category_id: '',
+			category: '문학',
+			bookCoverImg: null,
+			uploadingImg: false,
+			createdAt: '',
+			updatedAt: '',
+			like: 0,
+			rate: 2.5
+		},
+		modalState: false,
+		isAffixToolbar: false,
+		coverBottomOffset: 570
+	};
 
-  private quill: typeof Quill;
-  private coverRef = React.createRef<HTMLDivElement>();
-  constructor (props: any) {
-    super(props);
-    this.quill = React.createRef();
-  }
+	private quill: typeof Quill;
+	private coverRef = React.createRef<HTMLDivElement>();
+	constructor(props: any) {
+		super(props);
+		this.quill = React.createRef();
+	}
 
-  componentDidMount () {
-    this.onDetectScroll();
-    const coverBottomOffset = this.getCoverBottomOffset();
-    modules = {
-      toolbar: {
-        container: toolbarContainer,
-        handlers: {
-          image: this.imageHandler
-        }
-      }
-    };
-    const { postTitle, subTitle, editorState, bookCoverImg } = this.props;
-    this.setState({
-      reviewData: {
-        ...this.state.reviewData,
-        postTitle,
-        subTitle,
-        editorState,
-        bookCoverImg
-      },
-      coverBottomOffset
-    });
-  }
+	componentDidMount() {
+		this.onDetectScroll();
+		const coverBottomOffset = this.getCoverBottomOffset();
+		modules = {
+			toolbar: {
+				container: toolbarContainer,
+				handlers: {
+					image: this.imageHandler
+				}
+			}
+		};
+		const { postTitle, subTitle, editorState, bookCoverImg } = this.props;
+		this.setState({
+			reviewData: {
+				...this.state.reviewData,
+				postTitle,
+				subTitle,
+				editorState,
+				bookCoverImg
+			},
+			coverBottomOffset
+		});
+	}
 
-  getCoverBottomOffset = (): number => {
-    let coverBottomOffset = 570;
-    if (this.coverRef.current) {
-      const coverHeight = this.coverRef.current.offsetHeight;
-      const offset = this.coverRef.current.offsetTop;
-      coverBottomOffset = coverHeight + offset;
-    }
-    return coverBottomOffset;
-  };
+	getCoverBottomOffset = (): number => {
+		let coverBottomOffset = 570;
+		if (this.coverRef.current) {
+			const coverHeight = this.coverRef.current.offsetHeight;
+			const offset = this.coverRef.current.offsetTop;
+			coverBottomOffset = coverHeight + offset;
+		}
+		return coverBottomOffset;
+	};
 
-  imageHandler = async () => {
-    const input = document.createElement("input");
-    input.setAttribute("type", "file");
-    input.setAttribute("accept", "image/*");
-    input.click();
-    input.onchange = async () => {
-      const token: string | null = localStorage.getItem("token");
-      const quill = this.quill.current.getEditor();
-      try {
-        if (input.files) {
-          const file: File | null = input.files[0];
-          const formData = new FormData();
-          formData.append("imgFile", file, file.name);
-          const result = await axios({
-            method: "post",
-            url: `${process.env.REACT_APP_DOMAIN}/post/contentImage`,
-            data: formData,
-            headers: { "Auth-Header": token },
-            onUploadProgress: () => {
-              console.log("로딩 중입니다");
-            }
-          });
-          const source: string = result.data.location;
-          const range = quill.getSelection();
-          quill.insertEmbed(range.index, "image", source);
-        }
-      } catch (error) {
-        alert(error);
-      }
-    };
-  };
+	imageHandler = async () => {
+		const input = document.createElement('input');
+		input.setAttribute('type', 'file');
+		input.setAttribute('accept', 'image/*');
+		input.click();
+		input.onchange = async () => {
+			const token: string | null = localStorage.getItem('token');
+			const quill = this.quill.current.getEditor();
+			try {
+				if (input.files) {
+					const file: File | null = input.files[0];
+					const formData = new FormData();
+					formData.append('imgFile', file, file.name);
+					const result = await axios({
+						method: 'post',
+						url: `${process.env.REACT_APP_DOMAIN}/post/contentImage`,
+						data: formData,
+						headers: { 'Auth-Header': token },
+						onUploadProgress: () => {
+							console.log('로딩 중입니다');
+						}
+					});
+					const source: string = result.data.location;
+					const range = quill.getSelection();
+					quill.insertEmbed(range.index, 'image', source);
+				}
+			} catch (error) {
+				alert(error);
+			}
+		};
+	};
 
-  onChangeContent = (editorState: string) => {
-    this.props.postAction.onChangePostContent(editorState);
-  };
+	onChangeContent = (editorState: string) => {
+		this.props.postAction.onChangePostContent(editorState);
+	};
 
-  onChangeTitle = (e: React.FormEvent<HTMLInputElement>) => {
-    this.props.postAction.onChangePostTitle(e.currentTarget.value);
-  };
+	onChangeTitle = (e: React.FormEvent<HTMLInputElement>): void => {
+		this.props.postAction.onChangePostTitle(e.currentTarget.value);
+	};
 
-  onChangeSubTitle = (e: React.FormEvent<HTMLTextAreaElement>) => {
-    this.props.postAction.onChangeSubTitle(e.currentTarget.value);
-  };
+	onChangeSubTitle = (e: React.FormEvent<HTMLTextAreaElement>): void => {
+		this.props.postAction.onChangeSubTitle(e.currentTarget.value);
+	};
 
-  bookCoverImageChangedHandler = (files: FileList) => {
-    this.props.postAction.OnChangeBookCoverImg(files);
-  };
+	bookCoverImageChangedHandler = (files: FileList): void => {
+		this.props.postAction.OnChangeBookCoverImg(files);
+	};
 
-  onClickWritePost = () => {
-    this.props.postAction.writePost(this.state.reviewData);
-    this.setState({
-      modalState: false
-    });
-  };
+	onClickWritePost = (): void => {
+		this.props.postAction.writePost(this.state.reviewData);
+		this.setState({
+			modalState: false
+		});
+	};
 
-  onChangeRate = (rate: number) => {
-    this.props.postAction.onChangeRate(rate);
-  };
+	onClickUpdatePost = (): void => {
+		this.props.postAction.updatePost(this.state.reviewData);
+	};
 
-  onChangeCategory = (category: string) => {
-    this.props.postAction.onChangeCategory(category);
-  };
+	onChangeRate = (rate: number): void => {
+		this.props.postAction.onChangeRate(rate);
+	};
 
-  onClickModalCancle = () => {
-    this.setState({
-      modalState: false
-    });
-  };
+	onChangeCategory = (category: string): void => {
+		this.props.postAction.onChangeCategory(category);
+	};
 
-  onClickModalButton = () => {
-    this.setState({
-      modalState: true
-    });
-  };
+	onClickModalCancle = () => {
+		this.setState({
+			modalState: false
+		});
+	};
 
-  onDetectScroll = () => {
-    window.addEventListener("scroll", (): void => {
-      if (window.pageYOffset > this.state.coverBottomOffset) {
-        this.setState({
-          isAffixToolbar: true
-        });
-      } else {
-        this.setState({
-          isAffixToolbar: false
-        });
-      }
-    });
-  };
+	onClickModalButton = () => {
+		this.setState({
+			modalState: true
+		});
+	};
 
-  componentWillUnmount () {
-    window.removeEventListener("scroll", () => {
-      return null;
-    });
-  }
+	onDetectScroll = () => {
+		window.addEventListener('scroll', (): void => {
+			if (window.pageYOffset > this.state.coverBottomOffset) {
+				this.setState({
+					isAffixToolbar: true
+				});
+			} else {
+				this.setState({
+					isAffixToolbar: false
+				});
+			}
+		});
+	};
 
-  render () {
-    const { isAffixToolbar } = this.state;
-    const { rate, category } = this.state.reviewData;
-    return (
-      <React.Fragment>
-        <Cover
-          ref={this.coverRef}
-          type="write"
-          postTitle={this.state.reviewData.postTitle}
-          onChangeTitle={this.onChangeTitle}
-          subTitle={this.state.reviewData.subTitle}
-          onChangeSubTitle={this.onChangeSubTitle}
-        >
-          <ImageUploader
-            type="write"
-            fileChangedHandler={this.bookCoverImageChangedHandler}
-            bookCoverImg={this.state.reviewData.bookCoverImg}
-            uploadingImg={this.state.reviewData.uploadingImg}
-          />
-        </Cover>
-        <EditorBox isAffixToolbar={isAffixToolbar}>
-          <Quill
-            ref={this.quill}
-            theme="snow"
-            value={this.state.reviewData.editorState}
-            onChange={this.onChangeContent}
-            modules={modules}
-            formats={formats}
-          />
-        </EditorBox>
-        <Modal
-          modalState={this.state.modalState}
-          rate={rate}
-          category={category}
-          onClickModalOk={this.onClickWritePost}
-          onClickModalCancle={this.onClickModalCancle}
-          onChangeRate={this.onChangeRate}
-          onChangeCategory={this.onChangeCategory}
-          onClickModalButton={this.onClickModalButton}
-        />
-      </React.Fragment>
-    );
-  }
+	componentWillUnmount() {
+		window.removeEventListener('scroll', () => {
+			return null;
+		});
+	}
+
+	render() {
+		const { isAffixToolbar } = this.state;
+		const { rate, category } = this.state.reviewData;
+		const { toBeUpdateId } = this.props;
+		let parsedToBeUpdateId = '';
+		if (toBeUpdateId !== '') {
+			parsedToBeUpdateId = toBeUpdateId.split('=')[1];
+		}
+		return (
+			<React.Fragment>
+				<Cover
+					ref={this.coverRef}
+					type="write"
+					postTitle={this.state.reviewData.postTitle}
+					onChangeTitle={this.onChangeTitle}
+					subTitle={this.state.reviewData.subTitle}
+					onChangeSubTitle={this.onChangeSubTitle}
+				>
+					<ImageUploader
+						type="write"
+						fileChangedHandler={this.bookCoverImageChangedHandler}
+						bookCoverImg={this.state.reviewData.bookCoverImg}
+						uploadingImg={this.state.reviewData.uploadingImg}
+					/>
+				</Cover>
+				<EditorBox isAffixToolbar={isAffixToolbar}>
+					<Quill
+						ref={this.quill}
+						theme="snow"
+						value={this.state.reviewData.editorState}
+						onChange={this.onChangeContent}
+						modules={modules}
+						formats={formats}
+					/>
+				</EditorBox>
+				<Modal
+					modalState={this.state.modalState}
+					rate={rate}
+					category={category}
+					toBeUpdatePostId={parsedToBeUpdateId}
+					onClickModalOk={this.onClickWritePost}
+					onClickModalCancle={this.onClickModalCancle}
+					onChangeRate={this.onChangeRate}
+					onChangeCategory={this.onChangeCategory}
+					onClickModalButton={this.onClickModalButton}
+					onClickUpdatePost={this.onClickUpdatePost}
+				/>
+			</React.Fragment>
+		);
+	}
 }
 
 export default connect<StoreProps, DispatchProps, OwnProps>(
-  ({ Post }: IStoreState): StoreProps => ({
-    id: Post.id,
-    editorState: Post.editorState,
-    postTitle: Post.postTitle,
-    subTitle: Post.subTitle,
-    category: Post.category,
-    bookCoverImg: Post.bookCoverImg,
-    uploadingImg: Post.uploadingImg,
-    rate: Post.rate,
-    like: Post.like,
-    fk_category_id: Post.fk_category_id,
-    fk_user_id: Post.fk_user_id,
-    createdAt: Post.createdAt,
-    updatedAt: Post.updatedAt
-  }),
-  (dispatch: any) => ({
-    postAction: bindActionCreators(postActionCreator, dispatch)
-  })
+	({ Post }: IStoreState): StoreProps => ({
+		id: Post.id,
+		editorState: Post.editorState,
+		postTitle: Post.postTitle,
+		subTitle: Post.subTitle,
+		category: Post.category,
+		bookCoverImg: Post.bookCoverImg,
+		uploadingImg: Post.uploadingImg,
+		rate: Post.rate,
+		like: Post.like,
+		fk_category_id: Post.fk_category_id,
+		fk_user_id: Post.fk_user_id,
+		createdAt: Post.createdAt,
+		updatedAt: Post.updatedAt
+	}),
+	(dispatch: any) => ({
+		postAction: bindActionCreators(postActionCreator, dispatch)
+	})
 )(WrtingBookReviewContainer);

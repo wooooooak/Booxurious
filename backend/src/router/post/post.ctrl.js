@@ -33,6 +33,42 @@ export const write = async (req, res) => {
 	}
 };
 
+export const updatePost = async (req, res) => {
+	const {
+		id,
+		createdAt,
+		fk_user_id,
+		fk_category_id,
+		category,
+		...updateDate
+	} = req.body;
+	try {
+		const machedCategory = await Category.findOrCreate({
+			where: { name: category }
+		});
+		const post = await Post.findOne({ where: { id } });
+		await post.setCategory(machedCategory[0]);
+		const a = await Post.update(updateDate, { where: { id } });
+		res.status(200).json(a);
+	} catch (error) {
+		res.status(500).json(error);
+	}
+};
+
+export const deletePost = async (req, res) => {
+	const { id } = req.query;
+	try {
+		await Post.destroy({
+			where: {
+				id
+			}
+		});
+		res.status(200).json({ message: 'delete post successfully' });
+	} catch (error) {
+		res.status(500).json(error);
+	}
+};
+
 export const getPostsByUserId = async (req, res) => {
 	const { userId } = req.query;
 	const posts = await Post.findAll({

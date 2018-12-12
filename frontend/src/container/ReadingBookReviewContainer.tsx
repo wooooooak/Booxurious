@@ -1,6 +1,9 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import axios from 'axios';
+import { withRouter, RouteComponentProps } from 'react-router';
+import { Dispatch } from 'redux';
+import { message } from 'antd';
 
 import { actionCreators as postActionCreator } from '../store/modules/Post';
 import { IStoreState } from '../store/modules';
@@ -8,9 +11,7 @@ import { IStoreState } from '../store/modules';
 import Cover from '../component/Write/Cover';
 import ImageUploader from '../component/Write/ImageUploader';
 import { PostState } from '../store/modules/Post';
-import axios from 'axios';
 import { EditorBoxLayout } from 'src/component/Write/style';
-import { withRouter, RouteComponentProps } from 'react-router';
 
 type State = PostState;
 
@@ -46,14 +47,36 @@ class ReadingBookReviewContainer extends React.Component<Props, State> {
 		});
 	}
 
-	onClickModifyButton = () => {
-		console.log('asdf');
-		this.props.postAction.duplicatePost(this.state);
-		this.props.history.push(`/write_review`);
+	onClickModifyButton = (): void => {
+		this.props.duplicatePost(this.state);
+		this.props.history.push(`/write_review?postId=${this.state.id}`);
+	};
+
+	onClickDeleteButton = async () => {
+		try {
+			const token: string | null = localStorage.getItem('token');
+			await axios({
+				method: 'delete',
+				url: `${process.env.REACT_APP_DOMAIN}/post`,
+				params: { id: this.state.id },
+				headers: { 'Auth-Header': token }
+			});
+			message.success('해당 글 삭제 완료!');
+			this.props.history.goBack();
+		} catch (error) {
+			message.error('무언가 잘못되었어요!');
+			console.log(error);
+		}
 	};
 
 	render() {
-		const { postTitle, subTitle, bookCoverImg, editorState, fk_user_id } = this.state;
+		const {
+			postTitle,
+			subTitle,
+			bookCoverImg,
+			editorState,
+			fk_user_id
+		} = this.state;
 		let isWriter: boolean = false;
 		if (fk_user_id === this.props.id) {
 			isWriter = true;
@@ -66,6 +89,7 @@ class ReadingBookReviewContainer extends React.Component<Props, State> {
 					subTitle={subTitle}
 					isWriter={isWriter}
 					onClickModifyButton={this.onClickModifyButton}
+					onClickDeleteButton={this.onClickDeleteButton}
 				>
 					<ImageUploader
 						bookCoverImg={bookCoverImg}
@@ -85,16 +109,26 @@ interface StoreProps {
 	id: string;
 }
 interface DispatchProps {
-	postAction: typeof postActionCreator;
+	duplicatePost(postState: PostState): void;
+	// postAction: typeof postActionCreator;
 }
 
+const mapStateToProps = (state: IStoreState): StoreProps => {
+	return {
+		id: state.User.id
+	};
+};
+
+const mapDispathToProps = (dispatch: Dispatch): any => {
+	return {
+		duplicatePost: (postState: PostState) => {
+			dispatch(postActionCreator.duplicatePost(postState));
+		}
+	};
+};
+
 export default withRouter<any>(
-	connect<StoreProps, DispatchProps, {}>(
-		({ User }: IStoreState): StoreProps => ({
-			id: User.id
-		}),
-		(dispatch: any) => ({
-			postAction: bindActionCreators(postActionCreator, dispatch)
-		})
-	)(ReadingBookReviewContainer)
+	connect<StoreProps, DispatchProps, {}>(mapStateToProps, mapDispathToProps)(
+		ReadingBookReviewContainer
+	)
 );

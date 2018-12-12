@@ -1,5 +1,6 @@
-import { createAction, handleActions } from 'redux-actions';
+import { createAction, handleActions, Action } from 'redux-actions';
 import axios from 'axios';
+import { Dispatch } from 'redux';
 
 const WRITE_SUCCESS = 'post/WriteSuccess';
 const WRITE_FAIL = 'post/WriteFail';
@@ -12,6 +13,8 @@ const ON_CHANGE_BOOK_COVER_IMG_PENDING = 'post/OnChangeBookCoverImgPeding';
 const ON_CHANGE_BOOK_COVER_IMG_SUCCESS = 'post/OnChangeBookCoverImgSuccess';
 const ON_CHANGE_BOOK_COVER_IMG_FAIL = 'post/OnChangeBookCoverImgFail';
 const DUPLICATE_POST = 'post/duplicatePost';
+
+type changeCategoryPayload = string;
 
 export interface PostState {
 	id: string;
@@ -32,7 +35,7 @@ export interface PostState {
 export const writePost = (post: PostState) => {
 	const token: string | null = localStorage.getItem('token');
 	const { id, ...newData } = post;
-	return async (dispatch: any) => {
+	return async (dispatch: Dispatch) => {
 		try {
 			const { data } = await axios({
 				method: 'post',
@@ -43,6 +46,24 @@ export const writePost = (post: PostState) => {
 			dispatch(actionCreators.writeSuccess(data));
 		} catch (error) {
 			console.dir(error);
+		}
+	};
+};
+
+export const updatePost = (post: PostState) => {
+	const token: string | null = localStorage.getItem('token');
+	return async (dispatch: Dispatch) => {
+		try {
+			const { data } = await axios({
+				method: 'put',
+				url: `${process.env.REACT_APP_DOMAIN}/post`,
+				data: post,
+				headers: { 'Auth-Header': token }
+			});
+			dispatch(actionCreators.writeSuccess(data));
+			window.history.back();
+		} catch (error) {
+			console.log(error);
 		}
 	};
 };
@@ -82,10 +103,13 @@ export const actionCreators = {
 	onChangePostTitle: createAction<string>(ON_CHANGE_POST_TITLE),
 	onChangeSubTitle: createAction<string>(ON_CHANGE_SUB_TITLE),
 	OnChangeBookCoverImg,
-	OnChangeBookCoverImgSuccess: createAction<string>(ON_CHANGE_BOOK_COVER_IMG_SUCCESS),
+	OnChangeBookCoverImgSuccess: createAction<string>(
+		ON_CHANGE_BOOK_COVER_IMG_SUCCESS
+	),
 	OnChangeBookCoverImgFail: createAction(ON_CHANGE_BOOK_COVER_IMG_FAIL),
 	OnChangeBookCoverImgPending: createAction(ON_CHANGE_BOOK_COVER_IMG_PENDING),
-	duplicatePost: createAction<PostState>(DUPLICATE_POST)
+	duplicatePost: createAction<PostState>(DUPLICATE_POST),
+	updatePost
 };
 
 const initialState: PostState = {
@@ -106,65 +130,68 @@ const initialState: PostState = {
 
 export default handleActions<PostState, any>(
 	{
-		[WRITE_SUCCESS]: (state, action): PostState => {
+		[WRITE_SUCCESS]: (state, action) => {
 			return initialState;
 		},
-		[WRITE_FAIL]: (state, action): PostState => {
+		[WRITE_FAIL]: (state, action) => {
 			return {
 				...action.payload
 			};
 		},
-		[ON_CHANGE_POST_CONTENT]: (state, action): PostState => {
+		[ON_CHANGE_POST_CONTENT]: (state, action) => {
 			return {
 				...state,
 				editorState: action.payload
 			};
 		},
-		[ON_CHANGE_POST_TITLE]: (state, action): PostState => {
+		[ON_CHANGE_POST_TITLE]: (state, action) => {
 			return {
 				...state,
 				postTitle: action.payload
 			};
 		},
-		[ON_CHANGE_SUB_TITLE]: (state, action): PostState => {
+		[ON_CHANGE_SUB_TITLE]: (state, action) => {
 			return {
 				...state,
 				subTitle: action.payload
 			};
 		},
-		[ON_CHANGE_RATE]: (state, action): PostState => {
+		[ON_CHANGE_RATE]: (state, action) => {
 			return {
 				...state,
 				rate: action.payload
 			};
 		},
-		[ON_CHANGE_CATEGORY]: (state, action): PostState => {
+		[ON_CHANGE_CATEGORY]: (
+			state,
+			action: Action<changeCategoryPayload>
+		): PostState => {
 			return {
 				...state,
-				category: action.payload
+				category: action.payload!
 			};
 		},
-		[ON_CHANGE_BOOK_COVER_IMG_SUCCESS]: (state, action): PostState => {
+		[ON_CHANGE_BOOK_COVER_IMG_SUCCESS]: (state, action) => {
 			return {
 				...state,
 				bookCoverImg: action.payload,
 				uploadingImg: false
 			};
 		},
-		[ON_CHANGE_BOOK_COVER_IMG_FAIL]: (state, action): PostState => {
+		[ON_CHANGE_BOOK_COVER_IMG_FAIL]: (state, action) => {
 			return {
 				...state
 			};
 		},
-		[ON_CHANGE_BOOK_COVER_IMG_PENDING]: (state, action): PostState => {
+		[ON_CHANGE_BOOK_COVER_IMG_PENDING]: (state, action) => {
 			return {
 				...state,
 				uploadingImg: true
 			};
 		},
-		[DUPLICATE_POST]: (state, action): PostState => {
+		[DUPLICATE_POST]: (state, action: Action<PostState>) => {
 			return {
-				...action.payload
+				...action.payload!
 			};
 		}
 	},

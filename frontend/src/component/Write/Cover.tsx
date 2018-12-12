@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { Pencil } from 'styled-icons/octicons/Pencil';
 import { Eraser } from 'styled-icons/fa-solid/Eraser';
-
+import { Popconfirm, Icon } from 'antd';
 const Layout = styled.div`
 	width: 100vw;
 	height: 500px;
@@ -76,6 +76,7 @@ export interface Props {
 	subTitle?: string;
 	isWriter?: boolean;
 	onClickModifyButton?(): void;
+	onClickDeleteButton?(): void;
 	onChangeTitle?(e: React.FormEvent<HTMLInputElement>): void;
 	onChangeSubTitle?(e: React.FormEvent<HTMLTextAreaElement>): void;
 }
@@ -89,7 +90,10 @@ const Cover = React.forwardRef<Ref, Props>(
 				<Layout>
 					<LeftSideLyout>{props.children}</LeftSideLyout>
 					<RightSideLayout>
-						<Title onChange={props.onChangeTitle} value={props.postTitle} />
+						<Title
+							onChange={props.onChangeTitle}
+							value={props.postTitle}
+						/>
 						<SubTitle
 							onChange={props.onChangeSubTitle}
 							value={props.subTitle}
@@ -107,7 +111,19 @@ const Cover = React.forwardRef<Ref, Props>(
 				{props.isWriter === true ? (
 					<IconDiv>
 						<ModifyIcon size={30} onClick={props.onClickModifyButton} />
-						<EraserIcon size={30} />
+						<Popconfirm
+							placement="bottomRight"
+							title={'정말 삭제하시겠어요?'}
+							icon={
+								<Icon
+									type="question-circle-o"
+									style={{ color: 'red' }}
+								/>
+							}
+							onConfirm={props.onClickDeleteButton}
+						>
+							<EraserIcon size={30} />
+						</Popconfirm>
 					</IconDiv>
 				) : null}
 			</Layout>

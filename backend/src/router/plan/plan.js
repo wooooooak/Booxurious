@@ -33,7 +33,6 @@ export const getPlans = async (req, res) => {
 export const initializePlan = async (req, res) => {
 	const { userId } = req.decodedUser;
 	const { term, startDate } = req.body;
-	console.log(startDate);
 	try {
 		const user = await User.findOne({
 			where: { id: userId }
@@ -42,7 +41,6 @@ export const initializePlan = async (req, res) => {
 			term,
 			startDate
 		});
-		console.log(planner);
 		planner.setUser(user, { save: true });
 		res.status(200).json({ isWriter: true, Plans: [] });
 	} catch (error) {

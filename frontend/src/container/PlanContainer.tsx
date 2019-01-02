@@ -48,7 +48,6 @@ class PlanContainer extends React.PureComponent<Props, State> {
 				headers: { 'Auth-Header': token },
 				data: { term, startDate }
 			});
-			console.log(data);
 			this.setState({
 				...data
 			});

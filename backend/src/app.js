@@ -42,7 +42,6 @@ const binaryMimeTypes = [
 ];
 
 if (process.env.NODE_ENV === 'development') {
-	console.log(process.version);
 	app.listen(8080, () => {
 		console.log(`Express server listening on port 8080`);
 	});

@@ -28,7 +28,6 @@ export const write = async (req, res) => {
 		await post.save();
 		res.status(200).json(post);
 	} catch (error) {
-		// console.log(error);
 		res.status(500).json(error);
 	}
 };

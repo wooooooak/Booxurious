@@ -51,7 +51,6 @@ export const socialLoginAsync = (
 					socialProvider
 				}
 			});
-			console.log(data);
 			if (isUserExist(data)) {
 				localStorage.setItem('token', data.token);
 				dispatch(

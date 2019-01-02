@@ -16,48 +16,52 @@ const folderCoverBucket = 'elebooks-image/folder-cover';
 const contentImageBucket = 'elebooks-image/content-image';
 
 export const bookCoverUploader = multer({
-  storage: multerS3({
-    s3: s3,
-    bucket: bookCoverBucket,
-    key: function (req, file, cb) {
-      console.log('mullter~!~!~!~!~!~!~!~!~!~!~!~!');
-      console.log(req.body);
-      let extension = path.extname(file.originalname);
-      cb(
-        null,
-        path.basename(file.originalname, extension) + Date.now().toString() + extension
-      );
-    },
-    acl: 'public-read-write'
-  })
+	storage: multerS3({
+		s3: s3,
+		bucket: bookCoverBucket,
+		key: function(req, file, cb) {
+			let extension = path.extname(file.originalname);
+			cb(
+				null,
+				path.basename(file.originalname, extension) +
+					Date.now().toString() +
+					extension
+			);
+		},
+		acl: 'public-read-write'
+	})
 });
 
 export const contentImageUploader = multer({
-  storage: multerS3({
-    s3: s3,
-    bucket: contentImageBucket,
-    key: function (req, file, cb) {
-      let extension = path.extname(file.originalname);
-      cb(
-        null,
-        path.basename(file.originalname, extension) + Date.now().toString() + extension
-      );
-    },
-    acl: 'public-read-write'
-  })
+	storage: multerS3({
+		s3: s3,
+		bucket: contentImageBucket,
+		key: function(req, file, cb) {
+			let extension = path.extname(file.originalname);
+			cb(
+				null,
+				path.basename(file.originalname, extension) +
+					Date.now().toString() +
+					extension
+			);
+		},
+		acl: 'public-read-write'
+	})
 });
 
 export const folderCoverImageUploader = multer({
-  storage: multerS3({
-    s3: s3,
-    bucket: folderCoverBucket,
-    key: function (req, file, cb) {
-      let extension = path.extname(file.originalname);
-      cb(
-        null,
-        path.basename(file.originalname, extension) + Date.now().toString() + extension
-      );
-    },
-    acl: 'public-read-write'
-  })
+	storage: multerS3({
+		s3: s3,
+		bucket: folderCoverBucket,
+		key: function(req, file, cb) {
+			let extension = path.extname(file.originalname);
+			cb(
+				null,
+				path.basename(file.originalname, extension) +
+					Date.now().toString() +
+					extension
+			);
+		},
+		acl: 'public-read-write'
+	})
 });

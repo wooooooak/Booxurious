@@ -1,7 +1,7 @@
 import { validationResult } from 'express-validator/check';
 import { matchedData } from 'express-validator/filter';
 import User from '../../db/model/User';
-import { generate, decodeToken } from '../../lib/jwt';
+import { generate } from '../../lib/jwt';
 
 export const createAccount = async (req, res) => {
 	try {
@@ -9,7 +9,9 @@ export const createAccount = async (req, res) => {
 		if (!errors.isEmpty()) {
 			return res.status(422).json({ errors: errors.mapped() });
 		}
-		const { username, email, socialProvider, profileImg } = matchedData(req);
+		const { username, email, socialProvider, profileImg } = matchedData(
+			req
+		);
 		const user = await User.create({
 			email,
 			username,
